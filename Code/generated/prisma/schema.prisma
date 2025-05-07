@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  idUser     Int          @id @default(autoincrement())
+  email      String       @unique
+  name       String
+  password   String
+  pagamentos Pagamentos[]
+}
+
+model Estacionamentos {
+  id_estacionamento Int     @id @default(autoincrement())
+  nome              String
+  endereco          String
+  qtd_vagas         Int
+  vagas             Vagas[]
+}
+
+model Vagas {
+  id_vaga           Int             @id @default(autoincrement())
+  id_estacionamento Int
+  status_vaga       String
+  pagamentos        Pagamentos[]
+  estacionamento    Estacionamentos @relation(fields: [id_estacionamento], references: [id_estacionamento])
+}
+
+model Pagamentos {
+  idUser           Int
+  id_vaga          Int
+  id_pagamento     Int      @id @default(autoincrement())
+  data_inicio      DateTime
+  data_fim         DateTime
+  valor            Float
+  status_pagamento String
+  Vaga             Vagas    @relation(fields: [id_vaga], references: [id_vaga])
+  User             Users    @relation(fields: [idUser], references: [idUser])
+}

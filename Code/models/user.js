@@ -1,0 +1,1 @@
+//vamos usar o prisma de orm para conversar com o banco

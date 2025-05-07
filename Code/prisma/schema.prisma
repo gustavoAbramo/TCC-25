@@ -1,0 +1,23 @@
+// generator client {
+//   provider = "prisma-client-js"
+//   output   = "../generated/prisma"
+// }
+
+ datasource db {
+ provider = "mysql"
+   url      = env("DATABASE_URL")
+ }
+
+// model Users {
+//   idUser     Int          @id @default(autoincrement())
+//   email      String       @unique
+//   name       String
+//   password   String
+// }
+
+// model Vagas {
+//   id_vaga           Int             @id @default(autoincrement())
+//   id_estacionamento Int
+//   status_vaga       String
+//   estacionamento    Estacionamentos @relation(fields: [id_estacionamento], references: [id_estacionamento])
+// }
