@@ -1,5 +1,5 @@
-# Hackathon_TicEmTrilhas
-Projeto para o Hackathon do tic em trilhas
+# TCC 25
+Projeto TCC 25
 
 # Antes de começar
 
