@@ -1,3 +1,15 @@
 # Hackathon_TicEmTrilhas
 Projeto para o Hackathon do tic em trilhas
 
+# Antes de começar
+
+No cmd, digite o comando:
+
+```bash
+npm i
+```
+ou
+```bash
+npm install
+```
+pra instalar todas as dependências
