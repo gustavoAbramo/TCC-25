@@ -1,4 +1,4 @@
-# Hackathon_TicEmTrilhas
+# TCC_25
 Projeto TCC
 
 # Antes de começar
