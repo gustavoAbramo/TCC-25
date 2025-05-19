@@ -17,6 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Middleware para interpretar JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", pages);
 

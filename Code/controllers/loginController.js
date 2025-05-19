@@ -11,7 +11,7 @@ async function login(req, res) {
     const { name, senha } = req.body;
   
     // 1. Verifica se o usuário existe no banco de dados
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({ //findfirt pode funcionar
       where: {
         name: name
       }
