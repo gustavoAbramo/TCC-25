@@ -86,6 +86,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -96,27 +99,23 @@ exports.Prisma.UsersScalarFieldEnum = {
   password: 'password'
 };
 
-exports.Prisma.EstacionamentosScalarFieldEnum = {
-  id_estacionamento: 'id_estacionamento',
-  nome: 'nome',
-  endereco: 'endereco',
-  qtd_vagas: 'qtd_vagas'
+exports.Prisma.EstoquesScalarFieldEnum = {
+  idEstoque: 'idEstoque',
+  id_Product: 'id_Product'
 };
 
-exports.Prisma.VagasScalarFieldEnum = {
-  id_vaga: 'id_vaga',
-  id_estacionamento: 'id_estacionamento',
-  status_vaga: 'status_vaga'
+exports.Prisma.ProductScalarFieldEnum = {
+  id_Product: 'id_Product',
+  name: 'name',
+  categoriaProdutos: 'categoriaProdutos',
+  sku: 'sku',
+  descricao: 'descricao',
+  data_de_validade: 'data_de_validade'
 };
 
-exports.Prisma.PagamentosScalarFieldEnum = {
+exports.Prisma.Users_EstoquesScalarFieldEnum = {
   idUser: 'idUser',
-  id_vaga: 'id_vaga',
-  id_pagamento: 'id_pagamento',
-  data_inicio: 'data_inicio',
-  data_fim: 'data_fim',
-  valor: 'valor',
-  status_pagamento: 'status_pagamento'
+  idEstoque: 'idEstoque'
 };
 
 exports.Prisma.SortOrder = {
@@ -124,12 +123,30 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.UsersOrderByRelevanceFieldEnum = {
+  email: 'email',
+  name: 'name',
+  password: 'password'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.ProductOrderByRelevanceFieldEnum = {
+  name: 'name',
+  categoriaProdutos: 'categoriaProdutos',
+  sku: 'sku',
+  descricao: 'descricao'
+};
+
 
 exports.Prisma.ModelName = {
   Users: 'Users',
-  Estacionamentos: 'Estacionamentos',
-  Vagas: 'Vagas',
-  Pagamentos: 'Pagamentos'
+  Estoques: 'Estoques',
+  Product: 'Product',
+  Users_Estoques: 'Users_Estoques'
 };
 /**
  * Create the Client
@@ -142,7 +159,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\025019\\clones\\TCC-25\\Code\\generated\\prisma",
+      "value": "C:\\Users\\025063\\Desktop\\tcmc\\TCC-25\\Code\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -156,12 +173,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\025019\\clones\\TCC-25\\Code\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\025063\\Desktop\\tcmc\\TCC-25\\Code\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.7.0",
@@ -169,22 +185,23 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "file:./dev.db"
+        "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Users {\n  idUser     Int          @id @default(autoincrement())\n  email      String       @unique\n  name       String\n  password   String\n  pagamentos Pagamentos[]\n}\n\nmodel Estacionamentos {\n  id_estacionamento Int     @id @default(autoincrement())\n  nome              String\n  endereco          String\n  qtd_vagas         Int\n  vagas             Vagas[]\n}\n\nmodel Vagas {\n  id_vaga           Int             @id @default(autoincrement())\n  id_estacionamento Int\n  status_vaga       String\n  pagamentos        Pagamentos[]\n  estacionamento    Estacionamentos @relation(fields: [id_estacionamento], references: [id_estacionamento])\n}\n\nmodel Pagamentos {\n  idUser           Int\n  id_vaga          Int\n  id_pagamento     Int      @id @default(autoincrement())\n  data_inicio      DateTime\n  data_fim         DateTime\n  valor            Float\n  status_pagamento String\n  Vaga             Vagas    @relation(fields: [id_vaga], references: [id_vaga])\n  User             Users    @relation(fields: [idUser], references: [idUser])\n}\n",
-  "inlineSchemaHash": "cc5716b1d2f301628f9532b89156fd5254778fa99932dfdf58793543418c01b9",
+  "inlineSchema": "// generator client {\n//   provider = \"prisma-client-js\"\n//   output   = \"../generated/prisma\"\n// }\n\n// datasource db {\n//   provider = \"mysql\"\n//   url      = env(\"DATABASE_URL\")\n// }\n\n// model Users {\n//   idUser    Int    @id @default(autoincrement()) \n//   email     String @unique\n//   name      String @db.VarChar(100)\n//   password  String @db.VarChar(50)\n// }\n\n// model Estoques {\n//   idEstoque          Int    @id @default(autoincrement())\n//   id_Product  Int\n//   name      String @db.VarChar(100)\n//   e Product[]\n//   produto Product @relation(fields: [id_Product], references: [id_Product]) \n// }\n\n// model Product {\n//   id_Product         Int       @id @default(autoincrement())\n//   name         String    @db.VarChar(100)\n//   categoriaProdutos    String    @db.VarChar(50)\n//   sku          String    @unique @db.VarChar(50) // código único do produto\n//   descricao  String?   @db.Text\n//   data_de_validade DateTime?\n// }\n\n// model Users_Estoques {\n//   idUser   Int\n//   idEstoque Int\n//   user_estoque Users @relation(fields: [idUser], references: [idUser])\n//   estoque_user Estoques @relation(fields: [idEstoque], references: [idEstoque]) \n// }\n\n//versao do chat atualizada\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Users {\n  idUser       Int              @id @default(autoincrement())\n  email        String           @unique\n  name         String           @db.VarChar(100)\n  password     String           @db.VarChar(50)\n  userEstoques Users_Estoques[] // Relacionamento com a tabela de relacionamento\n}\n\nmodel Estoques {\n  idEstoque    Int              @id @default(autoincrement())\n  id_Product   Int\n  produto      Product          @relation(fields: [id_Product], references: [id_Product])\n  estoqueUsers Users_Estoques[] // Relacionamento com a tabela de relacionamento\n}\n\nmodel Product {\n  id_Product        Int        @id @default(autoincrement())\n  name              String     @db.VarChar(100)\n  categoriaProdutos String     @db.VarChar(50)\n  sku               String     @unique @db.VarChar(50)\n  descricao         String?    @db.Text\n  data_de_validade  DateTime?\n  produtosEstoque   Estoques[] // Relacionamento com a tabela Estoques\n}\n\nmodel Users_Estoques {\n  idUser       Int      @id\n  idEstoque    Int\n  user_estoque Users    @relation(fields: [idUser], references: [idUser])\n  estoque_user Estoques @relation(fields: [idEstoque], references: [idEstoque])\n\n  // Chave primária composta\n}\n",
+  "inlineSchemaHash": "4deb73439b5bb9bfb8db7ff2e3224c2bdee5b2c90d4bc115efec5e4959a58a1d",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Users\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"idUser\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"password\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"pagamentos\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Pagamentos\",\"nativeType\":null,\"relationName\":\"PagamentosToUsers\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Estacionamentos\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id_estacionamento\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"nome\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"endereco\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"qtd_vagas\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"vagas\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Vagas\",\"nativeType\":null,\"relationName\":\"EstacionamentosToVagas\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Vagas\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id_vaga\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"id_estacionamento\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"status_vaga\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"pagamentos\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Pagamentos\",\"nativeType\":null,\"relationName\":\"PagamentosToVagas\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"estacionamento\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Estacionamentos\",\"nativeType\":null,\"relationName\":\"EstacionamentosToVagas\",\"relationFromFields\":[\"id_estacionamento\"],\"relationToFields\":[\"id_estacionamento\"],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Pagamentos\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"idUser\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"id_vaga\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"id_pagamento\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"data_inicio\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"data_fim\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"valor\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"status_pagamento\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Vaga\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Vagas\",\"nativeType\":null,\"relationName\":\"PagamentosToVagas\",\"relationFromFields\":[\"id_vaga\"],\"relationToFields\":[\"id_vaga\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"User\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Users\",\"nativeType\":null,\"relationName\":\"PagamentosToUsers\",\"relationFromFields\":[\"idUser\"],\"relationToFields\":[\"idUser\"],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Users\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"idUser\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"100\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"password\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"50\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"userEstoques\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Users_Estoques\",\"nativeType\":null,\"relationName\":\"UsersToUsers_Estoques\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Estoques\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"idEstoque\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"id_Product\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"produto\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Product\",\"nativeType\":null,\"relationName\":\"EstoquesToProduct\",\"relationFromFields\":[\"id_Product\"],\"relationToFields\":[\"id_Product\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"estoqueUsers\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Users_Estoques\",\"nativeType\":null,\"relationName\":\"EstoquesToUsers_Estoques\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Product\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id_Product\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"100\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"categoriaProdutos\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"50\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"sku\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"50\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"descricao\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"Text\",[]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"data_de_validade\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"produtosEstoque\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Estoques\",\"nativeType\":null,\"relationName\":\"EstoquesToProduct\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Users_Estoques\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"idUser\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"idEstoque\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"user_estoque\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Users\",\"nativeType\":null,\"relationName\":\"UsersToUsers_Estoques\",\"relationFromFields\":[\"idUser\"],\"relationToFields\":[\"idUser\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"estoque_user\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Estoques\",\"nativeType\":null,\"relationName\":\"EstoquesToUsers_Estoques\",\"relationFromFields\":[\"idEstoque\"],\"relationToFields\":[\"idEstoque\"],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = undefined
 config.compilerWasm = undefined

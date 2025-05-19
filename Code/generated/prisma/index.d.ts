@@ -19,20 +19,20 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Users = $Result.DefaultSelection<Prisma.$UsersPayload>
 /**
- * Model Estacionamentos
+ * Model Estoques
  * 
  */
-export type Estacionamentos = $Result.DefaultSelection<Prisma.$EstacionamentosPayload>
+export type Estoques = $Result.DefaultSelection<Prisma.$EstoquesPayload>
 /**
- * Model Vagas
+ * Model Product
  * 
  */
-export type Vagas = $Result.DefaultSelection<Prisma.$VagasPayload>
+export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
 /**
- * Model Pagamentos
+ * Model Users_Estoques
  * 
  */
-export type Pagamentos = $Result.DefaultSelection<Prisma.$PagamentosPayload>
+export type Users_Estoques = $Result.DefaultSelection<Prisma.$Users_EstoquesPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -170,34 +170,34 @@ export class PrismaClient<
   get users(): Prisma.UsersDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.estacionamentos`: Exposes CRUD operations for the **Estacionamentos** model.
+   * `prisma.estoques`: Exposes CRUD operations for the **Estoques** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Estacionamentos
-    * const estacionamentos = await prisma.estacionamentos.findMany()
+    * // Fetch zero or more Estoques
+    * const estoques = await prisma.estoques.findMany()
     * ```
     */
-  get estacionamentos(): Prisma.EstacionamentosDelegate<ExtArgs, ClientOptions>;
+  get estoques(): Prisma.EstoquesDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.vagas`: Exposes CRUD operations for the **Vagas** model.
+   * `prisma.product`: Exposes CRUD operations for the **Product** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Vagases
-    * const vagases = await prisma.vagas.findMany()
+    * // Fetch zero or more Products
+    * const products = await prisma.product.findMany()
     * ```
     */
-  get vagas(): Prisma.VagasDelegate<ExtArgs, ClientOptions>;
+  get product(): Prisma.ProductDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.pagamentos`: Exposes CRUD operations for the **Pagamentos** model.
+   * `prisma.users_Estoques`: Exposes CRUD operations for the **Users_Estoques** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Pagamentos
-    * const pagamentos = await prisma.pagamentos.findMany()
+    * // Fetch zero or more Users_Estoques
+    * const users_Estoques = await prisma.users_Estoques.findMany()
     * ```
     */
-  get pagamentos(): Prisma.PagamentosDelegate<ExtArgs, ClientOptions>;
+  get users_Estoques(): Prisma.Users_EstoquesDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -639,9 +639,9 @@ export namespace Prisma {
 
   export const ModelName: {
     Users: 'Users',
-    Estacionamentos: 'Estacionamentos',
-    Vagas: 'Vagas',
-    Pagamentos: 'Pagamentos'
+    Estoques: 'Estoques',
+    Product: 'Product',
+    Users_Estoques: 'Users_Estoques'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -660,7 +660,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "users" | "estacionamentos" | "vagas" | "pagamentos"
+      modelProps: "users" | "estoques" | "product" | "users_Estoques"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -696,10 +696,6 @@ export namespace Prisma {
             args: Prisma.UsersCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.UsersCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UsersPayload>[]
-          }
           delete: {
             args: Prisma.UsersDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UsersPayload>
@@ -715,10 +711,6 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.UsersUpdateManyArgs<ExtArgs>
             result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.UsersUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UsersPayload>[]
           }
           upsert: {
             args: Prisma.UsersUpsertArgs<ExtArgs>
@@ -738,225 +730,201 @@ export namespace Prisma {
           }
         }
       }
-      Estacionamentos: {
-        payload: Prisma.$EstacionamentosPayload<ExtArgs>
-        fields: Prisma.EstacionamentosFieldRefs
+      Estoques: {
+        payload: Prisma.$EstoquesPayload<ExtArgs>
+        fields: Prisma.EstoquesFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.EstacionamentosFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload> | null
+            args: Prisma.EstoquesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.EstacionamentosFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>
+            args: Prisma.EstoquesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>
           }
           findFirst: {
-            args: Prisma.EstacionamentosFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload> | null
+            args: Prisma.EstoquesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.EstacionamentosFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>
+            args: Prisma.EstoquesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>
           }
           findMany: {
-            args: Prisma.EstacionamentosFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>[]
+            args: Prisma.EstoquesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>[]
           }
           create: {
-            args: Prisma.EstacionamentosCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>
+            args: Prisma.EstoquesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>
           }
           createMany: {
-            args: Prisma.EstacionamentosCreateManyArgs<ExtArgs>
+            args: Prisma.EstoquesCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.EstacionamentosCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>[]
-          }
           delete: {
-            args: Prisma.EstacionamentosDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>
+            args: Prisma.EstoquesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>
           }
           update: {
-            args: Prisma.EstacionamentosUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>
+            args: Prisma.EstoquesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>
           }
           deleteMany: {
-            args: Prisma.EstacionamentosDeleteManyArgs<ExtArgs>
+            args: Prisma.EstoquesDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.EstacionamentosUpdateManyArgs<ExtArgs>
+            args: Prisma.EstoquesUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.EstacionamentosUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>[]
-          }
           upsert: {
-            args: Prisma.EstacionamentosUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EstacionamentosPayload>
+            args: Prisma.EstoquesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EstoquesPayload>
           }
           aggregate: {
-            args: Prisma.EstacionamentosAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateEstacionamentos>
+            args: Prisma.EstoquesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEstoques>
           }
           groupBy: {
-            args: Prisma.EstacionamentosGroupByArgs<ExtArgs>
-            result: $Utils.Optional<EstacionamentosGroupByOutputType>[]
+            args: Prisma.EstoquesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EstoquesGroupByOutputType>[]
           }
           count: {
-            args: Prisma.EstacionamentosCountArgs<ExtArgs>
-            result: $Utils.Optional<EstacionamentosCountAggregateOutputType> | number
+            args: Prisma.EstoquesCountArgs<ExtArgs>
+            result: $Utils.Optional<EstoquesCountAggregateOutputType> | number
           }
         }
       }
-      Vagas: {
-        payload: Prisma.$VagasPayload<ExtArgs>
-        fields: Prisma.VagasFieldRefs
+      Product: {
+        payload: Prisma.$ProductPayload<ExtArgs>
+        fields: Prisma.ProductFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.VagasFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload> | null
+            args: Prisma.ProductFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.VagasFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>
+            args: Prisma.ProductFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
           }
           findFirst: {
-            args: Prisma.VagasFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload> | null
+            args: Prisma.ProductFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.VagasFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>
+            args: Prisma.ProductFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
           }
           findMany: {
-            args: Prisma.VagasFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>[]
+            args: Prisma.ProductFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
           }
           create: {
-            args: Prisma.VagasCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>
+            args: Prisma.ProductCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
           }
           createMany: {
-            args: Prisma.VagasCreateManyArgs<ExtArgs>
+            args: Prisma.ProductCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.VagasCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>[]
-          }
           delete: {
-            args: Prisma.VagasDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>
+            args: Prisma.ProductDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
           }
           update: {
-            args: Prisma.VagasUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>
+            args: Prisma.ProductUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
           }
           deleteMany: {
-            args: Prisma.VagasDeleteManyArgs<ExtArgs>
+            args: Prisma.ProductDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.VagasUpdateManyArgs<ExtArgs>
+            args: Prisma.ProductUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.VagasUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>[]
-          }
           upsert: {
-            args: Prisma.VagasUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VagasPayload>
+            args: Prisma.ProductUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
           }
           aggregate: {
-            args: Prisma.VagasAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateVagas>
+            args: Prisma.ProductAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProduct>
           }
           groupBy: {
-            args: Prisma.VagasGroupByArgs<ExtArgs>
-            result: $Utils.Optional<VagasGroupByOutputType>[]
+            args: Prisma.ProductGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProductGroupByOutputType>[]
           }
           count: {
-            args: Prisma.VagasCountArgs<ExtArgs>
-            result: $Utils.Optional<VagasCountAggregateOutputType> | number
+            args: Prisma.ProductCountArgs<ExtArgs>
+            result: $Utils.Optional<ProductCountAggregateOutputType> | number
           }
         }
       }
-      Pagamentos: {
-        payload: Prisma.$PagamentosPayload<ExtArgs>
-        fields: Prisma.PagamentosFieldRefs
+      Users_Estoques: {
+        payload: Prisma.$Users_EstoquesPayload<ExtArgs>
+        fields: Prisma.Users_EstoquesFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.PagamentosFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload> | null
+            args: Prisma.Users_EstoquesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.PagamentosFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>
+            args: Prisma.Users_EstoquesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>
           }
           findFirst: {
-            args: Prisma.PagamentosFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload> | null
+            args: Prisma.Users_EstoquesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.PagamentosFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>
+            args: Prisma.Users_EstoquesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>
           }
           findMany: {
-            args: Prisma.PagamentosFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>[]
+            args: Prisma.Users_EstoquesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>[]
           }
           create: {
-            args: Prisma.PagamentosCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>
+            args: Prisma.Users_EstoquesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>
           }
           createMany: {
-            args: Prisma.PagamentosCreateManyArgs<ExtArgs>
+            args: Prisma.Users_EstoquesCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.PagamentosCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>[]
-          }
           delete: {
-            args: Prisma.PagamentosDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>
+            args: Prisma.Users_EstoquesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>
           }
           update: {
-            args: Prisma.PagamentosUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>
+            args: Prisma.Users_EstoquesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>
           }
           deleteMany: {
-            args: Prisma.PagamentosDeleteManyArgs<ExtArgs>
+            args: Prisma.Users_EstoquesDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.PagamentosUpdateManyArgs<ExtArgs>
+            args: Prisma.Users_EstoquesUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.PagamentosUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>[]
-          }
           upsert: {
-            args: Prisma.PagamentosUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PagamentosPayload>
+            args: Prisma.Users_EstoquesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Users_EstoquesPayload>
           }
           aggregate: {
-            args: Prisma.PagamentosAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePagamentos>
+            args: Prisma.Users_EstoquesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUsers_Estoques>
           }
           groupBy: {
-            args: Prisma.PagamentosGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PagamentosGroupByOutputType>[]
+            args: Prisma.Users_EstoquesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Users_EstoquesGroupByOutputType>[]
           }
           count: {
-            args: Prisma.PagamentosCountArgs<ExtArgs>
-            result: $Utils.Optional<PagamentosCountAggregateOutputType> | number
+            args: Prisma.Users_EstoquesCountArgs<ExtArgs>
+            result: $Utils.Optional<Users_EstoquesCountAggregateOutputType> | number
           }
         }
       }
@@ -1045,9 +1013,9 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     users?: UsersOmit
-    estacionamentos?: EstacionamentosOmit
-    vagas?: VagasOmit
-    pagamentos?: PagamentosOmit
+    estoques?: EstoquesOmit
+    product?: ProductOmit
+    users_Estoques?: Users_EstoquesOmit
   }
 
   /* Types for Logging */
@@ -1142,11 +1110,11 @@ export namespace Prisma {
    */
 
   export type UsersCountOutputType = {
-    pagamentos: number
+    userEstoques: number
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pagamentos?: boolean | UsersCountOutputTypeCountPagamentosArgs
+    userEstoques?: boolean | UsersCountOutputTypeCountUserEstoquesArgs
   }
 
   // Custom InputTypes
@@ -1163,70 +1131,70 @@ export namespace Prisma {
   /**
    * UsersCountOutputType without action
    */
-  export type UsersCountOutputTypeCountPagamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PagamentosWhereInput
+  export type UsersCountOutputTypeCountUserEstoquesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Users_EstoquesWhereInput
   }
 
 
   /**
-   * Count Type EstacionamentosCountOutputType
+   * Count Type EstoquesCountOutputType
    */
 
-  export type EstacionamentosCountOutputType = {
-    vagas: number
+  export type EstoquesCountOutputType = {
+    estoqueUsers: number
   }
 
-  export type EstacionamentosCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vagas?: boolean | EstacionamentosCountOutputTypeCountVagasArgs
+  export type EstoquesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    estoqueUsers?: boolean | EstoquesCountOutputTypeCountEstoqueUsersArgs
   }
 
   // Custom InputTypes
   /**
-   * EstacionamentosCountOutputType without action
+   * EstoquesCountOutputType without action
    */
-  export type EstacionamentosCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EstacionamentosCountOutputType
+     * Select specific fields to fetch from the EstoquesCountOutputType
      */
-    select?: EstacionamentosCountOutputTypeSelect<ExtArgs> | null
+    select?: EstoquesCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * EstacionamentosCountOutputType without action
+   * EstoquesCountOutputType without action
    */
-  export type EstacionamentosCountOutputTypeCountVagasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VagasWhereInput
+  export type EstoquesCountOutputTypeCountEstoqueUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Users_EstoquesWhereInput
   }
 
 
   /**
-   * Count Type VagasCountOutputType
+   * Count Type ProductCountOutputType
    */
 
-  export type VagasCountOutputType = {
-    pagamentos: number
+  export type ProductCountOutputType = {
+    produtosEstoque: number
   }
 
-  export type VagasCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pagamentos?: boolean | VagasCountOutputTypeCountPagamentosArgs
+  export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    produtosEstoque?: boolean | ProductCountOutputTypeCountProdutosEstoqueArgs
   }
 
   // Custom InputTypes
   /**
-   * VagasCountOutputType without action
+   * ProductCountOutputType without action
    */
-  export type VagasCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VagasCountOutputType
+     * Select specific fields to fetch from the ProductCountOutputType
      */
-    select?: VagasCountOutputTypeSelect<ExtArgs> | null
+    select?: ProductCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * VagasCountOutputType without action
+   * ProductCountOutputType without action
    */
-  export type VagasCountOutputTypeCountPagamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PagamentosWhereInput
+  export type ProductCountOutputTypeCountProdutosEstoqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EstoquesWhereInput
   }
 
 
@@ -1424,23 +1392,11 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     password?: boolean
-    pagamentos?: boolean | Users$pagamentosArgs<ExtArgs>
+    userEstoques?: boolean | Users$userEstoquesArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
 
-  export type UsersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idUser?: boolean
-    email?: boolean
-    name?: boolean
-    password?: boolean
-  }, ExtArgs["result"]["users"]>
 
-  export type UsersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idUser?: boolean
-    email?: boolean
-    name?: boolean
-    password?: boolean
-  }, ExtArgs["result"]["users"]>
 
   export type UsersSelectScalar = {
     idUser?: boolean
@@ -1451,16 +1407,14 @@ export namespace Prisma {
 
   export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idUser" | "email" | "name" | "password", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pagamentos?: boolean | Users$pagamentosArgs<ExtArgs>
+    userEstoques?: boolean | Users$userEstoquesArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UsersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UsersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UsersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Users"
     objects: {
-      pagamentos: Prisma.$PagamentosPayload<ExtArgs>[]
+      userEstoques: Prisma.$Users_EstoquesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idUser: number
@@ -1585,30 +1539,6 @@ export namespace Prisma {
     createMany<T extends UsersCreateManyArgs>(args?: SelectSubset<T, UsersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Users and returns the data saved in the database.
-     * @param {UsersCreateManyAndReturnArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const users = await prisma.users.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Users and only return the `idUser`
-     * const usersWithIdUserOnly = await prisma.users.createManyAndReturn({
-     *   select: { idUser: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends UsersCreateManyAndReturnArgs>(args?: SelectSubset<T, UsersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Users.
      * @param {UsersDeleteArgs} args - Arguments to delete one Users.
      * @example
@@ -1671,36 +1601,6 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UsersUpdateManyArgs>(args: SelectSubset<T, UsersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Users and returns the data updated in the database.
-     * @param {UsersUpdateManyAndReturnArgs} args - Arguments to update many Users.
-     * @example
-     * // Update many Users
-     * const users = await prisma.users.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Users and only return the `idUser`
-     * const usersWithIdUserOnly = await prisma.users.updateManyAndReturn({
-     *   select: { idUser: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UsersUpdateManyAndReturnArgs>(args: SelectSubset<T, UsersUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Users.
@@ -1861,7 +1761,7 @@ export namespace Prisma {
    */
   export interface Prisma__UsersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    pagamentos<T extends Users$pagamentosArgs<ExtArgs> = {}>(args?: Subset<T, Users$pagamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userEstoques<T extends Users$userEstoquesArgs<ExtArgs> = {}>(args?: Subset<T, Users$userEstoquesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2124,24 +2024,7 @@ export namespace Prisma {
      * The data used to create many Users.
      */
     data: UsersCreateManyInput | UsersCreateManyInput[]
-  }
-
-  /**
-   * Users createManyAndReturn
-   */
-  export type UsersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Users
-     */
-    select?: UsersSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Users
-     */
-    omit?: UsersOmit<ExtArgs> | null
-    /**
-     * The data used to create many Users.
-     */
-    data: UsersCreateManyInput | UsersCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -2174,32 +2057,6 @@ export namespace Prisma {
    * Users updateMany
    */
   export type UsersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UsersUpdateManyMutationInput, UsersUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UsersWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Users updateManyAndReturn
-   */
-  export type UsersUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Users
-     */
-    select?: UsersSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Users
-     */
-    omit?: UsersOmit<ExtArgs> | null
     /**
      * The data used to update Users.
      */
@@ -2281,27 +2138,27 @@ export namespace Prisma {
   }
 
   /**
-   * Users.pagamentos
+   * Users.userEstoques
    */
-  export type Users$pagamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users$userEstoquesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
-    where?: PagamentosWhereInput
-    orderBy?: PagamentosOrderByWithRelationInput | PagamentosOrderByWithRelationInput[]
-    cursor?: PagamentosWhereUniqueInput
+    include?: Users_EstoquesInclude<ExtArgs> | null
+    where?: Users_EstoquesWhereInput
+    orderBy?: Users_EstoquesOrderByWithRelationInput | Users_EstoquesOrderByWithRelationInput[]
+    cursor?: Users_EstoquesWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: PagamentosScalarFieldEnum | PagamentosScalarFieldEnum[]
+    distinct?: Users_EstoquesScalarFieldEnum | Users_EstoquesScalarFieldEnum[]
   }
 
   /**
@@ -2324,403 +2181,348 @@ export namespace Prisma {
 
 
   /**
-   * Model Estacionamentos
+   * Model Estoques
    */
 
-  export type AggregateEstacionamentos = {
-    _count: EstacionamentosCountAggregateOutputType | null
-    _avg: EstacionamentosAvgAggregateOutputType | null
-    _sum: EstacionamentosSumAggregateOutputType | null
-    _min: EstacionamentosMinAggregateOutputType | null
-    _max: EstacionamentosMaxAggregateOutputType | null
+  export type AggregateEstoques = {
+    _count: EstoquesCountAggregateOutputType | null
+    _avg: EstoquesAvgAggregateOutputType | null
+    _sum: EstoquesSumAggregateOutputType | null
+    _min: EstoquesMinAggregateOutputType | null
+    _max: EstoquesMaxAggregateOutputType | null
   }
 
-  export type EstacionamentosAvgAggregateOutputType = {
-    id_estacionamento: number | null
-    qtd_vagas: number | null
+  export type EstoquesAvgAggregateOutputType = {
+    idEstoque: number | null
+    id_Product: number | null
   }
 
-  export type EstacionamentosSumAggregateOutputType = {
-    id_estacionamento: number | null
-    qtd_vagas: number | null
+  export type EstoquesSumAggregateOutputType = {
+    idEstoque: number | null
+    id_Product: number | null
   }
 
-  export type EstacionamentosMinAggregateOutputType = {
-    id_estacionamento: number | null
-    nome: string | null
-    endereco: string | null
-    qtd_vagas: number | null
+  export type EstoquesMinAggregateOutputType = {
+    idEstoque: number | null
+    id_Product: number | null
   }
 
-  export type EstacionamentosMaxAggregateOutputType = {
-    id_estacionamento: number | null
-    nome: string | null
-    endereco: string | null
-    qtd_vagas: number | null
+  export type EstoquesMaxAggregateOutputType = {
+    idEstoque: number | null
+    id_Product: number | null
   }
 
-  export type EstacionamentosCountAggregateOutputType = {
-    id_estacionamento: number
-    nome: number
-    endereco: number
-    qtd_vagas: number
+  export type EstoquesCountAggregateOutputType = {
+    idEstoque: number
+    id_Product: number
     _all: number
   }
 
 
-  export type EstacionamentosAvgAggregateInputType = {
-    id_estacionamento?: true
-    qtd_vagas?: true
+  export type EstoquesAvgAggregateInputType = {
+    idEstoque?: true
+    id_Product?: true
   }
 
-  export type EstacionamentosSumAggregateInputType = {
-    id_estacionamento?: true
-    qtd_vagas?: true
+  export type EstoquesSumAggregateInputType = {
+    idEstoque?: true
+    id_Product?: true
   }
 
-  export type EstacionamentosMinAggregateInputType = {
-    id_estacionamento?: true
-    nome?: true
-    endereco?: true
-    qtd_vagas?: true
+  export type EstoquesMinAggregateInputType = {
+    idEstoque?: true
+    id_Product?: true
   }
 
-  export type EstacionamentosMaxAggregateInputType = {
-    id_estacionamento?: true
-    nome?: true
-    endereco?: true
-    qtd_vagas?: true
+  export type EstoquesMaxAggregateInputType = {
+    idEstoque?: true
+    id_Product?: true
   }
 
-  export type EstacionamentosCountAggregateInputType = {
-    id_estacionamento?: true
-    nome?: true
-    endereco?: true
-    qtd_vagas?: true
+  export type EstoquesCountAggregateInputType = {
+    idEstoque?: true
+    id_Product?: true
     _all?: true
   }
 
-  export type EstacionamentosAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Estacionamentos to aggregate.
+     * Filter which Estoques to aggregate.
      */
-    where?: EstacionamentosWhereInput
+    where?: EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Estacionamentos to fetch.
+     * Determine the order of Estoques to fetch.
      */
-    orderBy?: EstacionamentosOrderByWithRelationInput | EstacionamentosOrderByWithRelationInput[]
+    orderBy?: EstoquesOrderByWithRelationInput | EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: EstacionamentosWhereUniqueInput
+    cursor?: EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Estacionamentos from the position of the cursor.
+     * Take `±n` Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Estacionamentos.
+     * Skip the first `n` Estoques.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Estacionamentos
+     * Count returned Estoques
     **/
-    _count?: true | EstacionamentosCountAggregateInputType
+    _count?: true | EstoquesCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: EstacionamentosAvgAggregateInputType
+    _avg?: EstoquesAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: EstacionamentosSumAggregateInputType
+    _sum?: EstoquesSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: EstacionamentosMinAggregateInputType
+    _min?: EstoquesMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: EstacionamentosMaxAggregateInputType
+    _max?: EstoquesMaxAggregateInputType
   }
 
-  export type GetEstacionamentosAggregateType<T extends EstacionamentosAggregateArgs> = {
-        [P in keyof T & keyof AggregateEstacionamentos]: P extends '_count' | 'count'
+  export type GetEstoquesAggregateType<T extends EstoquesAggregateArgs> = {
+        [P in keyof T & keyof AggregateEstoques]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateEstacionamentos[P]>
-      : GetScalarType<T[P], AggregateEstacionamentos[P]>
+        : GetScalarType<T[P], AggregateEstoques[P]>
+      : GetScalarType<T[P], AggregateEstoques[P]>
   }
 
 
 
 
-  export type EstacionamentosGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EstacionamentosWhereInput
-    orderBy?: EstacionamentosOrderByWithAggregationInput | EstacionamentosOrderByWithAggregationInput[]
-    by: EstacionamentosScalarFieldEnum[] | EstacionamentosScalarFieldEnum
-    having?: EstacionamentosScalarWhereWithAggregatesInput
+  export type EstoquesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EstoquesWhereInput
+    orderBy?: EstoquesOrderByWithAggregationInput | EstoquesOrderByWithAggregationInput[]
+    by: EstoquesScalarFieldEnum[] | EstoquesScalarFieldEnum
+    having?: EstoquesScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: EstacionamentosCountAggregateInputType | true
-    _avg?: EstacionamentosAvgAggregateInputType
-    _sum?: EstacionamentosSumAggregateInputType
-    _min?: EstacionamentosMinAggregateInputType
-    _max?: EstacionamentosMaxAggregateInputType
+    _count?: EstoquesCountAggregateInputType | true
+    _avg?: EstoquesAvgAggregateInputType
+    _sum?: EstoquesSumAggregateInputType
+    _min?: EstoquesMinAggregateInputType
+    _max?: EstoquesMaxAggregateInputType
   }
 
-  export type EstacionamentosGroupByOutputType = {
-    id_estacionamento: number
-    nome: string
-    endereco: string
-    qtd_vagas: number
-    _count: EstacionamentosCountAggregateOutputType | null
-    _avg: EstacionamentosAvgAggregateOutputType | null
-    _sum: EstacionamentosSumAggregateOutputType | null
-    _min: EstacionamentosMinAggregateOutputType | null
-    _max: EstacionamentosMaxAggregateOutputType | null
+  export type EstoquesGroupByOutputType = {
+    idEstoque: number
+    id_Product: number
+    _count: EstoquesCountAggregateOutputType | null
+    _avg: EstoquesAvgAggregateOutputType | null
+    _sum: EstoquesSumAggregateOutputType | null
+    _min: EstoquesMinAggregateOutputType | null
+    _max: EstoquesMaxAggregateOutputType | null
   }
 
-  type GetEstacionamentosGroupByPayload<T extends EstacionamentosGroupByArgs> = Prisma.PrismaPromise<
+  type GetEstoquesGroupByPayload<T extends EstoquesGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<EstacionamentosGroupByOutputType, T['by']> &
+      PickEnumerable<EstoquesGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof EstacionamentosGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof EstoquesGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], EstacionamentosGroupByOutputType[P]>
-            : GetScalarType<T[P], EstacionamentosGroupByOutputType[P]>
+              : GetScalarType<T[P], EstoquesGroupByOutputType[P]>
+            : GetScalarType<T[P], EstoquesGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type EstacionamentosSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id_estacionamento?: boolean
-    nome?: boolean
-    endereco?: boolean
-    qtd_vagas?: boolean
-    vagas?: boolean | Estacionamentos$vagasArgs<ExtArgs>
-    _count?: boolean | EstacionamentosCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["estacionamentos"]>
+  export type EstoquesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idEstoque?: boolean
+    id_Product?: boolean
+    produto?: boolean | ProductDefaultArgs<ExtArgs>
+    estoqueUsers?: boolean | Estoques$estoqueUsersArgs<ExtArgs>
+    _count?: boolean | EstoquesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["estoques"]>
 
-  export type EstacionamentosSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id_estacionamento?: boolean
-    nome?: boolean
-    endereco?: boolean
-    qtd_vagas?: boolean
-  }, ExtArgs["result"]["estacionamentos"]>
 
-  export type EstacionamentosSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id_estacionamento?: boolean
-    nome?: boolean
-    endereco?: boolean
-    qtd_vagas?: boolean
-  }, ExtArgs["result"]["estacionamentos"]>
 
-  export type EstacionamentosSelectScalar = {
-    id_estacionamento?: boolean
-    nome?: boolean
-    endereco?: boolean
-    qtd_vagas?: boolean
+  export type EstoquesSelectScalar = {
+    idEstoque?: boolean
+    id_Product?: boolean
   }
 
-  export type EstacionamentosOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_estacionamento" | "nome" | "endereco" | "qtd_vagas", ExtArgs["result"]["estacionamentos"]>
-  export type EstacionamentosInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vagas?: boolean | Estacionamentos$vagasArgs<ExtArgs>
-    _count?: boolean | EstacionamentosCountOutputTypeDefaultArgs<ExtArgs>
+  export type EstoquesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idEstoque" | "id_Product", ExtArgs["result"]["estoques"]>
+  export type EstoquesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    produto?: boolean | ProductDefaultArgs<ExtArgs>
+    estoqueUsers?: boolean | Estoques$estoqueUsersArgs<ExtArgs>
+    _count?: boolean | EstoquesCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type EstacionamentosIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type EstacionamentosIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $EstacionamentosPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Estacionamentos"
+  export type $EstoquesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Estoques"
     objects: {
-      vagas: Prisma.$VagasPayload<ExtArgs>[]
+      produto: Prisma.$ProductPayload<ExtArgs>
+      estoqueUsers: Prisma.$Users_EstoquesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id_estacionamento: number
-      nome: string
-      endereco: string
-      qtd_vagas: number
-    }, ExtArgs["result"]["estacionamentos"]>
+      idEstoque: number
+      id_Product: number
+    }, ExtArgs["result"]["estoques"]>
     composites: {}
   }
 
-  type EstacionamentosGetPayload<S extends boolean | null | undefined | EstacionamentosDefaultArgs> = $Result.GetResult<Prisma.$EstacionamentosPayload, S>
+  type EstoquesGetPayload<S extends boolean | null | undefined | EstoquesDefaultArgs> = $Result.GetResult<Prisma.$EstoquesPayload, S>
 
-  type EstacionamentosCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<EstacionamentosFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: EstacionamentosCountAggregateInputType | true
+  type EstoquesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EstoquesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EstoquesCountAggregateInputType | true
     }
 
-  export interface EstacionamentosDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Estacionamentos'], meta: { name: 'Estacionamentos' } }
+  export interface EstoquesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Estoques'], meta: { name: 'Estoques' } }
     /**
-     * Find zero or one Estacionamentos that matches the filter.
-     * @param {EstacionamentosFindUniqueArgs} args - Arguments to find a Estacionamentos
+     * Find zero or one Estoques that matches the filter.
+     * @param {EstoquesFindUniqueArgs} args - Arguments to find a Estoques
      * @example
-     * // Get one Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.findUnique({
+     * // Get one Estoques
+     * const estoques = await prisma.estoques.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends EstacionamentosFindUniqueArgs>(args: SelectSubset<T, EstacionamentosFindUniqueArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends EstoquesFindUniqueArgs>(args: SelectSubset<T, EstoquesFindUniqueArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Estacionamentos that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Estoques that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {EstacionamentosFindUniqueOrThrowArgs} args - Arguments to find a Estacionamentos
+     * @param {EstoquesFindUniqueOrThrowArgs} args - Arguments to find a Estoques
      * @example
-     * // Get one Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.findUniqueOrThrow({
+     * // Get one Estoques
+     * const estoques = await prisma.estoques.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends EstacionamentosFindUniqueOrThrowArgs>(args: SelectSubset<T, EstacionamentosFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends EstoquesFindUniqueOrThrowArgs>(args: SelectSubset<T, EstoquesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Estacionamentos that matches the filter.
+     * Find the first Estoques that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosFindFirstArgs} args - Arguments to find a Estacionamentos
+     * @param {EstoquesFindFirstArgs} args - Arguments to find a Estoques
      * @example
-     * // Get one Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.findFirst({
+     * // Get one Estoques
+     * const estoques = await prisma.estoques.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends EstacionamentosFindFirstArgs>(args?: SelectSubset<T, EstacionamentosFindFirstArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends EstoquesFindFirstArgs>(args?: SelectSubset<T, EstoquesFindFirstArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Estacionamentos that matches the filter or
+     * Find the first Estoques that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosFindFirstOrThrowArgs} args - Arguments to find a Estacionamentos
+     * @param {EstoquesFindFirstOrThrowArgs} args - Arguments to find a Estoques
      * @example
-     * // Get one Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.findFirstOrThrow({
+     * // Get one Estoques
+     * const estoques = await prisma.estoques.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends EstacionamentosFindFirstOrThrowArgs>(args?: SelectSubset<T, EstacionamentosFindFirstOrThrowArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends EstoquesFindFirstOrThrowArgs>(args?: SelectSubset<T, EstoquesFindFirstOrThrowArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Estacionamentos that matches the filter.
+     * Find zero or more Estoques that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {EstoquesFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.findMany()
+     * // Get all Estoques
+     * const estoques = await prisma.estoques.findMany()
      * 
-     * // Get first 10 Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.findMany({ take: 10 })
+     * // Get first 10 Estoques
+     * const estoques = await prisma.estoques.findMany({ take: 10 })
      * 
-     * // Only select the `id_estacionamento`
-     * const estacionamentosWithId_estacionamentoOnly = await prisma.estacionamentos.findMany({ select: { id_estacionamento: true } })
+     * // Only select the `idEstoque`
+     * const estoquesWithIdEstoqueOnly = await prisma.estoques.findMany({ select: { idEstoque: true } })
      * 
      */
-    findMany<T extends EstacionamentosFindManyArgs>(args?: SelectSubset<T, EstacionamentosFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends EstoquesFindManyArgs>(args?: SelectSubset<T, EstoquesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Estacionamentos.
-     * @param {EstacionamentosCreateArgs} args - Arguments to create a Estacionamentos.
+     * Create a Estoques.
+     * @param {EstoquesCreateArgs} args - Arguments to create a Estoques.
      * @example
-     * // Create one Estacionamentos
-     * const Estacionamentos = await prisma.estacionamentos.create({
+     * // Create one Estoques
+     * const Estoques = await prisma.estoques.create({
      *   data: {
-     *     // ... data to create a Estacionamentos
+     *     // ... data to create a Estoques
      *   }
      * })
      * 
      */
-    create<T extends EstacionamentosCreateArgs>(args: SelectSubset<T, EstacionamentosCreateArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends EstoquesCreateArgs>(args: SelectSubset<T, EstoquesCreateArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Estacionamentos.
-     * @param {EstacionamentosCreateManyArgs} args - Arguments to create many Estacionamentos.
+     * Create many Estoques.
+     * @param {EstoquesCreateManyArgs} args - Arguments to create many Estoques.
      * @example
-     * // Create many Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.createMany({
+     * // Create many Estoques
+     * const estoques = await prisma.estoques.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends EstacionamentosCreateManyArgs>(args?: SelectSubset<T, EstacionamentosCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends EstoquesCreateManyArgs>(args?: SelectSubset<T, EstoquesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Estacionamentos and returns the data saved in the database.
-     * @param {EstacionamentosCreateManyAndReturnArgs} args - Arguments to create many Estacionamentos.
+     * Delete a Estoques.
+     * @param {EstoquesDeleteArgs} args - Arguments to delete one Estoques.
      * @example
-     * // Create many Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Estacionamentos and only return the `id_estacionamento`
-     * const estacionamentosWithId_estacionamentoOnly = await prisma.estacionamentos.createManyAndReturn({
-     *   select: { id_estacionamento: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends EstacionamentosCreateManyAndReturnArgs>(args?: SelectSubset<T, EstacionamentosCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Estacionamentos.
-     * @param {EstacionamentosDeleteArgs} args - Arguments to delete one Estacionamentos.
-     * @example
-     * // Delete one Estacionamentos
-     * const Estacionamentos = await prisma.estacionamentos.delete({
+     * // Delete one Estoques
+     * const Estoques = await prisma.estoques.delete({
      *   where: {
-     *     // ... filter to delete one Estacionamentos
+     *     // ... filter to delete one Estoques
      *   }
      * })
      * 
      */
-    delete<T extends EstacionamentosDeleteArgs>(args: SelectSubset<T, EstacionamentosDeleteArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends EstoquesDeleteArgs>(args: SelectSubset<T, EstoquesDeleteArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Estacionamentos.
-     * @param {EstacionamentosUpdateArgs} args - Arguments to update one Estacionamentos.
+     * Update one Estoques.
+     * @param {EstoquesUpdateArgs} args - Arguments to update one Estoques.
      * @example
-     * // Update one Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.update({
+     * // Update one Estoques
+     * const estoques = await prisma.estoques.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2730,30 +2532,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends EstacionamentosUpdateArgs>(args: SelectSubset<T, EstacionamentosUpdateArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends EstoquesUpdateArgs>(args: SelectSubset<T, EstoquesUpdateArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Estacionamentos.
-     * @param {EstacionamentosDeleteManyArgs} args - Arguments to filter Estacionamentos to delete.
+     * Delete zero or more Estoques.
+     * @param {EstoquesDeleteManyArgs} args - Arguments to filter Estoques to delete.
      * @example
-     * // Delete a few Estacionamentos
-     * const { count } = await prisma.estacionamentos.deleteMany({
+     * // Delete a few Estoques
+     * const { count } = await prisma.estoques.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends EstacionamentosDeleteManyArgs>(args?: SelectSubset<T, EstacionamentosDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends EstoquesDeleteManyArgs>(args?: SelectSubset<T, EstoquesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Estacionamentos.
+     * Update zero or more Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {EstoquesUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.updateMany({
+     * // Update many Estoques
+     * const estoques = await prisma.estoques.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2763,86 +2565,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends EstacionamentosUpdateManyArgs>(args: SelectSubset<T, EstacionamentosUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends EstoquesUpdateManyArgs>(args: SelectSubset<T, EstoquesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Estacionamentos and returns the data updated in the database.
-     * @param {EstacionamentosUpdateManyAndReturnArgs} args - Arguments to update many Estacionamentos.
+     * Create or update one Estoques.
+     * @param {EstoquesUpsertArgs} args - Arguments to update or create a Estoques.
      * @example
-     * // Update many Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Estacionamentos and only return the `id_estacionamento`
-     * const estacionamentosWithId_estacionamentoOnly = await prisma.estacionamentos.updateManyAndReturn({
-     *   select: { id_estacionamento: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends EstacionamentosUpdateManyAndReturnArgs>(args: SelectSubset<T, EstacionamentosUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Estacionamentos.
-     * @param {EstacionamentosUpsertArgs} args - Arguments to update or create a Estacionamentos.
-     * @example
-     * // Update or create a Estacionamentos
-     * const estacionamentos = await prisma.estacionamentos.upsert({
+     * // Update or create a Estoques
+     * const estoques = await prisma.estoques.upsert({
      *   create: {
-     *     // ... data to create a Estacionamentos
+     *     // ... data to create a Estoques
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Estacionamentos we want to update
+     *     // ... the filter for the Estoques we want to update
      *   }
      * })
      */
-    upsert<T extends EstacionamentosUpsertArgs>(args: SelectSubset<T, EstacionamentosUpsertArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends EstoquesUpsertArgs>(args: SelectSubset<T, EstoquesUpsertArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Estacionamentos.
+     * Count the number of Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosCountArgs} args - Arguments to filter Estacionamentos to count.
+     * @param {EstoquesCountArgs} args - Arguments to filter Estoques to count.
      * @example
-     * // Count the number of Estacionamentos
-     * const count = await prisma.estacionamentos.count({
+     * // Count the number of Estoques
+     * const count = await prisma.estoques.count({
      *   where: {
-     *     // ... the filter for the Estacionamentos we want to count
+     *     // ... the filter for the Estoques we want to count
      *   }
      * })
     **/
-    count<T extends EstacionamentosCountArgs>(
-      args?: Subset<T, EstacionamentosCountArgs>,
+    count<T extends EstoquesCountArgs>(
+      args?: Subset<T, EstoquesCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], EstacionamentosCountAggregateOutputType>
+          : GetScalarType<T['select'], EstoquesCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Estacionamentos.
+     * Allows you to perform aggregations operations on a Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {EstoquesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2862,13 +2634,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends EstacionamentosAggregateArgs>(args: Subset<T, EstacionamentosAggregateArgs>): Prisma.PrismaPromise<GetEstacionamentosAggregateType<T>>
+    aggregate<T extends EstoquesAggregateArgs>(args: Subset<T, EstoquesAggregateArgs>): Prisma.PrismaPromise<GetEstoquesAggregateType<T>>
 
     /**
-     * Group by Estacionamentos.
+     * Group by Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EstacionamentosGroupByArgs} args - Group by arguments.
+     * @param {EstoquesGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2883,14 +2655,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends EstacionamentosGroupByArgs,
+      T extends EstoquesGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: EstacionamentosGroupByArgs['orderBy'] }
-        : { orderBy?: EstacionamentosGroupByArgs['orderBy'] },
+        ? { orderBy: EstoquesGroupByArgs['orderBy'] }
+        : { orderBy?: EstoquesGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2939,22 +2711,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, EstacionamentosGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEstacionamentosGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, EstoquesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEstoquesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Estacionamentos model
+   * Fields of the Estoques model
    */
-  readonly fields: EstacionamentosFieldRefs;
+  readonly fields: EstoquesFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Estacionamentos.
+   * The delegate class that acts as a "Promise-like" for Estoques.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__EstacionamentosClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__EstoquesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    vagas<T extends Estacionamentos$vagasArgs<ExtArgs> = {}>(args?: Subset<T, Estacionamentos$vagasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    produto<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    estoqueUsers<T extends Estoques$estoqueUsersArgs<ExtArgs> = {}>(args?: Subset<T, Estoques$estoqueUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2981,836 +2754,772 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Estacionamentos model
+   * Fields of the Estoques model
    */
-  interface EstacionamentosFieldRefs {
-    readonly id_estacionamento: FieldRef<"Estacionamentos", 'Int'>
-    readonly nome: FieldRef<"Estacionamentos", 'String'>
-    readonly endereco: FieldRef<"Estacionamentos", 'String'>
-    readonly qtd_vagas: FieldRef<"Estacionamentos", 'Int'>
+  interface EstoquesFieldRefs {
+    readonly idEstoque: FieldRef<"Estoques", 'Int'>
+    readonly id_Product: FieldRef<"Estoques", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * Estacionamentos findUnique
+   * Estoques findUnique
    */
-  export type EstacionamentosFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Estacionamentos to fetch.
+     * Filter, which Estoques to fetch.
      */
-    where: EstacionamentosWhereUniqueInput
+    where: EstoquesWhereUniqueInput
   }
 
   /**
-   * Estacionamentos findUniqueOrThrow
+   * Estoques findUniqueOrThrow
    */
-  export type EstacionamentosFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Estacionamentos to fetch.
+     * Filter, which Estoques to fetch.
      */
-    where: EstacionamentosWhereUniqueInput
+    where: EstoquesWhereUniqueInput
   }
 
   /**
-   * Estacionamentos findFirst
+   * Estoques findFirst
    */
-  export type EstacionamentosFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Estacionamentos to fetch.
+     * Filter, which Estoques to fetch.
      */
-    where?: EstacionamentosWhereInput
+    where?: EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Estacionamentos to fetch.
+     * Determine the order of Estoques to fetch.
      */
-    orderBy?: EstacionamentosOrderByWithRelationInput | EstacionamentosOrderByWithRelationInput[]
+    orderBy?: EstoquesOrderByWithRelationInput | EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Estacionamentos.
+     * Sets the position for searching for Estoques.
      */
-    cursor?: EstacionamentosWhereUniqueInput
+    cursor?: EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Estacionamentos from the position of the cursor.
+     * Take `±n` Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Estacionamentos.
+     * Skip the first `n` Estoques.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Estacionamentos.
+     * Filter by unique combinations of Estoques.
      */
-    distinct?: EstacionamentosScalarFieldEnum | EstacionamentosScalarFieldEnum[]
+    distinct?: EstoquesScalarFieldEnum | EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Estacionamentos findFirstOrThrow
+   * Estoques findFirstOrThrow
    */
-  export type EstacionamentosFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Estacionamentos to fetch.
+     * Filter, which Estoques to fetch.
      */
-    where?: EstacionamentosWhereInput
+    where?: EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Estacionamentos to fetch.
+     * Determine the order of Estoques to fetch.
      */
-    orderBy?: EstacionamentosOrderByWithRelationInput | EstacionamentosOrderByWithRelationInput[]
+    orderBy?: EstoquesOrderByWithRelationInput | EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Estacionamentos.
+     * Sets the position for searching for Estoques.
      */
-    cursor?: EstacionamentosWhereUniqueInput
+    cursor?: EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Estacionamentos from the position of the cursor.
+     * Take `±n` Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Estacionamentos.
+     * Skip the first `n` Estoques.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Estacionamentos.
+     * Filter by unique combinations of Estoques.
      */
-    distinct?: EstacionamentosScalarFieldEnum | EstacionamentosScalarFieldEnum[]
+    distinct?: EstoquesScalarFieldEnum | EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Estacionamentos findMany
+   * Estoques findMany
    */
-  export type EstacionamentosFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Estacionamentos to fetch.
+     * Filter, which Estoques to fetch.
      */
-    where?: EstacionamentosWhereInput
+    where?: EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Estacionamentos to fetch.
+     * Determine the order of Estoques to fetch.
      */
-    orderBy?: EstacionamentosOrderByWithRelationInput | EstacionamentosOrderByWithRelationInput[]
+    orderBy?: EstoquesOrderByWithRelationInput | EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Estacionamentos.
+     * Sets the position for listing Estoques.
      */
-    cursor?: EstacionamentosWhereUniqueInput
+    cursor?: EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Estacionamentos from the position of the cursor.
+     * Take `±n` Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Estacionamentos.
+     * Skip the first `n` Estoques.
      */
     skip?: number
-    distinct?: EstacionamentosScalarFieldEnum | EstacionamentosScalarFieldEnum[]
+    distinct?: EstoquesScalarFieldEnum | EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Estacionamentos create
+   * Estoques create
    */
-  export type EstacionamentosCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * The data needed to create a Estacionamentos.
+     * The data needed to create a Estoques.
      */
-    data: XOR<EstacionamentosCreateInput, EstacionamentosUncheckedCreateInput>
+    data: XOR<EstoquesCreateInput, EstoquesUncheckedCreateInput>
   }
 
   /**
-   * Estacionamentos createMany
+   * Estoques createMany
    */
-  export type EstacionamentosCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Estacionamentos.
+     * The data used to create many Estoques.
      */
-    data: EstacionamentosCreateManyInput | EstacionamentosCreateManyInput[]
+    data: EstoquesCreateManyInput | EstoquesCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
-   * Estacionamentos createManyAndReturn
+   * Estoques update
    */
-  export type EstacionamentosCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelectCreateManyAndReturn<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
-    /**
-     * The data used to create many Estacionamentos.
-     */
-    data: EstacionamentosCreateManyInput | EstacionamentosCreateManyInput[]
-  }
-
-  /**
-   * Estacionamentos update
-   */
-  export type EstacionamentosUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Estacionamentos
-     */
-    select?: EstacionamentosSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Estacionamentos
-     */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * The data needed to update a Estacionamentos.
+     * The data needed to update a Estoques.
      */
-    data: XOR<EstacionamentosUpdateInput, EstacionamentosUncheckedUpdateInput>
+    data: XOR<EstoquesUpdateInput, EstoquesUncheckedUpdateInput>
     /**
-     * Choose, which Estacionamentos to update.
+     * Choose, which Estoques to update.
      */
-    where: EstacionamentosWhereUniqueInput
+    where: EstoquesWhereUniqueInput
   }
 
   /**
-   * Estacionamentos updateMany
+   * Estoques updateMany
    */
-  export type EstacionamentosUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Estacionamentos.
+     * The data used to update Estoques.
      */
-    data: XOR<EstacionamentosUpdateManyMutationInput, EstacionamentosUncheckedUpdateManyInput>
+    data: XOR<EstoquesUpdateManyMutationInput, EstoquesUncheckedUpdateManyInput>
     /**
-     * Filter which Estacionamentos to update
+     * Filter which Estoques to update
      */
-    where?: EstacionamentosWhereInput
+    where?: EstoquesWhereInput
     /**
-     * Limit how many Estacionamentos to update.
+     * Limit how many Estoques to update.
      */
     limit?: number
   }
 
   /**
-   * Estacionamentos updateManyAndReturn
+   * Estoques upsert
    */
-  export type EstacionamentosUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
-     * The data used to update Estacionamentos.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<EstacionamentosUpdateManyMutationInput, EstacionamentosUncheckedUpdateManyInput>
+    include?: EstoquesInclude<ExtArgs> | null
     /**
-     * Filter which Estacionamentos to update
+     * The filter to search for the Estoques to update in case it exists.
      */
-    where?: EstacionamentosWhereInput
+    where: EstoquesWhereUniqueInput
     /**
-     * Limit how many Estacionamentos to update.
+     * In case the Estoques found by the `where` argument doesn't exist, create a new Estoques with this data.
+     */
+    create: XOR<EstoquesCreateInput, EstoquesUncheckedCreateInput>
+    /**
+     * In case the Estoques was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EstoquesUpdateInput, EstoquesUncheckedUpdateInput>
+  }
+
+  /**
+   * Estoques delete
+   */
+  export type EstoquesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Estoques
+     */
+    select?: EstoquesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Estoques
+     */
+    omit?: EstoquesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EstoquesInclude<ExtArgs> | null
+    /**
+     * Filter which Estoques to delete.
+     */
+    where: EstoquesWhereUniqueInput
+  }
+
+  /**
+   * Estoques deleteMany
+   */
+  export type EstoquesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Estoques to delete
+     */
+    where?: EstoquesWhereInput
+    /**
+     * Limit how many Estoques to delete.
      */
     limit?: number
   }
 
   /**
-   * Estacionamentos upsert
+   * Estoques.estoqueUsers
    */
-  export type EstacionamentosUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Estoques$estoqueUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Estacionamentos to update in case it exists.
-     */
-    where: EstacionamentosWhereUniqueInput
-    /**
-     * In case the Estacionamentos found by the `where` argument doesn't exist, create a new Estacionamentos with this data.
-     */
-    create: XOR<EstacionamentosCreateInput, EstacionamentosUncheckedCreateInput>
-    /**
-     * In case the Estacionamentos was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<EstacionamentosUpdateInput, EstacionamentosUncheckedUpdateInput>
-  }
-
-  /**
-   * Estacionamentos delete
-   */
-  export type EstacionamentosDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Estacionamentos
-     */
-    select?: EstacionamentosSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Estacionamentos
-     */
-    omit?: EstacionamentosOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EstacionamentosInclude<ExtArgs> | null
-    /**
-     * Filter which Estacionamentos to delete.
-     */
-    where: EstacionamentosWhereUniqueInput
-  }
-
-  /**
-   * Estacionamentos deleteMany
-   */
-  export type EstacionamentosDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Estacionamentos to delete
-     */
-    where?: EstacionamentosWhereInput
-    /**
-     * Limit how many Estacionamentos to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Estacionamentos.vagas
-   */
-  export type Estacionamentos$vagasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vagas
-     */
-    select?: VagasSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vagas
-     */
-    omit?: VagasOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VagasInclude<ExtArgs> | null
-    where?: VagasWhereInput
-    orderBy?: VagasOrderByWithRelationInput | VagasOrderByWithRelationInput[]
-    cursor?: VagasWhereUniqueInput
+    include?: Users_EstoquesInclude<ExtArgs> | null
+    where?: Users_EstoquesWhereInput
+    orderBy?: Users_EstoquesOrderByWithRelationInput | Users_EstoquesOrderByWithRelationInput[]
+    cursor?: Users_EstoquesWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: VagasScalarFieldEnum | VagasScalarFieldEnum[]
+    distinct?: Users_EstoquesScalarFieldEnum | Users_EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Estacionamentos without action
+   * Estoques without action
    */
-  export type EstacionamentosDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EstoquesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estacionamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: EstacionamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estacionamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: EstacionamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstacionamentosInclude<ExtArgs> | null
+    include?: EstoquesInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model Vagas
+   * Model Product
    */
 
-  export type AggregateVagas = {
-    _count: VagasCountAggregateOutputType | null
-    _avg: VagasAvgAggregateOutputType | null
-    _sum: VagasSumAggregateOutputType | null
-    _min: VagasMinAggregateOutputType | null
-    _max: VagasMaxAggregateOutputType | null
+  export type AggregateProduct = {
+    _count: ProductCountAggregateOutputType | null
+    _avg: ProductAvgAggregateOutputType | null
+    _sum: ProductSumAggregateOutputType | null
+    _min: ProductMinAggregateOutputType | null
+    _max: ProductMaxAggregateOutputType | null
   }
 
-  export type VagasAvgAggregateOutputType = {
-    id_vaga: number | null
-    id_estacionamento: number | null
+  export type ProductAvgAggregateOutputType = {
+    id_Product: number | null
   }
 
-  export type VagasSumAggregateOutputType = {
-    id_vaga: number | null
-    id_estacionamento: number | null
+  export type ProductSumAggregateOutputType = {
+    id_Product: number | null
   }
 
-  export type VagasMinAggregateOutputType = {
-    id_vaga: number | null
-    id_estacionamento: number | null
-    status_vaga: string | null
+  export type ProductMinAggregateOutputType = {
+    id_Product: number | null
+    name: string | null
+    categoriaProdutos: string | null
+    sku: string | null
+    descricao: string | null
+    data_de_validade: Date | null
   }
 
-  export type VagasMaxAggregateOutputType = {
-    id_vaga: number | null
-    id_estacionamento: number | null
-    status_vaga: string | null
+  export type ProductMaxAggregateOutputType = {
+    id_Product: number | null
+    name: string | null
+    categoriaProdutos: string | null
+    sku: string | null
+    descricao: string | null
+    data_de_validade: Date | null
   }
 
-  export type VagasCountAggregateOutputType = {
-    id_vaga: number
-    id_estacionamento: number
-    status_vaga: number
+  export type ProductCountAggregateOutputType = {
+    id_Product: number
+    name: number
+    categoriaProdutos: number
+    sku: number
+    descricao: number
+    data_de_validade: number
     _all: number
   }
 
 
-  export type VagasAvgAggregateInputType = {
-    id_vaga?: true
-    id_estacionamento?: true
+  export type ProductAvgAggregateInputType = {
+    id_Product?: true
   }
 
-  export type VagasSumAggregateInputType = {
-    id_vaga?: true
-    id_estacionamento?: true
+  export type ProductSumAggregateInputType = {
+    id_Product?: true
   }
 
-  export type VagasMinAggregateInputType = {
-    id_vaga?: true
-    id_estacionamento?: true
-    status_vaga?: true
+  export type ProductMinAggregateInputType = {
+    id_Product?: true
+    name?: true
+    categoriaProdutos?: true
+    sku?: true
+    descricao?: true
+    data_de_validade?: true
   }
 
-  export type VagasMaxAggregateInputType = {
-    id_vaga?: true
-    id_estacionamento?: true
-    status_vaga?: true
+  export type ProductMaxAggregateInputType = {
+    id_Product?: true
+    name?: true
+    categoriaProdutos?: true
+    sku?: true
+    descricao?: true
+    data_de_validade?: true
   }
 
-  export type VagasCountAggregateInputType = {
-    id_vaga?: true
-    id_estacionamento?: true
-    status_vaga?: true
+  export type ProductCountAggregateInputType = {
+    id_Product?: true
+    name?: true
+    categoriaProdutos?: true
+    sku?: true
+    descricao?: true
+    data_de_validade?: true
     _all?: true
   }
 
-  export type VagasAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Vagas to aggregate.
+     * Filter which Product to aggregate.
      */
-    where?: VagasWhereInput
+    where?: ProductWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Vagases to fetch.
+     * Determine the order of Products to fetch.
      */
-    orderBy?: VagasOrderByWithRelationInput | VagasOrderByWithRelationInput[]
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: VagasWhereUniqueInput
+    cursor?: ProductWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Vagases from the position of the cursor.
+     * Take `±n` Products from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Vagases.
+     * Skip the first `n` Products.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Vagases
+     * Count returned Products
     **/
-    _count?: true | VagasCountAggregateInputType
+    _count?: true | ProductCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: VagasAvgAggregateInputType
+    _avg?: ProductAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: VagasSumAggregateInputType
+    _sum?: ProductSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: VagasMinAggregateInputType
+    _min?: ProductMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: VagasMaxAggregateInputType
+    _max?: ProductMaxAggregateInputType
   }
 
-  export type GetVagasAggregateType<T extends VagasAggregateArgs> = {
-        [P in keyof T & keyof AggregateVagas]: P extends '_count' | 'count'
+  export type GetProductAggregateType<T extends ProductAggregateArgs> = {
+        [P in keyof T & keyof AggregateProduct]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateVagas[P]>
-      : GetScalarType<T[P], AggregateVagas[P]>
+        : GetScalarType<T[P], AggregateProduct[P]>
+      : GetScalarType<T[P], AggregateProduct[P]>
   }
 
 
 
 
-  export type VagasGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VagasWhereInput
-    orderBy?: VagasOrderByWithAggregationInput | VagasOrderByWithAggregationInput[]
-    by: VagasScalarFieldEnum[] | VagasScalarFieldEnum
-    having?: VagasScalarWhereWithAggregatesInput
+  export type ProductGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithAggregationInput | ProductOrderByWithAggregationInput[]
+    by: ProductScalarFieldEnum[] | ProductScalarFieldEnum
+    having?: ProductScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: VagasCountAggregateInputType | true
-    _avg?: VagasAvgAggregateInputType
-    _sum?: VagasSumAggregateInputType
-    _min?: VagasMinAggregateInputType
-    _max?: VagasMaxAggregateInputType
+    _count?: ProductCountAggregateInputType | true
+    _avg?: ProductAvgAggregateInputType
+    _sum?: ProductSumAggregateInputType
+    _min?: ProductMinAggregateInputType
+    _max?: ProductMaxAggregateInputType
   }
 
-  export type VagasGroupByOutputType = {
-    id_vaga: number
-    id_estacionamento: number
-    status_vaga: string
-    _count: VagasCountAggregateOutputType | null
-    _avg: VagasAvgAggregateOutputType | null
-    _sum: VagasSumAggregateOutputType | null
-    _min: VagasMinAggregateOutputType | null
-    _max: VagasMaxAggregateOutputType | null
+  export type ProductGroupByOutputType = {
+    id_Product: number
+    name: string
+    categoriaProdutos: string
+    sku: string
+    descricao: string | null
+    data_de_validade: Date | null
+    _count: ProductCountAggregateOutputType | null
+    _avg: ProductAvgAggregateOutputType | null
+    _sum: ProductSumAggregateOutputType | null
+    _min: ProductMinAggregateOutputType | null
+    _max: ProductMaxAggregateOutputType | null
   }
 
-  type GetVagasGroupByPayload<T extends VagasGroupByArgs> = Prisma.PrismaPromise<
+  type GetProductGroupByPayload<T extends ProductGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<VagasGroupByOutputType, T['by']> &
+      PickEnumerable<ProductGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof VagasGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ProductGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], VagasGroupByOutputType[P]>
-            : GetScalarType<T[P], VagasGroupByOutputType[P]>
+              : GetScalarType<T[P], ProductGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type VagasSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id_vaga?: boolean
-    id_estacionamento?: boolean
-    status_vaga?: boolean
-    pagamentos?: boolean | Vagas$pagamentosArgs<ExtArgs>
-    estacionamento?: boolean | EstacionamentosDefaultArgs<ExtArgs>
-    _count?: boolean | VagasCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vagas"]>
+  export type ProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id_Product?: boolean
+    name?: boolean
+    categoriaProdutos?: boolean
+    sku?: boolean
+    descricao?: boolean
+    data_de_validade?: boolean
+    produtosEstoque?: boolean | Product$produtosEstoqueArgs<ExtArgs>
+    _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["product"]>
 
-  export type VagasSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id_vaga?: boolean
-    id_estacionamento?: boolean
-    status_vaga?: boolean
-    estacionamento?: boolean | EstacionamentosDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vagas"]>
 
-  export type VagasSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id_vaga?: boolean
-    id_estacionamento?: boolean
-    status_vaga?: boolean
-    estacionamento?: boolean | EstacionamentosDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vagas"]>
 
-  export type VagasSelectScalar = {
-    id_vaga?: boolean
-    id_estacionamento?: boolean
-    status_vaga?: boolean
+  export type ProductSelectScalar = {
+    id_Product?: boolean
+    name?: boolean
+    categoriaProdutos?: boolean
+    sku?: boolean
+    descricao?: boolean
+    data_de_validade?: boolean
   }
 
-  export type VagasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_vaga" | "id_estacionamento" | "status_vaga", ExtArgs["result"]["vagas"]>
-  export type VagasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pagamentos?: boolean | Vagas$pagamentosArgs<ExtArgs>
-    estacionamento?: boolean | EstacionamentosDefaultArgs<ExtArgs>
-    _count?: boolean | VagasCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type VagasIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    estacionamento?: boolean | EstacionamentosDefaultArgs<ExtArgs>
-  }
-  export type VagasIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    estacionamento?: boolean | EstacionamentosDefaultArgs<ExtArgs>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_Product" | "name" | "categoriaProdutos" | "sku" | "descricao" | "data_de_validade", ExtArgs["result"]["product"]>
+  export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    produtosEstoque?: boolean | Product$produtosEstoqueArgs<ExtArgs>
+    _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
 
-  export type $VagasPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Vagas"
+  export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Product"
     objects: {
-      pagamentos: Prisma.$PagamentosPayload<ExtArgs>[]
-      estacionamento: Prisma.$EstacionamentosPayload<ExtArgs>
+      produtosEstoque: Prisma.$EstoquesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id_vaga: number
-      id_estacionamento: number
-      status_vaga: string
-    }, ExtArgs["result"]["vagas"]>
+      id_Product: number
+      name: string
+      categoriaProdutos: string
+      sku: string
+      descricao: string | null
+      data_de_validade: Date | null
+    }, ExtArgs["result"]["product"]>
     composites: {}
   }
 
-  type VagasGetPayload<S extends boolean | null | undefined | VagasDefaultArgs> = $Result.GetResult<Prisma.$VagasPayload, S>
+  type ProductGetPayload<S extends boolean | null | undefined | ProductDefaultArgs> = $Result.GetResult<Prisma.$ProductPayload, S>
 
-  type VagasCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<VagasFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: VagasCountAggregateInputType | true
+  type ProductCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProductFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProductCountAggregateInputType | true
     }
 
-  export interface VagasDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vagas'], meta: { name: 'Vagas' } }
+  export interface ProductDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Product'], meta: { name: 'Product' } }
     /**
-     * Find zero or one Vagas that matches the filter.
-     * @param {VagasFindUniqueArgs} args - Arguments to find a Vagas
+     * Find zero or one Product that matches the filter.
+     * @param {ProductFindUniqueArgs} args - Arguments to find a Product
      * @example
-     * // Get one Vagas
-     * const vagas = await prisma.vagas.findUnique({
+     * // Get one Product
+     * const product = await prisma.product.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends VagasFindUniqueArgs>(args: SelectSubset<T, VagasFindUniqueArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ProductFindUniqueArgs>(args: SelectSubset<T, ProductFindUniqueArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Vagas that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Product that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {VagasFindUniqueOrThrowArgs} args - Arguments to find a Vagas
+     * @param {ProductFindUniqueOrThrowArgs} args - Arguments to find a Product
      * @example
-     * // Get one Vagas
-     * const vagas = await prisma.vagas.findUniqueOrThrow({
+     * // Get one Product
+     * const product = await prisma.product.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends VagasFindUniqueOrThrowArgs>(args: SelectSubset<T, VagasFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ProductFindUniqueOrThrowArgs>(args: SelectSubset<T, ProductFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Vagas that matches the filter.
+     * Find the first Product that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasFindFirstArgs} args - Arguments to find a Vagas
+     * @param {ProductFindFirstArgs} args - Arguments to find a Product
      * @example
-     * // Get one Vagas
-     * const vagas = await prisma.vagas.findFirst({
+     * // Get one Product
+     * const product = await prisma.product.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends VagasFindFirstArgs>(args?: SelectSubset<T, VagasFindFirstArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ProductFindFirstArgs>(args?: SelectSubset<T, ProductFindFirstArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Vagas that matches the filter or
+     * Find the first Product that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasFindFirstOrThrowArgs} args - Arguments to find a Vagas
+     * @param {ProductFindFirstOrThrowArgs} args - Arguments to find a Product
      * @example
-     * // Get one Vagas
-     * const vagas = await prisma.vagas.findFirstOrThrow({
+     * // Get one Product
+     * const product = await prisma.product.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends VagasFindFirstOrThrowArgs>(args?: SelectSubset<T, VagasFindFirstOrThrowArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ProductFindFirstOrThrowArgs>(args?: SelectSubset<T, ProductFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Vagases that matches the filter.
+     * Find zero or more Products that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ProductFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Vagases
-     * const vagases = await prisma.vagas.findMany()
+     * // Get all Products
+     * const products = await prisma.product.findMany()
      * 
-     * // Get first 10 Vagases
-     * const vagases = await prisma.vagas.findMany({ take: 10 })
+     * // Get first 10 Products
+     * const products = await prisma.product.findMany({ take: 10 })
      * 
-     * // Only select the `id_vaga`
-     * const vagasWithId_vagaOnly = await prisma.vagas.findMany({ select: { id_vaga: true } })
+     * // Only select the `id_Product`
+     * const productWithId_ProductOnly = await prisma.product.findMany({ select: { id_Product: true } })
      * 
      */
-    findMany<T extends VagasFindManyArgs>(args?: SelectSubset<T, VagasFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ProductFindManyArgs>(args?: SelectSubset<T, ProductFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Vagas.
-     * @param {VagasCreateArgs} args - Arguments to create a Vagas.
+     * Create a Product.
+     * @param {ProductCreateArgs} args - Arguments to create a Product.
      * @example
-     * // Create one Vagas
-     * const Vagas = await prisma.vagas.create({
+     * // Create one Product
+     * const Product = await prisma.product.create({
      *   data: {
-     *     // ... data to create a Vagas
+     *     // ... data to create a Product
      *   }
      * })
      * 
      */
-    create<T extends VagasCreateArgs>(args: SelectSubset<T, VagasCreateArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ProductCreateArgs>(args: SelectSubset<T, ProductCreateArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Vagases.
-     * @param {VagasCreateManyArgs} args - Arguments to create many Vagases.
+     * Create many Products.
+     * @param {ProductCreateManyArgs} args - Arguments to create many Products.
      * @example
-     * // Create many Vagases
-     * const vagas = await prisma.vagas.createMany({
+     * // Create many Products
+     * const product = await prisma.product.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends VagasCreateManyArgs>(args?: SelectSubset<T, VagasCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ProductCreateManyArgs>(args?: SelectSubset<T, ProductCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Vagases and returns the data saved in the database.
-     * @param {VagasCreateManyAndReturnArgs} args - Arguments to create many Vagases.
+     * Delete a Product.
+     * @param {ProductDeleteArgs} args - Arguments to delete one Product.
      * @example
-     * // Create many Vagases
-     * const vagas = await prisma.vagas.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Vagases and only return the `id_vaga`
-     * const vagasWithId_vagaOnly = await prisma.vagas.createManyAndReturn({
-     *   select: { id_vaga: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends VagasCreateManyAndReturnArgs>(args?: SelectSubset<T, VagasCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Vagas.
-     * @param {VagasDeleteArgs} args - Arguments to delete one Vagas.
-     * @example
-     * // Delete one Vagas
-     * const Vagas = await prisma.vagas.delete({
+     * // Delete one Product
+     * const Product = await prisma.product.delete({
      *   where: {
-     *     // ... filter to delete one Vagas
+     *     // ... filter to delete one Product
      *   }
      * })
      * 
      */
-    delete<T extends VagasDeleteArgs>(args: SelectSubset<T, VagasDeleteArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ProductDeleteArgs>(args: SelectSubset<T, ProductDeleteArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Vagas.
-     * @param {VagasUpdateArgs} args - Arguments to update one Vagas.
+     * Update one Product.
+     * @param {ProductUpdateArgs} args - Arguments to update one Product.
      * @example
-     * // Update one Vagas
-     * const vagas = await prisma.vagas.update({
+     * // Update one Product
+     * const product = await prisma.product.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3820,30 +3529,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends VagasUpdateArgs>(args: SelectSubset<T, VagasUpdateArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ProductUpdateArgs>(args: SelectSubset<T, ProductUpdateArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Vagases.
-     * @param {VagasDeleteManyArgs} args - Arguments to filter Vagases to delete.
+     * Delete zero or more Products.
+     * @param {ProductDeleteManyArgs} args - Arguments to filter Products to delete.
      * @example
-     * // Delete a few Vagases
-     * const { count } = await prisma.vagas.deleteMany({
+     * // Delete a few Products
+     * const { count } = await prisma.product.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends VagasDeleteManyArgs>(args?: SelectSubset<T, VagasDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ProductDeleteManyArgs>(args?: SelectSubset<T, ProductDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Vagases.
+     * Update zero or more Products.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ProductUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Vagases
-     * const vagas = await prisma.vagas.updateMany({
+     * // Update many Products
+     * const product = await prisma.product.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3853,86 +3562,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends VagasUpdateManyArgs>(args: SelectSubset<T, VagasUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ProductUpdateManyArgs>(args: SelectSubset<T, ProductUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Vagases and returns the data updated in the database.
-     * @param {VagasUpdateManyAndReturnArgs} args - Arguments to update many Vagases.
+     * Create or update one Product.
+     * @param {ProductUpsertArgs} args - Arguments to update or create a Product.
      * @example
-     * // Update many Vagases
-     * const vagas = await prisma.vagas.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Vagases and only return the `id_vaga`
-     * const vagasWithId_vagaOnly = await prisma.vagas.updateManyAndReturn({
-     *   select: { id_vaga: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends VagasUpdateManyAndReturnArgs>(args: SelectSubset<T, VagasUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Vagas.
-     * @param {VagasUpsertArgs} args - Arguments to update or create a Vagas.
-     * @example
-     * // Update or create a Vagas
-     * const vagas = await prisma.vagas.upsert({
+     * // Update or create a Product
+     * const product = await prisma.product.upsert({
      *   create: {
-     *     // ... data to create a Vagas
+     *     // ... data to create a Product
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Vagas we want to update
+     *     // ... the filter for the Product we want to update
      *   }
      * })
      */
-    upsert<T extends VagasUpsertArgs>(args: SelectSubset<T, VagasUpsertArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ProductUpsertArgs>(args: SelectSubset<T, ProductUpsertArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Vagases.
+     * Count the number of Products.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasCountArgs} args - Arguments to filter Vagases to count.
+     * @param {ProductCountArgs} args - Arguments to filter Products to count.
      * @example
-     * // Count the number of Vagases
-     * const count = await prisma.vagas.count({
+     * // Count the number of Products
+     * const count = await prisma.product.count({
      *   where: {
-     *     // ... the filter for the Vagases we want to count
+     *     // ... the filter for the Products we want to count
      *   }
      * })
     **/
-    count<T extends VagasCountArgs>(
-      args?: Subset<T, VagasCountArgs>,
+    count<T extends ProductCountArgs>(
+      args?: Subset<T, ProductCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], VagasCountAggregateOutputType>
+          : GetScalarType<T['select'], ProductCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Vagas.
+     * Allows you to perform aggregations operations on a Product.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ProductAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -3952,13 +3631,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends VagasAggregateArgs>(args: Subset<T, VagasAggregateArgs>): Prisma.PrismaPromise<GetVagasAggregateType<T>>
+    aggregate<T extends ProductAggregateArgs>(args: Subset<T, ProductAggregateArgs>): Prisma.PrismaPromise<GetProductAggregateType<T>>
 
     /**
-     * Group by Vagas.
+     * Group by Product.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VagasGroupByArgs} args - Group by arguments.
+     * @param {ProductGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -3973,14 +3652,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends VagasGroupByArgs,
+      T extends ProductGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: VagasGroupByArgs['orderBy'] }
-        : { orderBy?: VagasGroupByArgs['orderBy'] },
+        ? { orderBy: ProductGroupByArgs['orderBy'] }
+        : { orderBy?: ProductGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4029,23 +3708,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, VagasGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVagasGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ProductGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Vagas model
+   * Fields of the Product model
    */
-  readonly fields: VagasFieldRefs;
+  readonly fields: ProductFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Vagas.
+   * The delegate class that acts as a "Promise-like" for Product.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__VagasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    pagamentos<T extends Vagas$pagamentosArgs<ExtArgs> = {}>(args?: Subset<T, Vagas$pagamentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    estacionamento<T extends EstacionamentosDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EstacionamentosDefaultArgs<ExtArgs>>): Prisma__EstacionamentosClient<$Result.GetResult<Prisma.$EstacionamentosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    produtosEstoque<T extends Product$produtosEstoqueArgs<ExtArgs> = {}>(args?: Subset<T, Product$produtosEstoqueArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4072,901 +3750,741 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Vagas model
+   * Fields of the Product model
    */
-  interface VagasFieldRefs {
-    readonly id_vaga: FieldRef<"Vagas", 'Int'>
-    readonly id_estacionamento: FieldRef<"Vagas", 'Int'>
-    readonly status_vaga: FieldRef<"Vagas", 'String'>
+  interface ProductFieldRefs {
+    readonly id_Product: FieldRef<"Product", 'Int'>
+    readonly name: FieldRef<"Product", 'String'>
+    readonly categoriaProdutos: FieldRef<"Product", 'String'>
+    readonly sku: FieldRef<"Product", 'String'>
+    readonly descricao: FieldRef<"Product", 'String'>
+    readonly data_de_validade: FieldRef<"Product", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Vagas findUnique
+   * Product findUnique
    */
-  export type VagasFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * Filter, which Vagas to fetch.
+     * Filter, which Product to fetch.
      */
-    where: VagasWhereUniqueInput
+    where: ProductWhereUniqueInput
   }
 
   /**
-   * Vagas findUniqueOrThrow
+   * Product findUniqueOrThrow
    */
-  export type VagasFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * Filter, which Vagas to fetch.
+     * Filter, which Product to fetch.
      */
-    where: VagasWhereUniqueInput
+    where: ProductWhereUniqueInput
   }
 
   /**
-   * Vagas findFirst
+   * Product findFirst
    */
-  export type VagasFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * Filter, which Vagas to fetch.
+     * Filter, which Product to fetch.
      */
-    where?: VagasWhereInput
+    where?: ProductWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Vagases to fetch.
+     * Determine the order of Products to fetch.
      */
-    orderBy?: VagasOrderByWithRelationInput | VagasOrderByWithRelationInput[]
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Vagases.
+     * Sets the position for searching for Products.
      */
-    cursor?: VagasWhereUniqueInput
+    cursor?: ProductWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Vagases from the position of the cursor.
+     * Take `±n` Products from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Vagases.
+     * Skip the first `n` Products.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Vagases.
+     * Filter by unique combinations of Products.
      */
-    distinct?: VagasScalarFieldEnum | VagasScalarFieldEnum[]
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
   /**
-   * Vagas findFirstOrThrow
+   * Product findFirstOrThrow
    */
-  export type VagasFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * Filter, which Vagas to fetch.
+     * Filter, which Product to fetch.
      */
-    where?: VagasWhereInput
+    where?: ProductWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Vagases to fetch.
+     * Determine the order of Products to fetch.
      */
-    orderBy?: VagasOrderByWithRelationInput | VagasOrderByWithRelationInput[]
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Vagases.
+     * Sets the position for searching for Products.
      */
-    cursor?: VagasWhereUniqueInput
+    cursor?: ProductWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Vagases from the position of the cursor.
+     * Take `±n` Products from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Vagases.
+     * Skip the first `n` Products.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Vagases.
+     * Filter by unique combinations of Products.
      */
-    distinct?: VagasScalarFieldEnum | VagasScalarFieldEnum[]
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
   /**
-   * Vagas findMany
+   * Product findMany
    */
-  export type VagasFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * Filter, which Vagases to fetch.
+     * Filter, which Products to fetch.
      */
-    where?: VagasWhereInput
+    where?: ProductWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Vagases to fetch.
+     * Determine the order of Products to fetch.
      */
-    orderBy?: VagasOrderByWithRelationInput | VagasOrderByWithRelationInput[]
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Vagases.
+     * Sets the position for listing Products.
      */
-    cursor?: VagasWhereUniqueInput
+    cursor?: ProductWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Vagases from the position of the cursor.
+     * Take `±n` Products from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Vagases.
+     * Skip the first `n` Products.
      */
     skip?: number
-    distinct?: VagasScalarFieldEnum | VagasScalarFieldEnum[]
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
   /**
-   * Vagas create
+   * Product create
    */
-  export type VagasCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * The data needed to create a Vagas.
+     * The data needed to create a Product.
      */
-    data: XOR<VagasCreateInput, VagasUncheckedCreateInput>
+    data: XOR<ProductCreateInput, ProductUncheckedCreateInput>
   }
 
   /**
-   * Vagas createMany
+   * Product createMany
    */
-  export type VagasCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Vagases.
+     * The data used to create many Products.
      */
-    data: VagasCreateManyInput | VagasCreateManyInput[]
+    data: ProductCreateManyInput | ProductCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
-   * Vagas createManyAndReturn
+   * Product update
    */
-  export type VagasCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
-    /**
-     * The data used to create many Vagases.
-     */
-    data: VagasCreateManyInput | VagasCreateManyInput[]
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Product.
+     */
+    data: XOR<ProductUpdateInput, ProductUncheckedUpdateInput>
+    /**
+     * Choose, which Product to update.
+     */
+    where: ProductWhereUniqueInput
   }
 
   /**
-   * Vagas update
+   * Product updateMany
    */
-  export type VagasUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * The data used to update Products.
      */
-    select?: VagasSelect<ExtArgs> | null
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyInput>
     /**
-     * Omit specific fields from the Vagas
+     * Filter which Products to update
      */
-    omit?: VagasOmit<ExtArgs> | null
+    where?: ProductWhereInput
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VagasInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Vagas.
-     */
-    data: XOR<VagasUpdateInput, VagasUncheckedUpdateInput>
-    /**
-     * Choose, which Vagas to update.
-     */
-    where: VagasWhereUniqueInput
-  }
-
-  /**
-   * Vagas updateMany
-   */
-  export type VagasUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Vagases.
-     */
-    data: XOR<VagasUpdateManyMutationInput, VagasUncheckedUpdateManyInput>
-    /**
-     * Filter which Vagases to update
-     */
-    where?: VagasWhereInput
-    /**
-     * Limit how many Vagases to update.
+     * Limit how many Products to update.
      */
     limit?: number
   }
 
   /**
-   * Vagas updateManyAndReturn
+   * Product upsert
    */
-  export type VagasUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
-    /**
-     * The data used to update Vagases.
-     */
-    data: XOR<VagasUpdateManyMutationInput, VagasUncheckedUpdateManyInput>
-    /**
-     * Filter which Vagases to update
-     */
-    where?: VagasWhereInput
-    /**
-     * Limit how many Vagases to update.
-     */
-    limit?: number
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Product to update in case it exists.
+     */
+    where: ProductWhereUniqueInput
+    /**
+     * In case the Product found by the `where` argument doesn't exist, create a new Product with this data.
+     */
+    create: XOR<ProductCreateInput, ProductUncheckedCreateInput>
+    /**
+     * In case the Product was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProductUpdateInput, ProductUncheckedUpdateInput>
   }
 
   /**
-   * Vagas upsert
+   * Product delete
    */
-  export type VagasUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
     /**
-     * The filter to search for the Vagas to update in case it exists.
+     * Filter which Product to delete.
      */
-    where: VagasWhereUniqueInput
-    /**
-     * In case the Vagas found by the `where` argument doesn't exist, create a new Vagas with this data.
-     */
-    create: XOR<VagasCreateInput, VagasUncheckedCreateInput>
-    /**
-     * In case the Vagas was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<VagasUpdateInput, VagasUncheckedUpdateInput>
+    where: ProductWhereUniqueInput
   }
 
   /**
-   * Vagas delete
+   * Product deleteMany
    */
-  export type VagasDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Filter which Products to delete
      */
-    select?: VagasSelect<ExtArgs> | null
+    where?: ProductWhereInput
     /**
-     * Omit specific fields from the Vagas
-     */
-    omit?: VagasOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VagasInclude<ExtArgs> | null
-    /**
-     * Filter which Vagas to delete.
-     */
-    where: VagasWhereUniqueInput
-  }
-
-  /**
-   * Vagas deleteMany
-   */
-  export type VagasDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Vagases to delete
-     */
-    where?: VagasWhereInput
-    /**
-     * Limit how many Vagases to delete.
+     * Limit how many Products to delete.
      */
     limit?: number
   }
 
   /**
-   * Vagas.pagamentos
+   * Product.produtosEstoque
    */
-  export type Vagas$pagamentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Product$produtosEstoqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
-    where?: PagamentosWhereInput
-    orderBy?: PagamentosOrderByWithRelationInput | PagamentosOrderByWithRelationInput[]
-    cursor?: PagamentosWhereUniqueInput
+    include?: EstoquesInclude<ExtArgs> | null
+    where?: EstoquesWhereInput
+    orderBy?: EstoquesOrderByWithRelationInput | EstoquesOrderByWithRelationInput[]
+    cursor?: EstoquesWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: PagamentosScalarFieldEnum | PagamentosScalarFieldEnum[]
+    distinct?: EstoquesScalarFieldEnum | EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Vagas without action
+   * Product without action
    */
-  export type VagasDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vagas
+     * Select specific fields to fetch from the Product
      */
-    select?: VagasSelect<ExtArgs> | null
+    select?: ProductSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vagas
+     * Omit specific fields from the Product
      */
-    omit?: VagasOmit<ExtArgs> | null
+    omit?: ProductOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VagasInclude<ExtArgs> | null
+    include?: ProductInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model Pagamentos
+   * Model Users_Estoques
    */
 
-  export type AggregatePagamentos = {
-    _count: PagamentosCountAggregateOutputType | null
-    _avg: PagamentosAvgAggregateOutputType | null
-    _sum: PagamentosSumAggregateOutputType | null
-    _min: PagamentosMinAggregateOutputType | null
-    _max: PagamentosMaxAggregateOutputType | null
+  export type AggregateUsers_Estoques = {
+    _count: Users_EstoquesCountAggregateOutputType | null
+    _avg: Users_EstoquesAvgAggregateOutputType | null
+    _sum: Users_EstoquesSumAggregateOutputType | null
+    _min: Users_EstoquesMinAggregateOutputType | null
+    _max: Users_EstoquesMaxAggregateOutputType | null
   }
 
-  export type PagamentosAvgAggregateOutputType = {
+  export type Users_EstoquesAvgAggregateOutputType = {
     idUser: number | null
-    id_vaga: number | null
-    id_pagamento: number | null
-    valor: number | null
+    idEstoque: number | null
   }
 
-  export type PagamentosSumAggregateOutputType = {
+  export type Users_EstoquesSumAggregateOutputType = {
     idUser: number | null
-    id_vaga: number | null
-    id_pagamento: number | null
-    valor: number | null
+    idEstoque: number | null
   }
 
-  export type PagamentosMinAggregateOutputType = {
+  export type Users_EstoquesMinAggregateOutputType = {
     idUser: number | null
-    id_vaga: number | null
-    id_pagamento: number | null
-    data_inicio: Date | null
-    data_fim: Date | null
-    valor: number | null
-    status_pagamento: string | null
+    idEstoque: number | null
   }
 
-  export type PagamentosMaxAggregateOutputType = {
+  export type Users_EstoquesMaxAggregateOutputType = {
     idUser: number | null
-    id_vaga: number | null
-    id_pagamento: number | null
-    data_inicio: Date | null
-    data_fim: Date | null
-    valor: number | null
-    status_pagamento: string | null
+    idEstoque: number | null
   }
 
-  export type PagamentosCountAggregateOutputType = {
+  export type Users_EstoquesCountAggregateOutputType = {
     idUser: number
-    id_vaga: number
-    id_pagamento: number
-    data_inicio: number
-    data_fim: number
-    valor: number
-    status_pagamento: number
+    idEstoque: number
     _all: number
   }
 
 
-  export type PagamentosAvgAggregateInputType = {
+  export type Users_EstoquesAvgAggregateInputType = {
     idUser?: true
-    id_vaga?: true
-    id_pagamento?: true
-    valor?: true
+    idEstoque?: true
   }
 
-  export type PagamentosSumAggregateInputType = {
+  export type Users_EstoquesSumAggregateInputType = {
     idUser?: true
-    id_vaga?: true
-    id_pagamento?: true
-    valor?: true
+    idEstoque?: true
   }
 
-  export type PagamentosMinAggregateInputType = {
+  export type Users_EstoquesMinAggregateInputType = {
     idUser?: true
-    id_vaga?: true
-    id_pagamento?: true
-    data_inicio?: true
-    data_fim?: true
-    valor?: true
-    status_pagamento?: true
+    idEstoque?: true
   }
 
-  export type PagamentosMaxAggregateInputType = {
+  export type Users_EstoquesMaxAggregateInputType = {
     idUser?: true
-    id_vaga?: true
-    id_pagamento?: true
-    data_inicio?: true
-    data_fim?: true
-    valor?: true
-    status_pagamento?: true
+    idEstoque?: true
   }
 
-  export type PagamentosCountAggregateInputType = {
+  export type Users_EstoquesCountAggregateInputType = {
     idUser?: true
-    id_vaga?: true
-    id_pagamento?: true
-    data_inicio?: true
-    data_fim?: true
-    valor?: true
-    status_pagamento?: true
+    idEstoque?: true
     _all?: true
   }
 
-  export type PagamentosAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Pagamentos to aggregate.
+     * Filter which Users_Estoques to aggregate.
      */
-    where?: PagamentosWhereInput
+    where?: Users_EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Pagamentos to fetch.
+     * Determine the order of Users_Estoques to fetch.
      */
-    orderBy?: PagamentosOrderByWithRelationInput | PagamentosOrderByWithRelationInput[]
+    orderBy?: Users_EstoquesOrderByWithRelationInput | Users_EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: PagamentosWhereUniqueInput
+    cursor?: Users_EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Pagamentos from the position of the cursor.
+     * Take `±n` Users_Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Pagamentos.
+     * Skip the first `n` Users_Estoques.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Pagamentos
+     * Count returned Users_Estoques
     **/
-    _count?: true | PagamentosCountAggregateInputType
+    _count?: true | Users_EstoquesCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: PagamentosAvgAggregateInputType
+    _avg?: Users_EstoquesAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: PagamentosSumAggregateInputType
+    _sum?: Users_EstoquesSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: PagamentosMinAggregateInputType
+    _min?: Users_EstoquesMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: PagamentosMaxAggregateInputType
+    _max?: Users_EstoquesMaxAggregateInputType
   }
 
-  export type GetPagamentosAggregateType<T extends PagamentosAggregateArgs> = {
-        [P in keyof T & keyof AggregatePagamentos]: P extends '_count' | 'count'
+  export type GetUsers_EstoquesAggregateType<T extends Users_EstoquesAggregateArgs> = {
+        [P in keyof T & keyof AggregateUsers_Estoques]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregatePagamentos[P]>
-      : GetScalarType<T[P], AggregatePagamentos[P]>
+        : GetScalarType<T[P], AggregateUsers_Estoques[P]>
+      : GetScalarType<T[P], AggregateUsers_Estoques[P]>
   }
 
 
 
 
-  export type PagamentosGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PagamentosWhereInput
-    orderBy?: PagamentosOrderByWithAggregationInput | PagamentosOrderByWithAggregationInput[]
-    by: PagamentosScalarFieldEnum[] | PagamentosScalarFieldEnum
-    having?: PagamentosScalarWhereWithAggregatesInput
+  export type Users_EstoquesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Users_EstoquesWhereInput
+    orderBy?: Users_EstoquesOrderByWithAggregationInput | Users_EstoquesOrderByWithAggregationInput[]
+    by: Users_EstoquesScalarFieldEnum[] | Users_EstoquesScalarFieldEnum
+    having?: Users_EstoquesScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: PagamentosCountAggregateInputType | true
-    _avg?: PagamentosAvgAggregateInputType
-    _sum?: PagamentosSumAggregateInputType
-    _min?: PagamentosMinAggregateInputType
-    _max?: PagamentosMaxAggregateInputType
+    _count?: Users_EstoquesCountAggregateInputType | true
+    _avg?: Users_EstoquesAvgAggregateInputType
+    _sum?: Users_EstoquesSumAggregateInputType
+    _min?: Users_EstoquesMinAggregateInputType
+    _max?: Users_EstoquesMaxAggregateInputType
   }
 
-  export type PagamentosGroupByOutputType = {
+  export type Users_EstoquesGroupByOutputType = {
     idUser: number
-    id_vaga: number
-    id_pagamento: number
-    data_inicio: Date
-    data_fim: Date
-    valor: number
-    status_pagamento: string
-    _count: PagamentosCountAggregateOutputType | null
-    _avg: PagamentosAvgAggregateOutputType | null
-    _sum: PagamentosSumAggregateOutputType | null
-    _min: PagamentosMinAggregateOutputType | null
-    _max: PagamentosMaxAggregateOutputType | null
+    idEstoque: number
+    _count: Users_EstoquesCountAggregateOutputType | null
+    _avg: Users_EstoquesAvgAggregateOutputType | null
+    _sum: Users_EstoquesSumAggregateOutputType | null
+    _min: Users_EstoquesMinAggregateOutputType | null
+    _max: Users_EstoquesMaxAggregateOutputType | null
   }
 
-  type GetPagamentosGroupByPayload<T extends PagamentosGroupByArgs> = Prisma.PrismaPromise<
+  type GetUsers_EstoquesGroupByPayload<T extends Users_EstoquesGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<PagamentosGroupByOutputType, T['by']> &
+      PickEnumerable<Users_EstoquesGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof PagamentosGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof Users_EstoquesGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], PagamentosGroupByOutputType[P]>
-            : GetScalarType<T[P], PagamentosGroupByOutputType[P]>
+              : GetScalarType<T[P], Users_EstoquesGroupByOutputType[P]>
+            : GetScalarType<T[P], Users_EstoquesGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type PagamentosSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type Users_EstoquesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idUser?: boolean
-    id_vaga?: boolean
-    id_pagamento?: boolean
-    data_inicio?: boolean
-    data_fim?: boolean
-    valor?: boolean
-    status_pagamento?: boolean
-    Vaga?: boolean | VagasDefaultArgs<ExtArgs>
-    User?: boolean | UsersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["pagamentos"]>
+    idEstoque?: boolean
+    user_estoque?: boolean | UsersDefaultArgs<ExtArgs>
+    estoque_user?: boolean | EstoquesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["users_Estoques"]>
 
-  export type PagamentosSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idUser?: boolean
-    id_vaga?: boolean
-    id_pagamento?: boolean
-    data_inicio?: boolean
-    data_fim?: boolean
-    valor?: boolean
-    status_pagamento?: boolean
-    Vaga?: boolean | VagasDefaultArgs<ExtArgs>
-    User?: boolean | UsersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["pagamentos"]>
 
-  export type PagamentosSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idUser?: boolean
-    id_vaga?: boolean
-    id_pagamento?: boolean
-    data_inicio?: boolean
-    data_fim?: boolean
-    valor?: boolean
-    status_pagamento?: boolean
-    Vaga?: boolean | VagasDefaultArgs<ExtArgs>
-    User?: boolean | UsersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["pagamentos"]>
 
-  export type PagamentosSelectScalar = {
+  export type Users_EstoquesSelectScalar = {
     idUser?: boolean
-    id_vaga?: boolean
-    id_pagamento?: boolean
-    data_inicio?: boolean
-    data_fim?: boolean
-    valor?: boolean
-    status_pagamento?: boolean
+    idEstoque?: boolean
   }
 
-  export type PagamentosOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idUser" | "id_vaga" | "id_pagamento" | "data_inicio" | "data_fim" | "valor" | "status_pagamento", ExtArgs["result"]["pagamentos"]>
-  export type PagamentosInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Vaga?: boolean | VagasDefaultArgs<ExtArgs>
-    User?: boolean | UsersDefaultArgs<ExtArgs>
-  }
-  export type PagamentosIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Vaga?: boolean | VagasDefaultArgs<ExtArgs>
-    User?: boolean | UsersDefaultArgs<ExtArgs>
-  }
-  export type PagamentosIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Vaga?: boolean | VagasDefaultArgs<ExtArgs>
-    User?: boolean | UsersDefaultArgs<ExtArgs>
+  export type Users_EstoquesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idUser" | "idEstoque", ExtArgs["result"]["users_Estoques"]>
+  export type Users_EstoquesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user_estoque?: boolean | UsersDefaultArgs<ExtArgs>
+    estoque_user?: boolean | EstoquesDefaultArgs<ExtArgs>
   }
 
-  export type $PagamentosPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Pagamentos"
+  export type $Users_EstoquesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Users_Estoques"
     objects: {
-      Vaga: Prisma.$VagasPayload<ExtArgs>
-      User: Prisma.$UsersPayload<ExtArgs>
+      user_estoque: Prisma.$UsersPayload<ExtArgs>
+      estoque_user: Prisma.$EstoquesPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       idUser: number
-      id_vaga: number
-      id_pagamento: number
-      data_inicio: Date
-      data_fim: Date
-      valor: number
-      status_pagamento: string
-    }, ExtArgs["result"]["pagamentos"]>
+      idEstoque: number
+    }, ExtArgs["result"]["users_Estoques"]>
     composites: {}
   }
 
-  type PagamentosGetPayload<S extends boolean | null | undefined | PagamentosDefaultArgs> = $Result.GetResult<Prisma.$PagamentosPayload, S>
+  type Users_EstoquesGetPayload<S extends boolean | null | undefined | Users_EstoquesDefaultArgs> = $Result.GetResult<Prisma.$Users_EstoquesPayload, S>
 
-  type PagamentosCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PagamentosFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PagamentosCountAggregateInputType | true
+  type Users_EstoquesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<Users_EstoquesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Users_EstoquesCountAggregateInputType | true
     }
 
-  export interface PagamentosDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Pagamentos'], meta: { name: 'Pagamentos' } }
+  export interface Users_EstoquesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Users_Estoques'], meta: { name: 'Users_Estoques' } }
     /**
-     * Find zero or one Pagamentos that matches the filter.
-     * @param {PagamentosFindUniqueArgs} args - Arguments to find a Pagamentos
+     * Find zero or one Users_Estoques that matches the filter.
+     * @param {Users_EstoquesFindUniqueArgs} args - Arguments to find a Users_Estoques
      * @example
-     * // Get one Pagamentos
-     * const pagamentos = await prisma.pagamentos.findUnique({
+     * // Get one Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends PagamentosFindUniqueArgs>(args: SelectSubset<T, PagamentosFindUniqueArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends Users_EstoquesFindUniqueArgs>(args: SelectSubset<T, Users_EstoquesFindUniqueArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Pagamentos that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Users_Estoques that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {PagamentosFindUniqueOrThrowArgs} args - Arguments to find a Pagamentos
+     * @param {Users_EstoquesFindUniqueOrThrowArgs} args - Arguments to find a Users_Estoques
      * @example
-     * // Get one Pagamentos
-     * const pagamentos = await prisma.pagamentos.findUniqueOrThrow({
+     * // Get one Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends PagamentosFindUniqueOrThrowArgs>(args: SelectSubset<T, PagamentosFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends Users_EstoquesFindUniqueOrThrowArgs>(args: SelectSubset<T, Users_EstoquesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Pagamentos that matches the filter.
+     * Find the first Users_Estoques that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosFindFirstArgs} args - Arguments to find a Pagamentos
+     * @param {Users_EstoquesFindFirstArgs} args - Arguments to find a Users_Estoques
      * @example
-     * // Get one Pagamentos
-     * const pagamentos = await prisma.pagamentos.findFirst({
+     * // Get one Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends PagamentosFindFirstArgs>(args?: SelectSubset<T, PagamentosFindFirstArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends Users_EstoquesFindFirstArgs>(args?: SelectSubset<T, Users_EstoquesFindFirstArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Pagamentos that matches the filter or
+     * Find the first Users_Estoques that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosFindFirstOrThrowArgs} args - Arguments to find a Pagamentos
+     * @param {Users_EstoquesFindFirstOrThrowArgs} args - Arguments to find a Users_Estoques
      * @example
-     * // Get one Pagamentos
-     * const pagamentos = await prisma.pagamentos.findFirstOrThrow({
+     * // Get one Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends PagamentosFindFirstOrThrowArgs>(args?: SelectSubset<T, PagamentosFindFirstOrThrowArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends Users_EstoquesFindFirstOrThrowArgs>(args?: SelectSubset<T, Users_EstoquesFindFirstOrThrowArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Pagamentos that matches the filter.
+     * Find zero or more Users_Estoques that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {Users_EstoquesFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Pagamentos
-     * const pagamentos = await prisma.pagamentos.findMany()
+     * // Get all Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.findMany()
      * 
-     * // Get first 10 Pagamentos
-     * const pagamentos = await prisma.pagamentos.findMany({ take: 10 })
+     * // Get first 10 Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.findMany({ take: 10 })
      * 
      * // Only select the `idUser`
-     * const pagamentosWithIdUserOnly = await prisma.pagamentos.findMany({ select: { idUser: true } })
+     * const users_EstoquesWithIdUserOnly = await prisma.users_Estoques.findMany({ select: { idUser: true } })
      * 
      */
-    findMany<T extends PagamentosFindManyArgs>(args?: SelectSubset<T, PagamentosFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends Users_EstoquesFindManyArgs>(args?: SelectSubset<T, Users_EstoquesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Pagamentos.
-     * @param {PagamentosCreateArgs} args - Arguments to create a Pagamentos.
+     * Create a Users_Estoques.
+     * @param {Users_EstoquesCreateArgs} args - Arguments to create a Users_Estoques.
      * @example
-     * // Create one Pagamentos
-     * const Pagamentos = await prisma.pagamentos.create({
+     * // Create one Users_Estoques
+     * const Users_Estoques = await prisma.users_Estoques.create({
      *   data: {
-     *     // ... data to create a Pagamentos
+     *     // ... data to create a Users_Estoques
      *   }
      * })
      * 
      */
-    create<T extends PagamentosCreateArgs>(args: SelectSubset<T, PagamentosCreateArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends Users_EstoquesCreateArgs>(args: SelectSubset<T, Users_EstoquesCreateArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Pagamentos.
-     * @param {PagamentosCreateManyArgs} args - Arguments to create many Pagamentos.
+     * Create many Users_Estoques.
+     * @param {Users_EstoquesCreateManyArgs} args - Arguments to create many Users_Estoques.
      * @example
-     * // Create many Pagamentos
-     * const pagamentos = await prisma.pagamentos.createMany({
+     * // Create many Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends PagamentosCreateManyArgs>(args?: SelectSubset<T, PagamentosCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends Users_EstoquesCreateManyArgs>(args?: SelectSubset<T, Users_EstoquesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Pagamentos and returns the data saved in the database.
-     * @param {PagamentosCreateManyAndReturnArgs} args - Arguments to create many Pagamentos.
+     * Delete a Users_Estoques.
+     * @param {Users_EstoquesDeleteArgs} args - Arguments to delete one Users_Estoques.
      * @example
-     * // Create many Pagamentos
-     * const pagamentos = await prisma.pagamentos.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Pagamentos and only return the `idUser`
-     * const pagamentosWithIdUserOnly = await prisma.pagamentos.createManyAndReturn({
-     *   select: { idUser: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends PagamentosCreateManyAndReturnArgs>(args?: SelectSubset<T, PagamentosCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Pagamentos.
-     * @param {PagamentosDeleteArgs} args - Arguments to delete one Pagamentos.
-     * @example
-     * // Delete one Pagamentos
-     * const Pagamentos = await prisma.pagamentos.delete({
+     * // Delete one Users_Estoques
+     * const Users_Estoques = await prisma.users_Estoques.delete({
      *   where: {
-     *     // ... filter to delete one Pagamentos
+     *     // ... filter to delete one Users_Estoques
      *   }
      * })
      * 
      */
-    delete<T extends PagamentosDeleteArgs>(args: SelectSubset<T, PagamentosDeleteArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends Users_EstoquesDeleteArgs>(args: SelectSubset<T, Users_EstoquesDeleteArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Pagamentos.
-     * @param {PagamentosUpdateArgs} args - Arguments to update one Pagamentos.
+     * Update one Users_Estoques.
+     * @param {Users_EstoquesUpdateArgs} args - Arguments to update one Users_Estoques.
      * @example
-     * // Update one Pagamentos
-     * const pagamentos = await prisma.pagamentos.update({
+     * // Update one Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4976,30 +4494,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends PagamentosUpdateArgs>(args: SelectSubset<T, PagamentosUpdateArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends Users_EstoquesUpdateArgs>(args: SelectSubset<T, Users_EstoquesUpdateArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Pagamentos.
-     * @param {PagamentosDeleteManyArgs} args - Arguments to filter Pagamentos to delete.
+     * Delete zero or more Users_Estoques.
+     * @param {Users_EstoquesDeleteManyArgs} args - Arguments to filter Users_Estoques to delete.
      * @example
-     * // Delete a few Pagamentos
-     * const { count } = await prisma.pagamentos.deleteMany({
+     * // Delete a few Users_Estoques
+     * const { count } = await prisma.users_Estoques.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends PagamentosDeleteManyArgs>(args?: SelectSubset<T, PagamentosDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends Users_EstoquesDeleteManyArgs>(args?: SelectSubset<T, Users_EstoquesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Pagamentos.
+     * Update zero or more Users_Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {Users_EstoquesUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Pagamentos
-     * const pagamentos = await prisma.pagamentos.updateMany({
+     * // Update many Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5009,86 +4527,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends PagamentosUpdateManyArgs>(args: SelectSubset<T, PagamentosUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends Users_EstoquesUpdateManyArgs>(args: SelectSubset<T, Users_EstoquesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Pagamentos and returns the data updated in the database.
-     * @param {PagamentosUpdateManyAndReturnArgs} args - Arguments to update many Pagamentos.
+     * Create or update one Users_Estoques.
+     * @param {Users_EstoquesUpsertArgs} args - Arguments to update or create a Users_Estoques.
      * @example
-     * // Update many Pagamentos
-     * const pagamentos = await prisma.pagamentos.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Pagamentos and only return the `idUser`
-     * const pagamentosWithIdUserOnly = await prisma.pagamentos.updateManyAndReturn({
-     *   select: { idUser: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends PagamentosUpdateManyAndReturnArgs>(args: SelectSubset<T, PagamentosUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Pagamentos.
-     * @param {PagamentosUpsertArgs} args - Arguments to update or create a Pagamentos.
-     * @example
-     * // Update or create a Pagamentos
-     * const pagamentos = await prisma.pagamentos.upsert({
+     * // Update or create a Users_Estoques
+     * const users_Estoques = await prisma.users_Estoques.upsert({
      *   create: {
-     *     // ... data to create a Pagamentos
+     *     // ... data to create a Users_Estoques
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Pagamentos we want to update
+     *     // ... the filter for the Users_Estoques we want to update
      *   }
      * })
      */
-    upsert<T extends PagamentosUpsertArgs>(args: SelectSubset<T, PagamentosUpsertArgs<ExtArgs>>): Prisma__PagamentosClient<$Result.GetResult<Prisma.$PagamentosPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends Users_EstoquesUpsertArgs>(args: SelectSubset<T, Users_EstoquesUpsertArgs<ExtArgs>>): Prisma__Users_EstoquesClient<$Result.GetResult<Prisma.$Users_EstoquesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Pagamentos.
+     * Count the number of Users_Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosCountArgs} args - Arguments to filter Pagamentos to count.
+     * @param {Users_EstoquesCountArgs} args - Arguments to filter Users_Estoques to count.
      * @example
-     * // Count the number of Pagamentos
-     * const count = await prisma.pagamentos.count({
+     * // Count the number of Users_Estoques
+     * const count = await prisma.users_Estoques.count({
      *   where: {
-     *     // ... the filter for the Pagamentos we want to count
+     *     // ... the filter for the Users_Estoques we want to count
      *   }
      * })
     **/
-    count<T extends PagamentosCountArgs>(
-      args?: Subset<T, PagamentosCountArgs>,
+    count<T extends Users_EstoquesCountArgs>(
+      args?: Subset<T, Users_EstoquesCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], PagamentosCountAggregateOutputType>
+          : GetScalarType<T['select'], Users_EstoquesCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Pagamentos.
+     * Allows you to perform aggregations operations on a Users_Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {Users_EstoquesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5108,13 +4596,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PagamentosAggregateArgs>(args: Subset<T, PagamentosAggregateArgs>): Prisma.PrismaPromise<GetPagamentosAggregateType<T>>
+    aggregate<T extends Users_EstoquesAggregateArgs>(args: Subset<T, Users_EstoquesAggregateArgs>): Prisma.PrismaPromise<GetUsers_EstoquesAggregateType<T>>
 
     /**
-     * Group by Pagamentos.
+     * Group by Users_Estoques.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PagamentosGroupByArgs} args - Group by arguments.
+     * @param {Users_EstoquesGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5129,14 +4617,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends PagamentosGroupByArgs,
+      T extends Users_EstoquesGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PagamentosGroupByArgs['orderBy'] }
-        : { orderBy?: PagamentosGroupByArgs['orderBy'] },
+        ? { orderBy: Users_EstoquesGroupByArgs['orderBy'] }
+        : { orderBy?: Users_EstoquesGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5185,23 +4673,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PagamentosGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPagamentosGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, Users_EstoquesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUsers_EstoquesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Pagamentos model
+   * Fields of the Users_Estoques model
    */
-  readonly fields: PagamentosFieldRefs;
+  readonly fields: Users_EstoquesFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Pagamentos.
+   * The delegate class that acts as a "Promise-like" for Users_Estoques.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__PagamentosClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__Users_EstoquesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Vaga<T extends VagasDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VagasDefaultArgs<ExtArgs>>): Prisma__VagasClient<$Result.GetResult<Prisma.$VagasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    User<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user_estoque<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    estoque_user<T extends EstoquesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EstoquesDefaultArgs<ExtArgs>>): Prisma__EstoquesClient<$Result.GetResult<Prisma.$EstoquesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5228,425 +4716,369 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Pagamentos model
+   * Fields of the Users_Estoques model
    */
-  interface PagamentosFieldRefs {
-    readonly idUser: FieldRef<"Pagamentos", 'Int'>
-    readonly id_vaga: FieldRef<"Pagamentos", 'Int'>
-    readonly id_pagamento: FieldRef<"Pagamentos", 'Int'>
-    readonly data_inicio: FieldRef<"Pagamentos", 'DateTime'>
-    readonly data_fim: FieldRef<"Pagamentos", 'DateTime'>
-    readonly valor: FieldRef<"Pagamentos", 'Float'>
-    readonly status_pagamento: FieldRef<"Pagamentos", 'String'>
+  interface Users_EstoquesFieldRefs {
+    readonly idUser: FieldRef<"Users_Estoques", 'Int'>
+    readonly idEstoque: FieldRef<"Users_Estoques", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * Pagamentos findUnique
+   * Users_Estoques findUnique
    */
-  export type PagamentosFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Pagamentos to fetch.
+     * Filter, which Users_Estoques to fetch.
      */
-    where: PagamentosWhereUniqueInput
+    where: Users_EstoquesWhereUniqueInput
   }
 
   /**
-   * Pagamentos findUniqueOrThrow
+   * Users_Estoques findUniqueOrThrow
    */
-  export type PagamentosFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Pagamentos to fetch.
+     * Filter, which Users_Estoques to fetch.
      */
-    where: PagamentosWhereUniqueInput
+    where: Users_EstoquesWhereUniqueInput
   }
 
   /**
-   * Pagamentos findFirst
+   * Users_Estoques findFirst
    */
-  export type PagamentosFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Pagamentos to fetch.
+     * Filter, which Users_Estoques to fetch.
      */
-    where?: PagamentosWhereInput
+    where?: Users_EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Pagamentos to fetch.
+     * Determine the order of Users_Estoques to fetch.
      */
-    orderBy?: PagamentosOrderByWithRelationInput | PagamentosOrderByWithRelationInput[]
+    orderBy?: Users_EstoquesOrderByWithRelationInput | Users_EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Pagamentos.
+     * Sets the position for searching for Users_Estoques.
      */
-    cursor?: PagamentosWhereUniqueInput
+    cursor?: Users_EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Pagamentos from the position of the cursor.
+     * Take `±n` Users_Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Pagamentos.
+     * Skip the first `n` Users_Estoques.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Pagamentos.
+     * Filter by unique combinations of Users_Estoques.
      */
-    distinct?: PagamentosScalarFieldEnum | PagamentosScalarFieldEnum[]
+    distinct?: Users_EstoquesScalarFieldEnum | Users_EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Pagamentos findFirstOrThrow
+   * Users_Estoques findFirstOrThrow
    */
-  export type PagamentosFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Pagamentos to fetch.
+     * Filter, which Users_Estoques to fetch.
      */
-    where?: PagamentosWhereInput
+    where?: Users_EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Pagamentos to fetch.
+     * Determine the order of Users_Estoques to fetch.
      */
-    orderBy?: PagamentosOrderByWithRelationInput | PagamentosOrderByWithRelationInput[]
+    orderBy?: Users_EstoquesOrderByWithRelationInput | Users_EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Pagamentos.
+     * Sets the position for searching for Users_Estoques.
      */
-    cursor?: PagamentosWhereUniqueInput
+    cursor?: Users_EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Pagamentos from the position of the cursor.
+     * Take `±n` Users_Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Pagamentos.
+     * Skip the first `n` Users_Estoques.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Pagamentos.
+     * Filter by unique combinations of Users_Estoques.
      */
-    distinct?: PagamentosScalarFieldEnum | PagamentosScalarFieldEnum[]
+    distinct?: Users_EstoquesScalarFieldEnum | Users_EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Pagamentos findMany
+   * Users_Estoques findMany
    */
-  export type PagamentosFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * Filter, which Pagamentos to fetch.
+     * Filter, which Users_Estoques to fetch.
      */
-    where?: PagamentosWhereInput
+    where?: Users_EstoquesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Pagamentos to fetch.
+     * Determine the order of Users_Estoques to fetch.
      */
-    orderBy?: PagamentosOrderByWithRelationInput | PagamentosOrderByWithRelationInput[]
+    orderBy?: Users_EstoquesOrderByWithRelationInput | Users_EstoquesOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Pagamentos.
+     * Sets the position for listing Users_Estoques.
      */
-    cursor?: PagamentosWhereUniqueInput
+    cursor?: Users_EstoquesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Pagamentos from the position of the cursor.
+     * Take `±n` Users_Estoques from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Pagamentos.
+     * Skip the first `n` Users_Estoques.
      */
     skip?: number
-    distinct?: PagamentosScalarFieldEnum | PagamentosScalarFieldEnum[]
+    distinct?: Users_EstoquesScalarFieldEnum | Users_EstoquesScalarFieldEnum[]
   }
 
   /**
-   * Pagamentos create
+   * Users_Estoques create
    */
-  export type PagamentosCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * The data needed to create a Pagamentos.
+     * The data needed to create a Users_Estoques.
      */
-    data: XOR<PagamentosCreateInput, PagamentosUncheckedCreateInput>
+    data: XOR<Users_EstoquesCreateInput, Users_EstoquesUncheckedCreateInput>
   }
 
   /**
-   * Pagamentos createMany
+   * Users_Estoques createMany
    */
-  export type PagamentosCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Pagamentos.
+     * The data used to create many Users_Estoques.
      */
-    data: PagamentosCreateManyInput | PagamentosCreateManyInput[]
+    data: Users_EstoquesCreateManyInput | Users_EstoquesCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
-   * Pagamentos createManyAndReturn
+   * Users_Estoques update
    */
-  export type PagamentosCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelectCreateManyAndReturn<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
-    /**
-     * The data used to create many Pagamentos.
-     */
-    data: PagamentosCreateManyInput | PagamentosCreateManyInput[]
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Users_Estoques.
+     */
+    data: XOR<Users_EstoquesUpdateInput, Users_EstoquesUncheckedUpdateInput>
+    /**
+     * Choose, which Users_Estoques to update.
+     */
+    where: Users_EstoquesWhereUniqueInput
   }
 
   /**
-   * Pagamentos update
+   * Users_Estoques updateMany
    */
-  export type PagamentosUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * The data used to update Users_Estoques.
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    data: XOR<Users_EstoquesUpdateManyMutationInput, Users_EstoquesUncheckedUpdateManyInput>
     /**
-     * Omit specific fields from the Pagamentos
+     * Filter which Users_Estoques to update
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    where?: Users_EstoquesWhereInput
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PagamentosInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Pagamentos.
-     */
-    data: XOR<PagamentosUpdateInput, PagamentosUncheckedUpdateInput>
-    /**
-     * Choose, which Pagamentos to update.
-     */
-    where: PagamentosWhereUniqueInput
-  }
-
-  /**
-   * Pagamentos updateMany
-   */
-  export type PagamentosUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Pagamentos.
-     */
-    data: XOR<PagamentosUpdateManyMutationInput, PagamentosUncheckedUpdateManyInput>
-    /**
-     * Filter which Pagamentos to update
-     */
-    where?: PagamentosWhereInput
-    /**
-     * Limit how many Pagamentos to update.
+     * Limit how many Users_Estoques to update.
      */
     limit?: number
   }
 
   /**
-   * Pagamentos updateManyAndReturn
+   * Users_Estoques upsert
    */
-  export type PagamentosUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
-    /**
-     * The data used to update Pagamentos.
-     */
-    data: XOR<PagamentosUpdateManyMutationInput, PagamentosUncheckedUpdateManyInput>
-    /**
-     * Filter which Pagamentos to update
-     */
-    where?: PagamentosWhereInput
-    /**
-     * Limit how many Pagamentos to update.
-     */
-    limit?: number
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Users_Estoques to update in case it exists.
+     */
+    where: Users_EstoquesWhereUniqueInput
+    /**
+     * In case the Users_Estoques found by the `where` argument doesn't exist, create a new Users_Estoques with this data.
+     */
+    create: XOR<Users_EstoquesCreateInput, Users_EstoquesUncheckedCreateInput>
+    /**
+     * In case the Users_Estoques was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<Users_EstoquesUpdateInput, Users_EstoquesUncheckedUpdateInput>
   }
 
   /**
-   * Pagamentos upsert
+   * Users_Estoques delete
    */
-  export type PagamentosUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
     /**
-     * The filter to search for the Pagamentos to update in case it exists.
+     * Filter which Users_Estoques to delete.
      */
-    where: PagamentosWhereUniqueInput
-    /**
-     * In case the Pagamentos found by the `where` argument doesn't exist, create a new Pagamentos with this data.
-     */
-    create: XOR<PagamentosCreateInput, PagamentosUncheckedCreateInput>
-    /**
-     * In case the Pagamentos was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PagamentosUpdateInput, PagamentosUncheckedUpdateInput>
+    where: Users_EstoquesWhereUniqueInput
   }
 
   /**
-   * Pagamentos delete
+   * Users_Estoques deleteMany
    */
-  export type PagamentosDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Filter which Users_Estoques to delete
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    where?: Users_EstoquesWhereInput
     /**
-     * Omit specific fields from the Pagamentos
-     */
-    omit?: PagamentosOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PagamentosInclude<ExtArgs> | null
-    /**
-     * Filter which Pagamentos to delete.
-     */
-    where: PagamentosWhereUniqueInput
-  }
-
-  /**
-   * Pagamentos deleteMany
-   */
-  export type PagamentosDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Pagamentos to delete
-     */
-    where?: PagamentosWhereInput
-    /**
-     * Limit how many Pagamentos to delete.
+     * Limit how many Users_Estoques to delete.
      */
     limit?: number
   }
 
   /**
-   * Pagamentos without action
+   * Users_Estoques without action
    */
-  export type PagamentosDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users_EstoquesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Pagamentos
+     * Select specific fields to fetch from the Users_Estoques
      */
-    select?: PagamentosSelect<ExtArgs> | null
+    select?: Users_EstoquesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Pagamentos
+     * Omit specific fields from the Users_Estoques
      */
-    omit?: PagamentosOmit<ExtArgs> | null
+    omit?: Users_EstoquesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PagamentosInclude<ExtArgs> | null
+    include?: Users_EstoquesInclude<ExtArgs> | null
   }
 
 
@@ -5655,6 +5087,9 @@ export namespace Prisma {
    */
 
   export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
   };
 
@@ -5671,36 +5106,32 @@ export namespace Prisma {
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
 
 
-  export const EstacionamentosScalarFieldEnum: {
-    id_estacionamento: 'id_estacionamento',
-    nome: 'nome',
-    endereco: 'endereco',
-    qtd_vagas: 'qtd_vagas'
+  export const EstoquesScalarFieldEnum: {
+    idEstoque: 'idEstoque',
+    id_Product: 'id_Product'
   };
 
-  export type EstacionamentosScalarFieldEnum = (typeof EstacionamentosScalarFieldEnum)[keyof typeof EstacionamentosScalarFieldEnum]
+  export type EstoquesScalarFieldEnum = (typeof EstoquesScalarFieldEnum)[keyof typeof EstoquesScalarFieldEnum]
 
 
-  export const VagasScalarFieldEnum: {
-    id_vaga: 'id_vaga',
-    id_estacionamento: 'id_estacionamento',
-    status_vaga: 'status_vaga'
+  export const ProductScalarFieldEnum: {
+    id_Product: 'id_Product',
+    name: 'name',
+    categoriaProdutos: 'categoriaProdutos',
+    sku: 'sku',
+    descricao: 'descricao',
+    data_de_validade: 'data_de_validade'
   };
 
-  export type VagasScalarFieldEnum = (typeof VagasScalarFieldEnum)[keyof typeof VagasScalarFieldEnum]
+  export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
-  export const PagamentosScalarFieldEnum: {
+  export const Users_EstoquesScalarFieldEnum: {
     idUser: 'idUser',
-    id_vaga: 'id_vaga',
-    id_pagamento: 'id_pagamento',
-    data_inicio: 'data_inicio',
-    data_fim: 'data_fim',
-    valor: 'valor',
-    status_pagamento: 'status_pagamento'
+    idEstoque: 'idEstoque'
   };
 
-  export type PagamentosScalarFieldEnum = (typeof PagamentosScalarFieldEnum)[keyof typeof PagamentosScalarFieldEnum]
+  export type Users_EstoquesScalarFieldEnum = (typeof Users_EstoquesScalarFieldEnum)[keyof typeof Users_EstoquesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5709,6 +5140,33 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const UsersOrderByRelevanceFieldEnum: {
+    email: 'email',
+    name: 'name',
+    password: 'password'
+  };
+
+  export type UsersOrderByRelevanceFieldEnum = (typeof UsersOrderByRelevanceFieldEnum)[keyof typeof UsersOrderByRelevanceFieldEnum]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const ProductOrderByRelevanceFieldEnum: {
+    name: 'name',
+    categoriaProdutos: 'categoriaProdutos',
+    sku: 'sku',
+    descricao: 'descricao'
+  };
+
+  export type ProductOrderByRelevanceFieldEnum = (typeof ProductOrderByRelevanceFieldEnum)[keyof typeof ProductOrderByRelevanceFieldEnum]
 
 
   /**
@@ -5755,7 +5213,7 @@ export namespace Prisma {
     email?: StringFilter<"Users"> | string
     name?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
-    pagamentos?: PagamentosListRelationFilter
+    userEstoques?: Users_EstoquesListRelationFilter
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -5763,7 +5221,8 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     password?: SortOrder
-    pagamentos?: PagamentosOrderByRelationAggregateInput
+    userEstoques?: Users_EstoquesOrderByRelationAggregateInput
+    _relevance?: UsersOrderByRelevanceInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -5774,7 +5233,7 @@ export namespace Prisma {
     NOT?: UsersWhereInput | UsersWhereInput[]
     name?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
-    pagamentos?: PagamentosListRelationFilter
+    userEstoques?: Users_EstoquesListRelationFilter
   }, "idUser" | "email">
 
   export type UsersOrderByWithAggregationInput = {
@@ -5799,183 +5258,164 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"Users"> | string
   }
 
-  export type EstacionamentosWhereInput = {
-    AND?: EstacionamentosWhereInput | EstacionamentosWhereInput[]
-    OR?: EstacionamentosWhereInput[]
-    NOT?: EstacionamentosWhereInput | EstacionamentosWhereInput[]
-    id_estacionamento?: IntFilter<"Estacionamentos"> | number
-    nome?: StringFilter<"Estacionamentos"> | string
-    endereco?: StringFilter<"Estacionamentos"> | string
-    qtd_vagas?: IntFilter<"Estacionamentos"> | number
-    vagas?: VagasListRelationFilter
+  export type EstoquesWhereInput = {
+    AND?: EstoquesWhereInput | EstoquesWhereInput[]
+    OR?: EstoquesWhereInput[]
+    NOT?: EstoquesWhereInput | EstoquesWhereInput[]
+    idEstoque?: IntFilter<"Estoques"> | number
+    id_Product?: IntFilter<"Estoques"> | number
+    produto?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    estoqueUsers?: Users_EstoquesListRelationFilter
   }
 
-  export type EstacionamentosOrderByWithRelationInput = {
-    id_estacionamento?: SortOrder
-    nome?: SortOrder
-    endereco?: SortOrder
-    qtd_vagas?: SortOrder
-    vagas?: VagasOrderByRelationAggregateInput
+  export type EstoquesOrderByWithRelationInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
+    produto?: ProductOrderByWithRelationInput
+    estoqueUsers?: Users_EstoquesOrderByRelationAggregateInput
   }
 
-  export type EstacionamentosWhereUniqueInput = Prisma.AtLeast<{
-    id_estacionamento?: number
-    AND?: EstacionamentosWhereInput | EstacionamentosWhereInput[]
-    OR?: EstacionamentosWhereInput[]
-    NOT?: EstacionamentosWhereInput | EstacionamentosWhereInput[]
-    nome?: StringFilter<"Estacionamentos"> | string
-    endereco?: StringFilter<"Estacionamentos"> | string
-    qtd_vagas?: IntFilter<"Estacionamentos"> | number
-    vagas?: VagasListRelationFilter
-  }, "id_estacionamento">
+  export type EstoquesWhereUniqueInput = Prisma.AtLeast<{
+    idEstoque?: number
+    AND?: EstoquesWhereInput | EstoquesWhereInput[]
+    OR?: EstoquesWhereInput[]
+    NOT?: EstoquesWhereInput | EstoquesWhereInput[]
+    id_Product?: IntFilter<"Estoques"> | number
+    produto?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    estoqueUsers?: Users_EstoquesListRelationFilter
+  }, "idEstoque">
 
-  export type EstacionamentosOrderByWithAggregationInput = {
-    id_estacionamento?: SortOrder
-    nome?: SortOrder
-    endereco?: SortOrder
-    qtd_vagas?: SortOrder
-    _count?: EstacionamentosCountOrderByAggregateInput
-    _avg?: EstacionamentosAvgOrderByAggregateInput
-    _max?: EstacionamentosMaxOrderByAggregateInput
-    _min?: EstacionamentosMinOrderByAggregateInput
-    _sum?: EstacionamentosSumOrderByAggregateInput
+  export type EstoquesOrderByWithAggregationInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
+    _count?: EstoquesCountOrderByAggregateInput
+    _avg?: EstoquesAvgOrderByAggregateInput
+    _max?: EstoquesMaxOrderByAggregateInput
+    _min?: EstoquesMinOrderByAggregateInput
+    _sum?: EstoquesSumOrderByAggregateInput
   }
 
-  export type EstacionamentosScalarWhereWithAggregatesInput = {
-    AND?: EstacionamentosScalarWhereWithAggregatesInput | EstacionamentosScalarWhereWithAggregatesInput[]
-    OR?: EstacionamentosScalarWhereWithAggregatesInput[]
-    NOT?: EstacionamentosScalarWhereWithAggregatesInput | EstacionamentosScalarWhereWithAggregatesInput[]
-    id_estacionamento?: IntWithAggregatesFilter<"Estacionamentos"> | number
-    nome?: StringWithAggregatesFilter<"Estacionamentos"> | string
-    endereco?: StringWithAggregatesFilter<"Estacionamentos"> | string
-    qtd_vagas?: IntWithAggregatesFilter<"Estacionamentos"> | number
+  export type EstoquesScalarWhereWithAggregatesInput = {
+    AND?: EstoquesScalarWhereWithAggregatesInput | EstoquesScalarWhereWithAggregatesInput[]
+    OR?: EstoquesScalarWhereWithAggregatesInput[]
+    NOT?: EstoquesScalarWhereWithAggregatesInput | EstoquesScalarWhereWithAggregatesInput[]
+    idEstoque?: IntWithAggregatesFilter<"Estoques"> | number
+    id_Product?: IntWithAggregatesFilter<"Estoques"> | number
   }
 
-  export type VagasWhereInput = {
-    AND?: VagasWhereInput | VagasWhereInput[]
-    OR?: VagasWhereInput[]
-    NOT?: VagasWhereInput | VagasWhereInput[]
-    id_vaga?: IntFilter<"Vagas"> | number
-    id_estacionamento?: IntFilter<"Vagas"> | number
-    status_vaga?: StringFilter<"Vagas"> | string
-    pagamentos?: PagamentosListRelationFilter
-    estacionamento?: XOR<EstacionamentosScalarRelationFilter, EstacionamentosWhereInput>
+  export type ProductWhereInput = {
+    AND?: ProductWhereInput | ProductWhereInput[]
+    OR?: ProductWhereInput[]
+    NOT?: ProductWhereInput | ProductWhereInput[]
+    id_Product?: IntFilter<"Product"> | number
+    name?: StringFilter<"Product"> | string
+    categoriaProdutos?: StringFilter<"Product"> | string
+    sku?: StringFilter<"Product"> | string
+    descricao?: StringNullableFilter<"Product"> | string | null
+    data_de_validade?: DateTimeNullableFilter<"Product"> | Date | string | null
+    produtosEstoque?: EstoquesListRelationFilter
   }
 
-  export type VagasOrderByWithRelationInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-    status_vaga?: SortOrder
-    pagamentos?: PagamentosOrderByRelationAggregateInput
-    estacionamento?: EstacionamentosOrderByWithRelationInput
+  export type ProductOrderByWithRelationInput = {
+    id_Product?: SortOrder
+    name?: SortOrder
+    categoriaProdutos?: SortOrder
+    sku?: SortOrder
+    descricao?: SortOrderInput | SortOrder
+    data_de_validade?: SortOrderInput | SortOrder
+    produtosEstoque?: EstoquesOrderByRelationAggregateInput
+    _relevance?: ProductOrderByRelevanceInput
   }
 
-  export type VagasWhereUniqueInput = Prisma.AtLeast<{
-    id_vaga?: number
-    AND?: VagasWhereInput | VagasWhereInput[]
-    OR?: VagasWhereInput[]
-    NOT?: VagasWhereInput | VagasWhereInput[]
-    id_estacionamento?: IntFilter<"Vagas"> | number
-    status_vaga?: StringFilter<"Vagas"> | string
-    pagamentos?: PagamentosListRelationFilter
-    estacionamento?: XOR<EstacionamentosScalarRelationFilter, EstacionamentosWhereInput>
-  }, "id_vaga">
+  export type ProductWhereUniqueInput = Prisma.AtLeast<{
+    id_Product?: number
+    sku?: string
+    AND?: ProductWhereInput | ProductWhereInput[]
+    OR?: ProductWhereInput[]
+    NOT?: ProductWhereInput | ProductWhereInput[]
+    name?: StringFilter<"Product"> | string
+    categoriaProdutos?: StringFilter<"Product"> | string
+    descricao?: StringNullableFilter<"Product"> | string | null
+    data_de_validade?: DateTimeNullableFilter<"Product"> | Date | string | null
+    produtosEstoque?: EstoquesListRelationFilter
+  }, "id_Product" | "sku">
 
-  export type VagasOrderByWithAggregationInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-    status_vaga?: SortOrder
-    _count?: VagasCountOrderByAggregateInput
-    _avg?: VagasAvgOrderByAggregateInput
-    _max?: VagasMaxOrderByAggregateInput
-    _min?: VagasMinOrderByAggregateInput
-    _sum?: VagasSumOrderByAggregateInput
+  export type ProductOrderByWithAggregationInput = {
+    id_Product?: SortOrder
+    name?: SortOrder
+    categoriaProdutos?: SortOrder
+    sku?: SortOrder
+    descricao?: SortOrderInput | SortOrder
+    data_de_validade?: SortOrderInput | SortOrder
+    _count?: ProductCountOrderByAggregateInput
+    _avg?: ProductAvgOrderByAggregateInput
+    _max?: ProductMaxOrderByAggregateInput
+    _min?: ProductMinOrderByAggregateInput
+    _sum?: ProductSumOrderByAggregateInput
   }
 
-  export type VagasScalarWhereWithAggregatesInput = {
-    AND?: VagasScalarWhereWithAggregatesInput | VagasScalarWhereWithAggregatesInput[]
-    OR?: VagasScalarWhereWithAggregatesInput[]
-    NOT?: VagasScalarWhereWithAggregatesInput | VagasScalarWhereWithAggregatesInput[]
-    id_vaga?: IntWithAggregatesFilter<"Vagas"> | number
-    id_estacionamento?: IntWithAggregatesFilter<"Vagas"> | number
-    status_vaga?: StringWithAggregatesFilter<"Vagas"> | string
+  export type ProductScalarWhereWithAggregatesInput = {
+    AND?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
+    OR?: ProductScalarWhereWithAggregatesInput[]
+    NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
+    id_Product?: IntWithAggregatesFilter<"Product"> | number
+    name?: StringWithAggregatesFilter<"Product"> | string
+    categoriaProdutos?: StringWithAggregatesFilter<"Product"> | string
+    sku?: StringWithAggregatesFilter<"Product"> | string
+    descricao?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    data_de_validade?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
   }
 
-  export type PagamentosWhereInput = {
-    AND?: PagamentosWhereInput | PagamentosWhereInput[]
-    OR?: PagamentosWhereInput[]
-    NOT?: PagamentosWhereInput | PagamentosWhereInput[]
-    idUser?: IntFilter<"Pagamentos"> | number
-    id_vaga?: IntFilter<"Pagamentos"> | number
-    id_pagamento?: IntFilter<"Pagamentos"> | number
-    data_inicio?: DateTimeFilter<"Pagamentos"> | Date | string
-    data_fim?: DateTimeFilter<"Pagamentos"> | Date | string
-    valor?: FloatFilter<"Pagamentos"> | number
-    status_pagamento?: StringFilter<"Pagamentos"> | string
-    Vaga?: XOR<VagasScalarRelationFilter, VagasWhereInput>
-    User?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  export type Users_EstoquesWhereInput = {
+    AND?: Users_EstoquesWhereInput | Users_EstoquesWhereInput[]
+    OR?: Users_EstoquesWhereInput[]
+    NOT?: Users_EstoquesWhereInput | Users_EstoquesWhereInput[]
+    idUser?: IntFilter<"Users_Estoques"> | number
+    idEstoque?: IntFilter<"Users_Estoques"> | number
+    user_estoque?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    estoque_user?: XOR<EstoquesScalarRelationFilter, EstoquesWhereInput>
   }
 
-  export type PagamentosOrderByWithRelationInput = {
+  export type Users_EstoquesOrderByWithRelationInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    data_inicio?: SortOrder
-    data_fim?: SortOrder
-    valor?: SortOrder
-    status_pagamento?: SortOrder
-    Vaga?: VagasOrderByWithRelationInput
-    User?: UsersOrderByWithRelationInput
+    idEstoque?: SortOrder
+    user_estoque?: UsersOrderByWithRelationInput
+    estoque_user?: EstoquesOrderByWithRelationInput
   }
 
-  export type PagamentosWhereUniqueInput = Prisma.AtLeast<{
-    id_pagamento?: number
-    AND?: PagamentosWhereInput | PagamentosWhereInput[]
-    OR?: PagamentosWhereInput[]
-    NOT?: PagamentosWhereInput | PagamentosWhereInput[]
-    idUser?: IntFilter<"Pagamentos"> | number
-    id_vaga?: IntFilter<"Pagamentos"> | number
-    data_inicio?: DateTimeFilter<"Pagamentos"> | Date | string
-    data_fim?: DateTimeFilter<"Pagamentos"> | Date | string
-    valor?: FloatFilter<"Pagamentos"> | number
-    status_pagamento?: StringFilter<"Pagamentos"> | string
-    Vaga?: XOR<VagasScalarRelationFilter, VagasWhereInput>
-    User?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-  }, "id_pagamento">
+  export type Users_EstoquesWhereUniqueInput = Prisma.AtLeast<{
+    idUser?: number
+    AND?: Users_EstoquesWhereInput | Users_EstoquesWhereInput[]
+    OR?: Users_EstoquesWhereInput[]
+    NOT?: Users_EstoquesWhereInput | Users_EstoquesWhereInput[]
+    idEstoque?: IntFilter<"Users_Estoques"> | number
+    user_estoque?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    estoque_user?: XOR<EstoquesScalarRelationFilter, EstoquesWhereInput>
+  }, "idUser">
 
-  export type PagamentosOrderByWithAggregationInput = {
+  export type Users_EstoquesOrderByWithAggregationInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    data_inicio?: SortOrder
-    data_fim?: SortOrder
-    valor?: SortOrder
-    status_pagamento?: SortOrder
-    _count?: PagamentosCountOrderByAggregateInput
-    _avg?: PagamentosAvgOrderByAggregateInput
-    _max?: PagamentosMaxOrderByAggregateInput
-    _min?: PagamentosMinOrderByAggregateInput
-    _sum?: PagamentosSumOrderByAggregateInput
+    idEstoque?: SortOrder
+    _count?: Users_EstoquesCountOrderByAggregateInput
+    _avg?: Users_EstoquesAvgOrderByAggregateInput
+    _max?: Users_EstoquesMaxOrderByAggregateInput
+    _min?: Users_EstoquesMinOrderByAggregateInput
+    _sum?: Users_EstoquesSumOrderByAggregateInput
   }
 
-  export type PagamentosScalarWhereWithAggregatesInput = {
-    AND?: PagamentosScalarWhereWithAggregatesInput | PagamentosScalarWhereWithAggregatesInput[]
-    OR?: PagamentosScalarWhereWithAggregatesInput[]
-    NOT?: PagamentosScalarWhereWithAggregatesInput | PagamentosScalarWhereWithAggregatesInput[]
-    idUser?: IntWithAggregatesFilter<"Pagamentos"> | number
-    id_vaga?: IntWithAggregatesFilter<"Pagamentos"> | number
-    id_pagamento?: IntWithAggregatesFilter<"Pagamentos"> | number
-    data_inicio?: DateTimeWithAggregatesFilter<"Pagamentos"> | Date | string
-    data_fim?: DateTimeWithAggregatesFilter<"Pagamentos"> | Date | string
-    valor?: FloatWithAggregatesFilter<"Pagamentos"> | number
-    status_pagamento?: StringWithAggregatesFilter<"Pagamentos"> | string
+  export type Users_EstoquesScalarWhereWithAggregatesInput = {
+    AND?: Users_EstoquesScalarWhereWithAggregatesInput | Users_EstoquesScalarWhereWithAggregatesInput[]
+    OR?: Users_EstoquesScalarWhereWithAggregatesInput[]
+    NOT?: Users_EstoquesScalarWhereWithAggregatesInput | Users_EstoquesScalarWhereWithAggregatesInput[]
+    idUser?: IntWithAggregatesFilter<"Users_Estoques"> | number
+    idEstoque?: IntWithAggregatesFilter<"Users_Estoques"> | number
   }
 
   export type UsersCreateInput = {
     email: string
     name: string
     password: string
-    pagamentos?: PagamentosCreateNestedManyWithoutUserInput
+    userEstoques?: Users_EstoquesCreateNestedManyWithoutUser_estoqueInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -5983,14 +5423,14 @@ export namespace Prisma {
     email: string
     name: string
     password: string
-    pagamentos?: PagamentosUncheckedCreateNestedManyWithoutUserInput
+    userEstoques?: Users_EstoquesUncheckedCreateNestedManyWithoutUser_estoqueInput
   }
 
   export type UsersUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    pagamentos?: PagamentosUpdateManyWithoutUserNestedInput
+    userEstoques?: Users_EstoquesUpdateManyWithoutUser_estoqueNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -5998,7 +5438,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    pagamentos?: PagamentosUncheckedUpdateManyWithoutUserNestedInput
+    userEstoques?: Users_EstoquesUncheckedUpdateManyWithoutUser_estoqueNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -6021,161 +5461,138 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
   }
 
-  export type EstacionamentosCreateInput = {
-    nome: string
-    endereco: string
-    qtd_vagas: number
-    vagas?: VagasCreateNestedManyWithoutEstacionamentoInput
+  export type EstoquesCreateInput = {
+    produto: ProductCreateNestedOneWithoutProdutosEstoqueInput
+    estoqueUsers?: Users_EstoquesCreateNestedManyWithoutEstoque_userInput
   }
 
-  export type EstacionamentosUncheckedCreateInput = {
-    id_estacionamento?: number
-    nome: string
-    endereco: string
-    qtd_vagas: number
-    vagas?: VagasUncheckedCreateNestedManyWithoutEstacionamentoInput
+  export type EstoquesUncheckedCreateInput = {
+    idEstoque?: number
+    id_Product: number
+    estoqueUsers?: Users_EstoquesUncheckedCreateNestedManyWithoutEstoque_userInput
   }
 
-  export type EstacionamentosUpdateInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    endereco?: StringFieldUpdateOperationsInput | string
-    qtd_vagas?: IntFieldUpdateOperationsInput | number
-    vagas?: VagasUpdateManyWithoutEstacionamentoNestedInput
+  export type EstoquesUpdateInput = {
+    produto?: ProductUpdateOneRequiredWithoutProdutosEstoqueNestedInput
+    estoqueUsers?: Users_EstoquesUpdateManyWithoutEstoque_userNestedInput
   }
 
-  export type EstacionamentosUncheckedUpdateInput = {
-    id_estacionamento?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    endereco?: StringFieldUpdateOperationsInput | string
-    qtd_vagas?: IntFieldUpdateOperationsInput | number
-    vagas?: VagasUncheckedUpdateManyWithoutEstacionamentoNestedInput
+  export type EstoquesUncheckedUpdateInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
+    id_Product?: IntFieldUpdateOperationsInput | number
+    estoqueUsers?: Users_EstoquesUncheckedUpdateManyWithoutEstoque_userNestedInput
   }
 
-  export type EstacionamentosCreateManyInput = {
-    id_estacionamento?: number
-    nome: string
-    endereco: string
-    qtd_vagas: number
+  export type EstoquesCreateManyInput = {
+    idEstoque?: number
+    id_Product: number
   }
 
-  export type EstacionamentosUpdateManyMutationInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    endereco?: StringFieldUpdateOperationsInput | string
-    qtd_vagas?: IntFieldUpdateOperationsInput | number
+  export type EstoquesUpdateManyMutationInput = {
+
   }
 
-  export type EstacionamentosUncheckedUpdateManyInput = {
-    id_estacionamento?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    endereco?: StringFieldUpdateOperationsInput | string
-    qtd_vagas?: IntFieldUpdateOperationsInput | number
+  export type EstoquesUncheckedUpdateManyInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
+    id_Product?: IntFieldUpdateOperationsInput | number
   }
 
-  export type VagasCreateInput = {
-    status_vaga: string
-    pagamentos?: PagamentosCreateNestedManyWithoutVagaInput
-    estacionamento: EstacionamentosCreateNestedOneWithoutVagasInput
+  export type ProductCreateInput = {
+    name: string
+    categoriaProdutos: string
+    sku: string
+    descricao?: string | null
+    data_de_validade?: Date | string | null
+    produtosEstoque?: EstoquesCreateNestedManyWithoutProdutoInput
   }
 
-  export type VagasUncheckedCreateInput = {
-    id_vaga?: number
-    id_estacionamento: number
-    status_vaga: string
-    pagamentos?: PagamentosUncheckedCreateNestedManyWithoutVagaInput
+  export type ProductUncheckedCreateInput = {
+    id_Product?: number
+    name: string
+    categoriaProdutos: string
+    sku: string
+    descricao?: string | null
+    data_de_validade?: Date | string | null
+    produtosEstoque?: EstoquesUncheckedCreateNestedManyWithoutProdutoInput
   }
 
-  export type VagasUpdateInput = {
-    status_vaga?: StringFieldUpdateOperationsInput | string
-    pagamentos?: PagamentosUpdateManyWithoutVagaNestedInput
-    estacionamento?: EstacionamentosUpdateOneRequiredWithoutVagasNestedInput
+  export type ProductUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    categoriaProdutos?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    data_de_validade?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    produtosEstoque?: EstoquesUpdateManyWithoutProdutoNestedInput
   }
 
-  export type VagasUncheckedUpdateInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_estacionamento?: IntFieldUpdateOperationsInput | number
-    status_vaga?: StringFieldUpdateOperationsInput | string
-    pagamentos?: PagamentosUncheckedUpdateManyWithoutVagaNestedInput
+  export type ProductUncheckedUpdateInput = {
+    id_Product?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    categoriaProdutos?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    data_de_validade?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    produtosEstoque?: EstoquesUncheckedUpdateManyWithoutProdutoNestedInput
   }
 
-  export type VagasCreateManyInput = {
-    id_vaga?: number
-    id_estacionamento: number
-    status_vaga: string
+  export type ProductCreateManyInput = {
+    id_Product?: number
+    name: string
+    categoriaProdutos: string
+    sku: string
+    descricao?: string | null
+    data_de_validade?: Date | string | null
   }
 
-  export type VagasUpdateManyMutationInput = {
-    status_vaga?: StringFieldUpdateOperationsInput | string
+  export type ProductUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    categoriaProdutos?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    data_de_validade?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type VagasUncheckedUpdateManyInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_estacionamento?: IntFieldUpdateOperationsInput | number
-    status_vaga?: StringFieldUpdateOperationsInput | string
+  export type ProductUncheckedUpdateManyInput = {
+    id_Product?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    categoriaProdutos?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    data_de_validade?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PagamentosCreateInput = {
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
-    Vaga: VagasCreateNestedOneWithoutPagamentosInput
-    User: UsersCreateNestedOneWithoutPagamentosInput
+  export type Users_EstoquesCreateInput = {
+    user_estoque: UsersCreateNestedOneWithoutUserEstoquesInput
+    estoque_user: EstoquesCreateNestedOneWithoutEstoqueUsersInput
   }
 
-  export type PagamentosUncheckedCreateInput = {
+  export type Users_EstoquesUncheckedCreateInput = {
     idUser: number
-    id_vaga: number
-    id_pagamento?: number
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
+    idEstoque: number
   }
 
-  export type PagamentosUpdateInput = {
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
-    Vaga?: VagasUpdateOneRequiredWithoutPagamentosNestedInput
-    User?: UsersUpdateOneRequiredWithoutPagamentosNestedInput
+  export type Users_EstoquesUpdateInput = {
+    user_estoque?: UsersUpdateOneRequiredWithoutUserEstoquesNestedInput
+    estoque_user?: EstoquesUpdateOneRequiredWithoutEstoqueUsersNestedInput
   }
 
-  export type PagamentosUncheckedUpdateInput = {
+  export type Users_EstoquesUncheckedUpdateInput = {
     idUser?: IntFieldUpdateOperationsInput | number
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_pagamento?: IntFieldUpdateOperationsInput | number
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
+    idEstoque?: IntFieldUpdateOperationsInput | number
   }
 
-  export type PagamentosCreateManyInput = {
+  export type Users_EstoquesCreateManyInput = {
     idUser: number
-    id_vaga: number
-    id_pagamento?: number
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
+    idEstoque: number
   }
 
-  export type PagamentosUpdateManyMutationInput = {
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
+  export type Users_EstoquesUpdateManyMutationInput = {
+
   }
 
-  export type PagamentosUncheckedUpdateManyInput = {
+  export type Users_EstoquesUncheckedUpdateManyInput = {
     idUser?: IntFieldUpdateOperationsInput | number
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_pagamento?: IntFieldUpdateOperationsInput | number
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
+    idEstoque?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -6200,17 +5617,24 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type PagamentosListRelationFilter = {
-    every?: PagamentosWhereInput
-    some?: PagamentosWhereInput
-    none?: PagamentosWhereInput
+  export type Users_EstoquesListRelationFilter = {
+    every?: Users_EstoquesWhereInput
+    some?: Users_EstoquesWhereInput
+    none?: Users_EstoquesWhereInput
   }
 
-  export type PagamentosOrderByRelationAggregateInput = {
+  export type Users_EstoquesOrderByRelationAggregateInput = {
     _count?: SortOrder
+  }
+
+  export type UsersOrderByRelevanceInput = {
+    fields: UsersOrderByRelevanceFieldEnum | UsersOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
   }
 
   export type UsersCountOrderByAggregateInput = {
@@ -6269,111 +5693,155 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type VagasListRelationFilter = {
-    every?: VagasWhereInput
-    some?: VagasWhereInput
-    none?: VagasWhereInput
+  export type ProductScalarRelationFilter = {
+    is?: ProductWhereInput
+    isNot?: ProductWhereInput
   }
 
-  export type VagasOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type EstoquesCountOrderByAggregateInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
   }
 
-  export type EstacionamentosCountOrderByAggregateInput = {
-    id_estacionamento?: SortOrder
-    nome?: SortOrder
-    endereco?: SortOrder
-    qtd_vagas?: SortOrder
+  export type EstoquesAvgOrderByAggregateInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
   }
 
-  export type EstacionamentosAvgOrderByAggregateInput = {
-    id_estacionamento?: SortOrder
-    qtd_vagas?: SortOrder
+  export type EstoquesMaxOrderByAggregateInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
   }
 
-  export type EstacionamentosMaxOrderByAggregateInput = {
-    id_estacionamento?: SortOrder
-    nome?: SortOrder
-    endereco?: SortOrder
-    qtd_vagas?: SortOrder
+  export type EstoquesMinOrderByAggregateInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
   }
 
-  export type EstacionamentosMinOrderByAggregateInput = {
-    id_estacionamento?: SortOrder
-    nome?: SortOrder
-    endereco?: SortOrder
-    qtd_vagas?: SortOrder
+  export type EstoquesSumOrderByAggregateInput = {
+    idEstoque?: SortOrder
+    id_Product?: SortOrder
   }
 
-  export type EstacionamentosSumOrderByAggregateInput = {
-    id_estacionamento?: SortOrder
-    qtd_vagas?: SortOrder
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type EstacionamentosScalarRelationFilter = {
-    is?: EstacionamentosWhereInput
-    isNot?: EstacionamentosWhereInput
-  }
-
-  export type VagasCountOrderByAggregateInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-    status_vaga?: SortOrder
-  }
-
-  export type VagasAvgOrderByAggregateInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-  }
-
-  export type VagasMaxOrderByAggregateInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-    status_vaga?: SortOrder
-  }
-
-  export type VagasMinOrderByAggregateInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-    status_vaga?: SortOrder
-  }
-
-  export type VagasSumOrderByAggregateInput = {
-    id_vaga?: SortOrder
-    id_estacionamento?: SortOrder
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+  export type EstoquesListRelationFilter = {
+    every?: EstoquesWhereInput
+    some?: EstoquesWhereInput
+    none?: EstoquesWhereInput
   }
 
-  export type VagasScalarRelationFilter = {
-    is?: VagasWhereInput
-    isNot?: VagasWhereInput
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type EstoquesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProductOrderByRelevanceInput = {
+    fields: ProductOrderByRelevanceFieldEnum | ProductOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type ProductCountOrderByAggregateInput = {
+    id_Product?: SortOrder
+    name?: SortOrder
+    categoriaProdutos?: SortOrder
+    sku?: SortOrder
+    descricao?: SortOrder
+    data_de_validade?: SortOrder
+  }
+
+  export type ProductAvgOrderByAggregateInput = {
+    id_Product?: SortOrder
+  }
+
+  export type ProductMaxOrderByAggregateInput = {
+    id_Product?: SortOrder
+    name?: SortOrder
+    categoriaProdutos?: SortOrder
+    sku?: SortOrder
+    descricao?: SortOrder
+    data_de_validade?: SortOrder
+  }
+
+  export type ProductMinOrderByAggregateInput = {
+    id_Product?: SortOrder
+    name?: SortOrder
+    categoriaProdutos?: SortOrder
+    sku?: SortOrder
+    descricao?: SortOrder
+    data_de_validade?: SortOrder
+  }
+
+  export type ProductSumOrderByAggregateInput = {
+    id_Product?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type UsersScalarRelationFilter = {
@@ -6381,110 +5849,66 @@ export namespace Prisma {
     isNot?: UsersWhereInput
   }
 
-  export type PagamentosCountOrderByAggregateInput = {
+  export type EstoquesScalarRelationFilter = {
+    is?: EstoquesWhereInput
+    isNot?: EstoquesWhereInput
+  }
+
+  export type Users_EstoquesCountOrderByAggregateInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    data_inicio?: SortOrder
-    data_fim?: SortOrder
-    valor?: SortOrder
-    status_pagamento?: SortOrder
+    idEstoque?: SortOrder
   }
 
-  export type PagamentosAvgOrderByAggregateInput = {
+  export type Users_EstoquesAvgOrderByAggregateInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    valor?: SortOrder
+    idEstoque?: SortOrder
   }
 
-  export type PagamentosMaxOrderByAggregateInput = {
+  export type Users_EstoquesMaxOrderByAggregateInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    data_inicio?: SortOrder
-    data_fim?: SortOrder
-    valor?: SortOrder
-    status_pagamento?: SortOrder
+    idEstoque?: SortOrder
   }
 
-  export type PagamentosMinOrderByAggregateInput = {
+  export type Users_EstoquesMinOrderByAggregateInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    data_inicio?: SortOrder
-    data_fim?: SortOrder
-    valor?: SortOrder
-    status_pagamento?: SortOrder
+    idEstoque?: SortOrder
   }
 
-  export type PagamentosSumOrderByAggregateInput = {
+  export type Users_EstoquesSumOrderByAggregateInput = {
     idUser?: SortOrder
-    id_vaga?: SortOrder
-    id_pagamento?: SortOrder
-    valor?: SortOrder
+    idEstoque?: SortOrder
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+  export type Users_EstoquesCreateNestedManyWithoutUser_estoqueInput = {
+    create?: XOR<Users_EstoquesCreateWithoutUser_estoqueInput, Users_EstoquesUncheckedCreateWithoutUser_estoqueInput> | Users_EstoquesCreateWithoutUser_estoqueInput[] | Users_EstoquesUncheckedCreateWithoutUser_estoqueInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutUser_estoqueInput | Users_EstoquesCreateOrConnectWithoutUser_estoqueInput[]
+    createMany?: Users_EstoquesCreateManyUser_estoqueInputEnvelope
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type PagamentosCreateNestedManyWithoutUserInput = {
-    create?: XOR<PagamentosCreateWithoutUserInput, PagamentosUncheckedCreateWithoutUserInput> | PagamentosCreateWithoutUserInput[] | PagamentosUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutUserInput | PagamentosCreateOrConnectWithoutUserInput[]
-    createMany?: PagamentosCreateManyUserInputEnvelope
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-  }
-
-  export type PagamentosUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<PagamentosCreateWithoutUserInput, PagamentosUncheckedCreateWithoutUserInput> | PagamentosCreateWithoutUserInput[] | PagamentosUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutUserInput | PagamentosCreateOrConnectWithoutUserInput[]
-    createMany?: PagamentosCreateManyUserInputEnvelope
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
+  export type Users_EstoquesUncheckedCreateNestedManyWithoutUser_estoqueInput = {
+    create?: XOR<Users_EstoquesCreateWithoutUser_estoqueInput, Users_EstoquesUncheckedCreateWithoutUser_estoqueInput> | Users_EstoquesCreateWithoutUser_estoqueInput[] | Users_EstoquesUncheckedCreateWithoutUser_estoqueInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutUser_estoqueInput | Users_EstoquesCreateOrConnectWithoutUser_estoqueInput[]
+    createMany?: Users_EstoquesCreateManyUser_estoqueInputEnvelope
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type PagamentosUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PagamentosCreateWithoutUserInput, PagamentosUncheckedCreateWithoutUserInput> | PagamentosCreateWithoutUserInput[] | PagamentosUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutUserInput | PagamentosCreateOrConnectWithoutUserInput[]
-    upsert?: PagamentosUpsertWithWhereUniqueWithoutUserInput | PagamentosUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PagamentosCreateManyUserInputEnvelope
-    set?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    disconnect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    delete?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    update?: PagamentosUpdateWithWhereUniqueWithoutUserInput | PagamentosUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PagamentosUpdateManyWithWhereWithoutUserInput | PagamentosUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PagamentosScalarWhereInput | PagamentosScalarWhereInput[]
+  export type Users_EstoquesUpdateManyWithoutUser_estoqueNestedInput = {
+    create?: XOR<Users_EstoquesCreateWithoutUser_estoqueInput, Users_EstoquesUncheckedCreateWithoutUser_estoqueInput> | Users_EstoquesCreateWithoutUser_estoqueInput[] | Users_EstoquesUncheckedCreateWithoutUser_estoqueInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutUser_estoqueInput | Users_EstoquesCreateOrConnectWithoutUser_estoqueInput[]
+    upsert?: Users_EstoquesUpsertWithWhereUniqueWithoutUser_estoqueInput | Users_EstoquesUpsertWithWhereUniqueWithoutUser_estoqueInput[]
+    createMany?: Users_EstoquesCreateManyUser_estoqueInputEnvelope
+    set?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    disconnect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    delete?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    update?: Users_EstoquesUpdateWithWhereUniqueWithoutUser_estoqueInput | Users_EstoquesUpdateWithWhereUniqueWithoutUser_estoqueInput[]
+    updateMany?: Users_EstoquesUpdateManyWithWhereWithoutUser_estoqueInput | Users_EstoquesUpdateManyWithWhereWithoutUser_estoqueInput[]
+    deleteMany?: Users_EstoquesScalarWhereInput | Users_EstoquesScalarWhereInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -6495,156 +5919,152 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type PagamentosUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PagamentosCreateWithoutUserInput, PagamentosUncheckedCreateWithoutUserInput> | PagamentosCreateWithoutUserInput[] | PagamentosUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutUserInput | PagamentosCreateOrConnectWithoutUserInput[]
-    upsert?: PagamentosUpsertWithWhereUniqueWithoutUserInput | PagamentosUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PagamentosCreateManyUserInputEnvelope
-    set?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    disconnect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    delete?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    update?: PagamentosUpdateWithWhereUniqueWithoutUserInput | PagamentosUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PagamentosUpdateManyWithWhereWithoutUserInput | PagamentosUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PagamentosScalarWhereInput | PagamentosScalarWhereInput[]
+  export type Users_EstoquesUncheckedUpdateManyWithoutUser_estoqueNestedInput = {
+    create?: XOR<Users_EstoquesCreateWithoutUser_estoqueInput, Users_EstoquesUncheckedCreateWithoutUser_estoqueInput> | Users_EstoquesCreateWithoutUser_estoqueInput[] | Users_EstoquesUncheckedCreateWithoutUser_estoqueInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutUser_estoqueInput | Users_EstoquesCreateOrConnectWithoutUser_estoqueInput[]
+    upsert?: Users_EstoquesUpsertWithWhereUniqueWithoutUser_estoqueInput | Users_EstoquesUpsertWithWhereUniqueWithoutUser_estoqueInput[]
+    createMany?: Users_EstoquesCreateManyUser_estoqueInputEnvelope
+    set?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    disconnect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    delete?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    update?: Users_EstoquesUpdateWithWhereUniqueWithoutUser_estoqueInput | Users_EstoquesUpdateWithWhereUniqueWithoutUser_estoqueInput[]
+    updateMany?: Users_EstoquesUpdateManyWithWhereWithoutUser_estoqueInput | Users_EstoquesUpdateManyWithWhereWithoutUser_estoqueInput[]
+    deleteMany?: Users_EstoquesScalarWhereInput | Users_EstoquesScalarWhereInput[]
   }
 
-  export type VagasCreateNestedManyWithoutEstacionamentoInput = {
-    create?: XOR<VagasCreateWithoutEstacionamentoInput, VagasUncheckedCreateWithoutEstacionamentoInput> | VagasCreateWithoutEstacionamentoInput[] | VagasUncheckedCreateWithoutEstacionamentoInput[]
-    connectOrCreate?: VagasCreateOrConnectWithoutEstacionamentoInput | VagasCreateOrConnectWithoutEstacionamentoInput[]
-    createMany?: VagasCreateManyEstacionamentoInputEnvelope
-    connect?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
+  export type ProductCreateNestedOneWithoutProdutosEstoqueInput = {
+    create?: XOR<ProductCreateWithoutProdutosEstoqueInput, ProductUncheckedCreateWithoutProdutosEstoqueInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutProdutosEstoqueInput
+    connect?: ProductWhereUniqueInput
   }
 
-  export type VagasUncheckedCreateNestedManyWithoutEstacionamentoInput = {
-    create?: XOR<VagasCreateWithoutEstacionamentoInput, VagasUncheckedCreateWithoutEstacionamentoInput> | VagasCreateWithoutEstacionamentoInput[] | VagasUncheckedCreateWithoutEstacionamentoInput[]
-    connectOrCreate?: VagasCreateOrConnectWithoutEstacionamentoInput | VagasCreateOrConnectWithoutEstacionamentoInput[]
-    createMany?: VagasCreateManyEstacionamentoInputEnvelope
-    connect?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
+  export type Users_EstoquesCreateNestedManyWithoutEstoque_userInput = {
+    create?: XOR<Users_EstoquesCreateWithoutEstoque_userInput, Users_EstoquesUncheckedCreateWithoutEstoque_userInput> | Users_EstoquesCreateWithoutEstoque_userInput[] | Users_EstoquesUncheckedCreateWithoutEstoque_userInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutEstoque_userInput | Users_EstoquesCreateOrConnectWithoutEstoque_userInput[]
+    createMany?: Users_EstoquesCreateManyEstoque_userInputEnvelope
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
   }
 
-  export type VagasUpdateManyWithoutEstacionamentoNestedInput = {
-    create?: XOR<VagasCreateWithoutEstacionamentoInput, VagasUncheckedCreateWithoutEstacionamentoInput> | VagasCreateWithoutEstacionamentoInput[] | VagasUncheckedCreateWithoutEstacionamentoInput[]
-    connectOrCreate?: VagasCreateOrConnectWithoutEstacionamentoInput | VagasCreateOrConnectWithoutEstacionamentoInput[]
-    upsert?: VagasUpsertWithWhereUniqueWithoutEstacionamentoInput | VagasUpsertWithWhereUniqueWithoutEstacionamentoInput[]
-    createMany?: VagasCreateManyEstacionamentoInputEnvelope
-    set?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    disconnect?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    delete?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    connect?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    update?: VagasUpdateWithWhereUniqueWithoutEstacionamentoInput | VagasUpdateWithWhereUniqueWithoutEstacionamentoInput[]
-    updateMany?: VagasUpdateManyWithWhereWithoutEstacionamentoInput | VagasUpdateManyWithWhereWithoutEstacionamentoInput[]
-    deleteMany?: VagasScalarWhereInput | VagasScalarWhereInput[]
+  export type Users_EstoquesUncheckedCreateNestedManyWithoutEstoque_userInput = {
+    create?: XOR<Users_EstoquesCreateWithoutEstoque_userInput, Users_EstoquesUncheckedCreateWithoutEstoque_userInput> | Users_EstoquesCreateWithoutEstoque_userInput[] | Users_EstoquesUncheckedCreateWithoutEstoque_userInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutEstoque_userInput | Users_EstoquesCreateOrConnectWithoutEstoque_userInput[]
+    createMany?: Users_EstoquesCreateManyEstoque_userInputEnvelope
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
   }
 
-  export type VagasUncheckedUpdateManyWithoutEstacionamentoNestedInput = {
-    create?: XOR<VagasCreateWithoutEstacionamentoInput, VagasUncheckedCreateWithoutEstacionamentoInput> | VagasCreateWithoutEstacionamentoInput[] | VagasUncheckedCreateWithoutEstacionamentoInput[]
-    connectOrCreate?: VagasCreateOrConnectWithoutEstacionamentoInput | VagasCreateOrConnectWithoutEstacionamentoInput[]
-    upsert?: VagasUpsertWithWhereUniqueWithoutEstacionamentoInput | VagasUpsertWithWhereUniqueWithoutEstacionamentoInput[]
-    createMany?: VagasCreateManyEstacionamentoInputEnvelope
-    set?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    disconnect?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    delete?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    connect?: VagasWhereUniqueInput | VagasWhereUniqueInput[]
-    update?: VagasUpdateWithWhereUniqueWithoutEstacionamentoInput | VagasUpdateWithWhereUniqueWithoutEstacionamentoInput[]
-    updateMany?: VagasUpdateManyWithWhereWithoutEstacionamentoInput | VagasUpdateManyWithWhereWithoutEstacionamentoInput[]
-    deleteMany?: VagasScalarWhereInput | VagasScalarWhereInput[]
+  export type ProductUpdateOneRequiredWithoutProdutosEstoqueNestedInput = {
+    create?: XOR<ProductCreateWithoutProdutosEstoqueInput, ProductUncheckedCreateWithoutProdutosEstoqueInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutProdutosEstoqueInput
+    upsert?: ProductUpsertWithoutProdutosEstoqueInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutProdutosEstoqueInput, ProductUpdateWithoutProdutosEstoqueInput>, ProductUncheckedUpdateWithoutProdutosEstoqueInput>
   }
 
-  export type PagamentosCreateNestedManyWithoutVagaInput = {
-    create?: XOR<PagamentosCreateWithoutVagaInput, PagamentosUncheckedCreateWithoutVagaInput> | PagamentosCreateWithoutVagaInput[] | PagamentosUncheckedCreateWithoutVagaInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutVagaInput | PagamentosCreateOrConnectWithoutVagaInput[]
-    createMany?: PagamentosCreateManyVagaInputEnvelope
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
+  export type Users_EstoquesUpdateManyWithoutEstoque_userNestedInput = {
+    create?: XOR<Users_EstoquesCreateWithoutEstoque_userInput, Users_EstoquesUncheckedCreateWithoutEstoque_userInput> | Users_EstoquesCreateWithoutEstoque_userInput[] | Users_EstoquesUncheckedCreateWithoutEstoque_userInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutEstoque_userInput | Users_EstoquesCreateOrConnectWithoutEstoque_userInput[]
+    upsert?: Users_EstoquesUpsertWithWhereUniqueWithoutEstoque_userInput | Users_EstoquesUpsertWithWhereUniqueWithoutEstoque_userInput[]
+    createMany?: Users_EstoquesCreateManyEstoque_userInputEnvelope
+    set?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    disconnect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    delete?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    update?: Users_EstoquesUpdateWithWhereUniqueWithoutEstoque_userInput | Users_EstoquesUpdateWithWhereUniqueWithoutEstoque_userInput[]
+    updateMany?: Users_EstoquesUpdateManyWithWhereWithoutEstoque_userInput | Users_EstoquesUpdateManyWithWhereWithoutEstoque_userInput[]
+    deleteMany?: Users_EstoquesScalarWhereInput | Users_EstoquesScalarWhereInput[]
   }
 
-  export type EstacionamentosCreateNestedOneWithoutVagasInput = {
-    create?: XOR<EstacionamentosCreateWithoutVagasInput, EstacionamentosUncheckedCreateWithoutVagasInput>
-    connectOrCreate?: EstacionamentosCreateOrConnectWithoutVagasInput
-    connect?: EstacionamentosWhereUniqueInput
+  export type Users_EstoquesUncheckedUpdateManyWithoutEstoque_userNestedInput = {
+    create?: XOR<Users_EstoquesCreateWithoutEstoque_userInput, Users_EstoquesUncheckedCreateWithoutEstoque_userInput> | Users_EstoquesCreateWithoutEstoque_userInput[] | Users_EstoquesUncheckedCreateWithoutEstoque_userInput[]
+    connectOrCreate?: Users_EstoquesCreateOrConnectWithoutEstoque_userInput | Users_EstoquesCreateOrConnectWithoutEstoque_userInput[]
+    upsert?: Users_EstoquesUpsertWithWhereUniqueWithoutEstoque_userInput | Users_EstoquesUpsertWithWhereUniqueWithoutEstoque_userInput[]
+    createMany?: Users_EstoquesCreateManyEstoque_userInputEnvelope
+    set?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    disconnect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    delete?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    connect?: Users_EstoquesWhereUniqueInput | Users_EstoquesWhereUniqueInput[]
+    update?: Users_EstoquesUpdateWithWhereUniqueWithoutEstoque_userInput | Users_EstoquesUpdateWithWhereUniqueWithoutEstoque_userInput[]
+    updateMany?: Users_EstoquesUpdateManyWithWhereWithoutEstoque_userInput | Users_EstoquesUpdateManyWithWhereWithoutEstoque_userInput[]
+    deleteMany?: Users_EstoquesScalarWhereInput | Users_EstoquesScalarWhereInput[]
   }
 
-  export type PagamentosUncheckedCreateNestedManyWithoutVagaInput = {
-    create?: XOR<PagamentosCreateWithoutVagaInput, PagamentosUncheckedCreateWithoutVagaInput> | PagamentosCreateWithoutVagaInput[] | PagamentosUncheckedCreateWithoutVagaInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutVagaInput | PagamentosCreateOrConnectWithoutVagaInput[]
-    createMany?: PagamentosCreateManyVagaInputEnvelope
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
+  export type EstoquesCreateNestedManyWithoutProdutoInput = {
+    create?: XOR<EstoquesCreateWithoutProdutoInput, EstoquesUncheckedCreateWithoutProdutoInput> | EstoquesCreateWithoutProdutoInput[] | EstoquesUncheckedCreateWithoutProdutoInput[]
+    connectOrCreate?: EstoquesCreateOrConnectWithoutProdutoInput | EstoquesCreateOrConnectWithoutProdutoInput[]
+    createMany?: EstoquesCreateManyProdutoInputEnvelope
+    connect?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
   }
 
-  export type PagamentosUpdateManyWithoutVagaNestedInput = {
-    create?: XOR<PagamentosCreateWithoutVagaInput, PagamentosUncheckedCreateWithoutVagaInput> | PagamentosCreateWithoutVagaInput[] | PagamentosUncheckedCreateWithoutVagaInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutVagaInput | PagamentosCreateOrConnectWithoutVagaInput[]
-    upsert?: PagamentosUpsertWithWhereUniqueWithoutVagaInput | PagamentosUpsertWithWhereUniqueWithoutVagaInput[]
-    createMany?: PagamentosCreateManyVagaInputEnvelope
-    set?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    disconnect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    delete?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    update?: PagamentosUpdateWithWhereUniqueWithoutVagaInput | PagamentosUpdateWithWhereUniqueWithoutVagaInput[]
-    updateMany?: PagamentosUpdateManyWithWhereWithoutVagaInput | PagamentosUpdateManyWithWhereWithoutVagaInput[]
-    deleteMany?: PagamentosScalarWhereInput | PagamentosScalarWhereInput[]
+  export type EstoquesUncheckedCreateNestedManyWithoutProdutoInput = {
+    create?: XOR<EstoquesCreateWithoutProdutoInput, EstoquesUncheckedCreateWithoutProdutoInput> | EstoquesCreateWithoutProdutoInput[] | EstoquesUncheckedCreateWithoutProdutoInput[]
+    connectOrCreate?: EstoquesCreateOrConnectWithoutProdutoInput | EstoquesCreateOrConnectWithoutProdutoInput[]
+    createMany?: EstoquesCreateManyProdutoInputEnvelope
+    connect?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
   }
 
-  export type EstacionamentosUpdateOneRequiredWithoutVagasNestedInput = {
-    create?: XOR<EstacionamentosCreateWithoutVagasInput, EstacionamentosUncheckedCreateWithoutVagasInput>
-    connectOrCreate?: EstacionamentosCreateOrConnectWithoutVagasInput
-    upsert?: EstacionamentosUpsertWithoutVagasInput
-    connect?: EstacionamentosWhereUniqueInput
-    update?: XOR<XOR<EstacionamentosUpdateToOneWithWhereWithoutVagasInput, EstacionamentosUpdateWithoutVagasInput>, EstacionamentosUncheckedUpdateWithoutVagasInput>
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
-  export type PagamentosUncheckedUpdateManyWithoutVagaNestedInput = {
-    create?: XOR<PagamentosCreateWithoutVagaInput, PagamentosUncheckedCreateWithoutVagaInput> | PagamentosCreateWithoutVagaInput[] | PagamentosUncheckedCreateWithoutVagaInput[]
-    connectOrCreate?: PagamentosCreateOrConnectWithoutVagaInput | PagamentosCreateOrConnectWithoutVagaInput[]
-    upsert?: PagamentosUpsertWithWhereUniqueWithoutVagaInput | PagamentosUpsertWithWhereUniqueWithoutVagaInput[]
-    createMany?: PagamentosCreateManyVagaInputEnvelope
-    set?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    disconnect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    delete?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    connect?: PagamentosWhereUniqueInput | PagamentosWhereUniqueInput[]
-    update?: PagamentosUpdateWithWhereUniqueWithoutVagaInput | PagamentosUpdateWithWhereUniqueWithoutVagaInput[]
-    updateMany?: PagamentosUpdateManyWithWhereWithoutVagaInput | PagamentosUpdateManyWithWhereWithoutVagaInput[]
-    deleteMany?: PagamentosScalarWhereInput | PagamentosScalarWhereInput[]
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
-  export type VagasCreateNestedOneWithoutPagamentosInput = {
-    create?: XOR<VagasCreateWithoutPagamentosInput, VagasUncheckedCreateWithoutPagamentosInput>
-    connectOrCreate?: VagasCreateOrConnectWithoutPagamentosInput
-    connect?: VagasWhereUniqueInput
+  export type EstoquesUpdateManyWithoutProdutoNestedInput = {
+    create?: XOR<EstoquesCreateWithoutProdutoInput, EstoquesUncheckedCreateWithoutProdutoInput> | EstoquesCreateWithoutProdutoInput[] | EstoquesUncheckedCreateWithoutProdutoInput[]
+    connectOrCreate?: EstoquesCreateOrConnectWithoutProdutoInput | EstoquesCreateOrConnectWithoutProdutoInput[]
+    upsert?: EstoquesUpsertWithWhereUniqueWithoutProdutoInput | EstoquesUpsertWithWhereUniqueWithoutProdutoInput[]
+    createMany?: EstoquesCreateManyProdutoInputEnvelope
+    set?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    disconnect?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    delete?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    connect?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    update?: EstoquesUpdateWithWhereUniqueWithoutProdutoInput | EstoquesUpdateWithWhereUniqueWithoutProdutoInput[]
+    updateMany?: EstoquesUpdateManyWithWhereWithoutProdutoInput | EstoquesUpdateManyWithWhereWithoutProdutoInput[]
+    deleteMany?: EstoquesScalarWhereInput | EstoquesScalarWhereInput[]
   }
 
-  export type UsersCreateNestedOneWithoutPagamentosInput = {
-    create?: XOR<UsersCreateWithoutPagamentosInput, UsersUncheckedCreateWithoutPagamentosInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutPagamentosInput
+  export type EstoquesUncheckedUpdateManyWithoutProdutoNestedInput = {
+    create?: XOR<EstoquesCreateWithoutProdutoInput, EstoquesUncheckedCreateWithoutProdutoInput> | EstoquesCreateWithoutProdutoInput[] | EstoquesUncheckedCreateWithoutProdutoInput[]
+    connectOrCreate?: EstoquesCreateOrConnectWithoutProdutoInput | EstoquesCreateOrConnectWithoutProdutoInput[]
+    upsert?: EstoquesUpsertWithWhereUniqueWithoutProdutoInput | EstoquesUpsertWithWhereUniqueWithoutProdutoInput[]
+    createMany?: EstoquesCreateManyProdutoInputEnvelope
+    set?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    disconnect?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    delete?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    connect?: EstoquesWhereUniqueInput | EstoquesWhereUniqueInput[]
+    update?: EstoquesUpdateWithWhereUniqueWithoutProdutoInput | EstoquesUpdateWithWhereUniqueWithoutProdutoInput[]
+    updateMany?: EstoquesUpdateManyWithWhereWithoutProdutoInput | EstoquesUpdateManyWithWhereWithoutProdutoInput[]
+    deleteMany?: EstoquesScalarWhereInput | EstoquesScalarWhereInput[]
+  }
+
+  export type UsersCreateNestedOneWithoutUserEstoquesInput = {
+    create?: XOR<UsersCreateWithoutUserEstoquesInput, UsersUncheckedCreateWithoutUserEstoquesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUserEstoquesInput
     connect?: UsersWhereUniqueInput
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type EstoquesCreateNestedOneWithoutEstoqueUsersInput = {
+    create?: XOR<EstoquesCreateWithoutEstoqueUsersInput, EstoquesUncheckedCreateWithoutEstoqueUsersInput>
+    connectOrCreate?: EstoquesCreateOrConnectWithoutEstoqueUsersInput
+    connect?: EstoquesWhereUniqueInput
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type VagasUpdateOneRequiredWithoutPagamentosNestedInput = {
-    create?: XOR<VagasCreateWithoutPagamentosInput, VagasUncheckedCreateWithoutPagamentosInput>
-    connectOrCreate?: VagasCreateOrConnectWithoutPagamentosInput
-    upsert?: VagasUpsertWithoutPagamentosInput
-    connect?: VagasWhereUniqueInput
-    update?: XOR<XOR<VagasUpdateToOneWithWhereWithoutPagamentosInput, VagasUpdateWithoutPagamentosInput>, VagasUncheckedUpdateWithoutPagamentosInput>
-  }
-
-  export type UsersUpdateOneRequiredWithoutPagamentosNestedInput = {
-    create?: XOR<UsersCreateWithoutPagamentosInput, UsersUncheckedCreateWithoutPagamentosInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutPagamentosInput
-    upsert?: UsersUpsertWithoutPagamentosInput
+  export type UsersUpdateOneRequiredWithoutUserEstoquesNestedInput = {
+    create?: XOR<UsersCreateWithoutUserEstoquesInput, UsersUncheckedCreateWithoutUserEstoquesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUserEstoquesInput
+    upsert?: UsersUpsertWithoutUserEstoquesInput
     connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutPagamentosInput, UsersUpdateWithoutPagamentosInput>, UsersUncheckedUpdateWithoutPagamentosInput>
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUserEstoquesInput, UsersUpdateWithoutUserEstoquesInput>, UsersUncheckedUpdateWithoutUserEstoquesInput>
+  }
+
+  export type EstoquesUpdateOneRequiredWithoutEstoqueUsersNestedInput = {
+    create?: XOR<EstoquesCreateWithoutEstoqueUsersInput, EstoquesUncheckedCreateWithoutEstoqueUsersInput>
+    connectOrCreate?: EstoquesCreateOrConnectWithoutEstoqueUsersInput
+    upsert?: EstoquesUpsertWithoutEstoqueUsersInput
+    connect?: EstoquesWhereUniqueInput
+    update?: XOR<XOR<EstoquesUpdateToOneWithWhereWithoutEstoqueUsersInput, EstoquesUpdateWithoutEstoqueUsersInput>, EstoquesUncheckedUpdateWithoutEstoqueUsersInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -6669,6 +6089,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
@@ -6710,406 +6131,374 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+  export type Users_EstoquesCreateWithoutUser_estoqueInput = {
+    estoque_user: EstoquesCreateNestedOneWithoutEstoqueUsersInput
   }
 
-  export type PagamentosCreateWithoutUserInput = {
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
-    Vaga: VagasCreateNestedOneWithoutPagamentosInput
+  export type Users_EstoquesUncheckedCreateWithoutUser_estoqueInput = {
+    idEstoque: number
   }
 
-  export type PagamentosUncheckedCreateWithoutUserInput = {
-    id_vaga: number
-    id_pagamento?: number
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
+  export type Users_EstoquesCreateOrConnectWithoutUser_estoqueInput = {
+    where: Users_EstoquesWhereUniqueInput
+    create: XOR<Users_EstoquesCreateWithoutUser_estoqueInput, Users_EstoquesUncheckedCreateWithoutUser_estoqueInput>
   }
 
-  export type PagamentosCreateOrConnectWithoutUserInput = {
-    where: PagamentosWhereUniqueInput
-    create: XOR<PagamentosCreateWithoutUserInput, PagamentosUncheckedCreateWithoutUserInput>
+  export type Users_EstoquesCreateManyUser_estoqueInputEnvelope = {
+    data: Users_EstoquesCreateManyUser_estoqueInput | Users_EstoquesCreateManyUser_estoqueInput[]
+    skipDuplicates?: boolean
   }
 
-  export type PagamentosCreateManyUserInputEnvelope = {
-    data: PagamentosCreateManyUserInput | PagamentosCreateManyUserInput[]
+  export type Users_EstoquesUpsertWithWhereUniqueWithoutUser_estoqueInput = {
+    where: Users_EstoquesWhereUniqueInput
+    update: XOR<Users_EstoquesUpdateWithoutUser_estoqueInput, Users_EstoquesUncheckedUpdateWithoutUser_estoqueInput>
+    create: XOR<Users_EstoquesCreateWithoutUser_estoqueInput, Users_EstoquesUncheckedCreateWithoutUser_estoqueInput>
   }
 
-  export type PagamentosUpsertWithWhereUniqueWithoutUserInput = {
-    where: PagamentosWhereUniqueInput
-    update: XOR<PagamentosUpdateWithoutUserInput, PagamentosUncheckedUpdateWithoutUserInput>
-    create: XOR<PagamentosCreateWithoutUserInput, PagamentosUncheckedCreateWithoutUserInput>
+  export type Users_EstoquesUpdateWithWhereUniqueWithoutUser_estoqueInput = {
+    where: Users_EstoquesWhereUniqueInput
+    data: XOR<Users_EstoquesUpdateWithoutUser_estoqueInput, Users_EstoquesUncheckedUpdateWithoutUser_estoqueInput>
   }
 
-  export type PagamentosUpdateWithWhereUniqueWithoutUserInput = {
-    where: PagamentosWhereUniqueInput
-    data: XOR<PagamentosUpdateWithoutUserInput, PagamentosUncheckedUpdateWithoutUserInput>
+  export type Users_EstoquesUpdateManyWithWhereWithoutUser_estoqueInput = {
+    where: Users_EstoquesScalarWhereInput
+    data: XOR<Users_EstoquesUpdateManyMutationInput, Users_EstoquesUncheckedUpdateManyWithoutUser_estoqueInput>
   }
 
-  export type PagamentosUpdateManyWithWhereWithoutUserInput = {
-    where: PagamentosScalarWhereInput
-    data: XOR<PagamentosUpdateManyMutationInput, PagamentosUncheckedUpdateManyWithoutUserInput>
+  export type Users_EstoquesScalarWhereInput = {
+    AND?: Users_EstoquesScalarWhereInput | Users_EstoquesScalarWhereInput[]
+    OR?: Users_EstoquesScalarWhereInput[]
+    NOT?: Users_EstoquesScalarWhereInput | Users_EstoquesScalarWhereInput[]
+    idUser?: IntFilter<"Users_Estoques"> | number
+    idEstoque?: IntFilter<"Users_Estoques"> | number
   }
 
-  export type PagamentosScalarWhereInput = {
-    AND?: PagamentosScalarWhereInput | PagamentosScalarWhereInput[]
-    OR?: PagamentosScalarWhereInput[]
-    NOT?: PagamentosScalarWhereInput | PagamentosScalarWhereInput[]
-    idUser?: IntFilter<"Pagamentos"> | number
-    id_vaga?: IntFilter<"Pagamentos"> | number
-    id_pagamento?: IntFilter<"Pagamentos"> | number
-    data_inicio?: DateTimeFilter<"Pagamentos"> | Date | string
-    data_fim?: DateTimeFilter<"Pagamentos"> | Date | string
-    valor?: FloatFilter<"Pagamentos"> | number
-    status_pagamento?: StringFilter<"Pagamentos"> | string
+  export type ProductCreateWithoutProdutosEstoqueInput = {
+    name: string
+    categoriaProdutos: string
+    sku: string
+    descricao?: string | null
+    data_de_validade?: Date | string | null
   }
 
-  export type VagasCreateWithoutEstacionamentoInput = {
-    status_vaga: string
-    pagamentos?: PagamentosCreateNestedManyWithoutVagaInput
+  export type ProductUncheckedCreateWithoutProdutosEstoqueInput = {
+    id_Product?: number
+    name: string
+    categoriaProdutos: string
+    sku: string
+    descricao?: string | null
+    data_de_validade?: Date | string | null
   }
 
-  export type VagasUncheckedCreateWithoutEstacionamentoInput = {
-    id_vaga?: number
-    status_vaga: string
-    pagamentos?: PagamentosUncheckedCreateNestedManyWithoutVagaInput
+  export type ProductCreateOrConnectWithoutProdutosEstoqueInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutProdutosEstoqueInput, ProductUncheckedCreateWithoutProdutosEstoqueInput>
   }
 
-  export type VagasCreateOrConnectWithoutEstacionamentoInput = {
-    where: VagasWhereUniqueInput
-    create: XOR<VagasCreateWithoutEstacionamentoInput, VagasUncheckedCreateWithoutEstacionamentoInput>
+  export type Users_EstoquesCreateWithoutEstoque_userInput = {
+    user_estoque: UsersCreateNestedOneWithoutUserEstoquesInput
   }
 
-  export type VagasCreateManyEstacionamentoInputEnvelope = {
-    data: VagasCreateManyEstacionamentoInput | VagasCreateManyEstacionamentoInput[]
-  }
-
-  export type VagasUpsertWithWhereUniqueWithoutEstacionamentoInput = {
-    where: VagasWhereUniqueInput
-    update: XOR<VagasUpdateWithoutEstacionamentoInput, VagasUncheckedUpdateWithoutEstacionamentoInput>
-    create: XOR<VagasCreateWithoutEstacionamentoInput, VagasUncheckedCreateWithoutEstacionamentoInput>
-  }
-
-  export type VagasUpdateWithWhereUniqueWithoutEstacionamentoInput = {
-    where: VagasWhereUniqueInput
-    data: XOR<VagasUpdateWithoutEstacionamentoInput, VagasUncheckedUpdateWithoutEstacionamentoInput>
-  }
-
-  export type VagasUpdateManyWithWhereWithoutEstacionamentoInput = {
-    where: VagasScalarWhereInput
-    data: XOR<VagasUpdateManyMutationInput, VagasUncheckedUpdateManyWithoutEstacionamentoInput>
-  }
-
-  export type VagasScalarWhereInput = {
-    AND?: VagasScalarWhereInput | VagasScalarWhereInput[]
-    OR?: VagasScalarWhereInput[]
-    NOT?: VagasScalarWhereInput | VagasScalarWhereInput[]
-    id_vaga?: IntFilter<"Vagas"> | number
-    id_estacionamento?: IntFilter<"Vagas"> | number
-    status_vaga?: StringFilter<"Vagas"> | string
-  }
-
-  export type PagamentosCreateWithoutVagaInput = {
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
-    User: UsersCreateNestedOneWithoutPagamentosInput
-  }
-
-  export type PagamentosUncheckedCreateWithoutVagaInput = {
+  export type Users_EstoquesUncheckedCreateWithoutEstoque_userInput = {
     idUser: number
-    id_pagamento?: number
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
   }
 
-  export type PagamentosCreateOrConnectWithoutVagaInput = {
-    where: PagamentosWhereUniqueInput
-    create: XOR<PagamentosCreateWithoutVagaInput, PagamentosUncheckedCreateWithoutVagaInput>
+  export type Users_EstoquesCreateOrConnectWithoutEstoque_userInput = {
+    where: Users_EstoquesWhereUniqueInput
+    create: XOR<Users_EstoquesCreateWithoutEstoque_userInput, Users_EstoquesUncheckedCreateWithoutEstoque_userInput>
   }
 
-  export type PagamentosCreateManyVagaInputEnvelope = {
-    data: PagamentosCreateManyVagaInput | PagamentosCreateManyVagaInput[]
+  export type Users_EstoquesCreateManyEstoque_userInputEnvelope = {
+    data: Users_EstoquesCreateManyEstoque_userInput | Users_EstoquesCreateManyEstoque_userInput[]
+    skipDuplicates?: boolean
   }
 
-  export type EstacionamentosCreateWithoutVagasInput = {
-    nome: string
-    endereco: string
-    qtd_vagas: number
+  export type ProductUpsertWithoutProdutosEstoqueInput = {
+    update: XOR<ProductUpdateWithoutProdutosEstoqueInput, ProductUncheckedUpdateWithoutProdutosEstoqueInput>
+    create: XOR<ProductCreateWithoutProdutosEstoqueInput, ProductUncheckedCreateWithoutProdutosEstoqueInput>
+    where?: ProductWhereInput
   }
 
-  export type EstacionamentosUncheckedCreateWithoutVagasInput = {
-    id_estacionamento?: number
-    nome: string
-    endereco: string
-    qtd_vagas: number
+  export type ProductUpdateToOneWithWhereWithoutProdutosEstoqueInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutProdutosEstoqueInput, ProductUncheckedUpdateWithoutProdutosEstoqueInput>
   }
 
-  export type EstacionamentosCreateOrConnectWithoutVagasInput = {
-    where: EstacionamentosWhereUniqueInput
-    create: XOR<EstacionamentosCreateWithoutVagasInput, EstacionamentosUncheckedCreateWithoutVagasInput>
+  export type ProductUpdateWithoutProdutosEstoqueInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    categoriaProdutos?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    data_de_validade?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PagamentosUpsertWithWhereUniqueWithoutVagaInput = {
-    where: PagamentosWhereUniqueInput
-    update: XOR<PagamentosUpdateWithoutVagaInput, PagamentosUncheckedUpdateWithoutVagaInput>
-    create: XOR<PagamentosCreateWithoutVagaInput, PagamentosUncheckedCreateWithoutVagaInput>
+  export type ProductUncheckedUpdateWithoutProdutosEstoqueInput = {
+    id_Product?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    categoriaProdutos?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    data_de_validade?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PagamentosUpdateWithWhereUniqueWithoutVagaInput = {
-    where: PagamentosWhereUniqueInput
-    data: XOR<PagamentosUpdateWithoutVagaInput, PagamentosUncheckedUpdateWithoutVagaInput>
+  export type Users_EstoquesUpsertWithWhereUniqueWithoutEstoque_userInput = {
+    where: Users_EstoquesWhereUniqueInput
+    update: XOR<Users_EstoquesUpdateWithoutEstoque_userInput, Users_EstoquesUncheckedUpdateWithoutEstoque_userInput>
+    create: XOR<Users_EstoquesCreateWithoutEstoque_userInput, Users_EstoquesUncheckedCreateWithoutEstoque_userInput>
   }
 
-  export type PagamentosUpdateManyWithWhereWithoutVagaInput = {
-    where: PagamentosScalarWhereInput
-    data: XOR<PagamentosUpdateManyMutationInput, PagamentosUncheckedUpdateManyWithoutVagaInput>
+  export type Users_EstoquesUpdateWithWhereUniqueWithoutEstoque_userInput = {
+    where: Users_EstoquesWhereUniqueInput
+    data: XOR<Users_EstoquesUpdateWithoutEstoque_userInput, Users_EstoquesUncheckedUpdateWithoutEstoque_userInput>
   }
 
-  export type EstacionamentosUpsertWithoutVagasInput = {
-    update: XOR<EstacionamentosUpdateWithoutVagasInput, EstacionamentosUncheckedUpdateWithoutVagasInput>
-    create: XOR<EstacionamentosCreateWithoutVagasInput, EstacionamentosUncheckedCreateWithoutVagasInput>
-    where?: EstacionamentosWhereInput
+  export type Users_EstoquesUpdateManyWithWhereWithoutEstoque_userInput = {
+    where: Users_EstoquesScalarWhereInput
+    data: XOR<Users_EstoquesUpdateManyMutationInput, Users_EstoquesUncheckedUpdateManyWithoutEstoque_userInput>
   }
 
-  export type EstacionamentosUpdateToOneWithWhereWithoutVagasInput = {
-    where?: EstacionamentosWhereInput
-    data: XOR<EstacionamentosUpdateWithoutVagasInput, EstacionamentosUncheckedUpdateWithoutVagasInput>
+  export type EstoquesCreateWithoutProdutoInput = {
+    estoqueUsers?: Users_EstoquesCreateNestedManyWithoutEstoque_userInput
   }
 
-  export type EstacionamentosUpdateWithoutVagasInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    endereco?: StringFieldUpdateOperationsInput | string
-    qtd_vagas?: IntFieldUpdateOperationsInput | number
+  export type EstoquesUncheckedCreateWithoutProdutoInput = {
+    idEstoque?: number
+    estoqueUsers?: Users_EstoquesUncheckedCreateNestedManyWithoutEstoque_userInput
   }
 
-  export type EstacionamentosUncheckedUpdateWithoutVagasInput = {
-    id_estacionamento?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    endereco?: StringFieldUpdateOperationsInput | string
-    qtd_vagas?: IntFieldUpdateOperationsInput | number
+  export type EstoquesCreateOrConnectWithoutProdutoInput = {
+    where: EstoquesWhereUniqueInput
+    create: XOR<EstoquesCreateWithoutProdutoInput, EstoquesUncheckedCreateWithoutProdutoInput>
   }
 
-  export type VagasCreateWithoutPagamentosInput = {
-    status_vaga: string
-    estacionamento: EstacionamentosCreateNestedOneWithoutVagasInput
+  export type EstoquesCreateManyProdutoInputEnvelope = {
+    data: EstoquesCreateManyProdutoInput | EstoquesCreateManyProdutoInput[]
+    skipDuplicates?: boolean
   }
 
-  export type VagasUncheckedCreateWithoutPagamentosInput = {
-    id_vaga?: number
-    id_estacionamento: number
-    status_vaga: string
+  export type EstoquesUpsertWithWhereUniqueWithoutProdutoInput = {
+    where: EstoquesWhereUniqueInput
+    update: XOR<EstoquesUpdateWithoutProdutoInput, EstoquesUncheckedUpdateWithoutProdutoInput>
+    create: XOR<EstoquesCreateWithoutProdutoInput, EstoquesUncheckedCreateWithoutProdutoInput>
   }
 
-  export type VagasCreateOrConnectWithoutPagamentosInput = {
-    where: VagasWhereUniqueInput
-    create: XOR<VagasCreateWithoutPagamentosInput, VagasUncheckedCreateWithoutPagamentosInput>
+  export type EstoquesUpdateWithWhereUniqueWithoutProdutoInput = {
+    where: EstoquesWhereUniqueInput
+    data: XOR<EstoquesUpdateWithoutProdutoInput, EstoquesUncheckedUpdateWithoutProdutoInput>
   }
 
-  export type UsersCreateWithoutPagamentosInput = {
+  export type EstoquesUpdateManyWithWhereWithoutProdutoInput = {
+    where: EstoquesScalarWhereInput
+    data: XOR<EstoquesUpdateManyMutationInput, EstoquesUncheckedUpdateManyWithoutProdutoInput>
+  }
+
+  export type EstoquesScalarWhereInput = {
+    AND?: EstoquesScalarWhereInput | EstoquesScalarWhereInput[]
+    OR?: EstoquesScalarWhereInput[]
+    NOT?: EstoquesScalarWhereInput | EstoquesScalarWhereInput[]
+    idEstoque?: IntFilter<"Estoques"> | number
+    id_Product?: IntFilter<"Estoques"> | number
+  }
+
+  export type UsersCreateWithoutUserEstoquesInput = {
     email: string
     name: string
     password: string
   }
 
-  export type UsersUncheckedCreateWithoutPagamentosInput = {
+  export type UsersUncheckedCreateWithoutUserEstoquesInput = {
     idUser?: number
     email: string
     name: string
     password: string
   }
 
-  export type UsersCreateOrConnectWithoutPagamentosInput = {
+  export type UsersCreateOrConnectWithoutUserEstoquesInput = {
     where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutPagamentosInput, UsersUncheckedCreateWithoutPagamentosInput>
+    create: XOR<UsersCreateWithoutUserEstoquesInput, UsersUncheckedCreateWithoutUserEstoquesInput>
   }
 
-  export type VagasUpsertWithoutPagamentosInput = {
-    update: XOR<VagasUpdateWithoutPagamentosInput, VagasUncheckedUpdateWithoutPagamentosInput>
-    create: XOR<VagasCreateWithoutPagamentosInput, VagasUncheckedCreateWithoutPagamentosInput>
-    where?: VagasWhereInput
+  export type EstoquesCreateWithoutEstoqueUsersInput = {
+    produto: ProductCreateNestedOneWithoutProdutosEstoqueInput
   }
 
-  export type VagasUpdateToOneWithWhereWithoutPagamentosInput = {
-    where?: VagasWhereInput
-    data: XOR<VagasUpdateWithoutPagamentosInput, VagasUncheckedUpdateWithoutPagamentosInput>
+  export type EstoquesUncheckedCreateWithoutEstoqueUsersInput = {
+    idEstoque?: number
+    id_Product: number
   }
 
-  export type VagasUpdateWithoutPagamentosInput = {
-    status_vaga?: StringFieldUpdateOperationsInput | string
-    estacionamento?: EstacionamentosUpdateOneRequiredWithoutVagasNestedInput
+  export type EstoquesCreateOrConnectWithoutEstoqueUsersInput = {
+    where: EstoquesWhereUniqueInput
+    create: XOR<EstoquesCreateWithoutEstoqueUsersInput, EstoquesUncheckedCreateWithoutEstoqueUsersInput>
   }
 
-  export type VagasUncheckedUpdateWithoutPagamentosInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_estacionamento?: IntFieldUpdateOperationsInput | number
-    status_vaga?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UsersUpsertWithoutPagamentosInput = {
-    update: XOR<UsersUpdateWithoutPagamentosInput, UsersUncheckedUpdateWithoutPagamentosInput>
-    create: XOR<UsersCreateWithoutPagamentosInput, UsersUncheckedCreateWithoutPagamentosInput>
+  export type UsersUpsertWithoutUserEstoquesInput = {
+    update: XOR<UsersUpdateWithoutUserEstoquesInput, UsersUncheckedUpdateWithoutUserEstoquesInput>
+    create: XOR<UsersCreateWithoutUserEstoquesInput, UsersUncheckedCreateWithoutUserEstoquesInput>
     where?: UsersWhereInput
   }
 
-  export type UsersUpdateToOneWithWhereWithoutPagamentosInput = {
+  export type UsersUpdateToOneWithWhereWithoutUserEstoquesInput = {
     where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutPagamentosInput, UsersUncheckedUpdateWithoutPagamentosInput>
+    data: XOR<UsersUpdateWithoutUserEstoquesInput, UsersUncheckedUpdateWithoutUserEstoquesInput>
   }
 
-  export type UsersUpdateWithoutPagamentosInput = {
+  export type UsersUpdateWithoutUserEstoquesInput = {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UsersUncheckedUpdateWithoutPagamentosInput = {
+  export type UsersUncheckedUpdateWithoutUserEstoquesInput = {
     idUser?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PagamentosCreateManyUserInput = {
-    id_vaga: number
-    id_pagamento?: number
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
+  export type EstoquesUpsertWithoutEstoqueUsersInput = {
+    update: XOR<EstoquesUpdateWithoutEstoqueUsersInput, EstoquesUncheckedUpdateWithoutEstoqueUsersInput>
+    create: XOR<EstoquesCreateWithoutEstoqueUsersInput, EstoquesUncheckedCreateWithoutEstoqueUsersInput>
+    where?: EstoquesWhereInput
   }
 
-  export type PagamentosUpdateWithoutUserInput = {
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
-    Vaga?: VagasUpdateOneRequiredWithoutPagamentosNestedInput
+  export type EstoquesUpdateToOneWithWhereWithoutEstoqueUsersInput = {
+    where?: EstoquesWhereInput
+    data: XOR<EstoquesUpdateWithoutEstoqueUsersInput, EstoquesUncheckedUpdateWithoutEstoqueUsersInput>
   }
 
-  export type PagamentosUncheckedUpdateWithoutUserInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_pagamento?: IntFieldUpdateOperationsInput | number
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
+  export type EstoquesUpdateWithoutEstoqueUsersInput = {
+    produto?: ProductUpdateOneRequiredWithoutProdutosEstoqueNestedInput
   }
 
-  export type PagamentosUncheckedUpdateManyWithoutUserInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    id_pagamento?: IntFieldUpdateOperationsInput | number
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
+  export type EstoquesUncheckedUpdateWithoutEstoqueUsersInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
+    id_Product?: IntFieldUpdateOperationsInput | number
   }
 
-  export type VagasCreateManyEstacionamentoInput = {
-    id_vaga?: number
-    status_vaga: string
+  export type Users_EstoquesCreateManyUser_estoqueInput = {
+    idEstoque: number
   }
 
-  export type VagasUpdateWithoutEstacionamentoInput = {
-    status_vaga?: StringFieldUpdateOperationsInput | string
-    pagamentos?: PagamentosUpdateManyWithoutVagaNestedInput
+  export type Users_EstoquesUpdateWithoutUser_estoqueInput = {
+    estoque_user?: EstoquesUpdateOneRequiredWithoutEstoqueUsersNestedInput
   }
 
-  export type VagasUncheckedUpdateWithoutEstacionamentoInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    status_vaga?: StringFieldUpdateOperationsInput | string
-    pagamentos?: PagamentosUncheckedUpdateManyWithoutVagaNestedInput
+  export type Users_EstoquesUncheckedUpdateWithoutUser_estoqueInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
   }
 
-  export type VagasUncheckedUpdateManyWithoutEstacionamentoInput = {
-    id_vaga?: IntFieldUpdateOperationsInput | number
-    status_vaga?: StringFieldUpdateOperationsInput | string
+  export type Users_EstoquesUncheckedUpdateManyWithoutUser_estoqueInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
   }
 
-  export type PagamentosCreateManyVagaInput = {
+  export type Users_EstoquesCreateManyEstoque_userInput = {
     idUser: number
-    id_pagamento?: number
-    data_inicio: Date | string
-    data_fim: Date | string
-    valor: number
-    status_pagamento: string
   }
 
-  export type PagamentosUpdateWithoutVagaInput = {
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
-    User?: UsersUpdateOneRequiredWithoutPagamentosNestedInput
+  export type Users_EstoquesUpdateWithoutEstoque_userInput = {
+    user_estoque?: UsersUpdateOneRequiredWithoutUserEstoquesNestedInput
   }
 
-  export type PagamentosUncheckedUpdateWithoutVagaInput = {
+  export type Users_EstoquesUncheckedUpdateWithoutEstoque_userInput = {
     idUser?: IntFieldUpdateOperationsInput | number
-    id_pagamento?: IntFieldUpdateOperationsInput | number
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PagamentosUncheckedUpdateManyWithoutVagaInput = {
+  export type Users_EstoquesUncheckedUpdateManyWithoutEstoque_userInput = {
     idUser?: IntFieldUpdateOperationsInput | number
-    id_pagamento?: IntFieldUpdateOperationsInput | number
-    data_inicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    data_fim?: DateTimeFieldUpdateOperationsInput | Date | string
-    valor?: FloatFieldUpdateOperationsInput | number
-    status_pagamento?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EstoquesCreateManyProdutoInput = {
+    idEstoque?: number
+  }
+
+  export type EstoquesUpdateWithoutProdutoInput = {
+    estoqueUsers?: Users_EstoquesUpdateManyWithoutEstoque_userNestedInput
+  }
+
+  export type EstoquesUncheckedUpdateWithoutProdutoInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
+    estoqueUsers?: Users_EstoquesUncheckedUpdateManyWithoutEstoque_userNestedInput
+  }
+
+  export type EstoquesUncheckedUpdateManyWithoutProdutoInput = {
+    idEstoque?: IntFieldUpdateOperationsInput | number
   }
 
 

@@ -114,6 +114,9 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -124,27 +127,23 @@ exports.Prisma.UsersScalarFieldEnum = {
   password: 'password'
 };
 
-exports.Prisma.EstacionamentosScalarFieldEnum = {
-  id_estacionamento: 'id_estacionamento',
-  nome: 'nome',
-  endereco: 'endereco',
-  qtd_vagas: 'qtd_vagas'
+exports.Prisma.EstoquesScalarFieldEnum = {
+  idEstoque: 'idEstoque',
+  id_Product: 'id_Product'
 };
 
-exports.Prisma.VagasScalarFieldEnum = {
-  id_vaga: 'id_vaga',
-  id_estacionamento: 'id_estacionamento',
-  status_vaga: 'status_vaga'
+exports.Prisma.ProductScalarFieldEnum = {
+  id_Product: 'id_Product',
+  name: 'name',
+  categoriaProdutos: 'categoriaProdutos',
+  sku: 'sku',
+  descricao: 'descricao',
+  data_de_validade: 'data_de_validade'
 };
 
-exports.Prisma.PagamentosScalarFieldEnum = {
+exports.Prisma.Users_EstoquesScalarFieldEnum = {
   idUser: 'idUser',
-  id_vaga: 'id_vaga',
-  id_pagamento: 'id_pagamento',
-  data_inicio: 'data_inicio',
-  data_fim: 'data_fim',
-  valor: 'valor',
-  status_pagamento: 'status_pagamento'
+  idEstoque: 'idEstoque'
 };
 
 exports.Prisma.SortOrder = {
@@ -152,12 +151,30 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.UsersOrderByRelevanceFieldEnum = {
+  email: 'email',
+  name: 'name',
+  password: 'password'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.ProductOrderByRelevanceFieldEnum = {
+  name: 'name',
+  categoriaProdutos: 'categoriaProdutos',
+  sku: 'sku',
+  descricao: 'descricao'
+};
+
 
 exports.Prisma.ModelName = {
   Users: 'Users',
-  Estacionamentos: 'Estacionamentos',
-  Vagas: 'Vagas',
-  Pagamentos: 'Pagamentos'
+  Estoques: 'Estoques',
+  Product: 'Product',
+  Users_Estoques: 'Users_Estoques'
 };
 
 /**
