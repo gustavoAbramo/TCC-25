@@ -51,35 +51,33 @@ datasource db {
 }
 
 model Users {
-  idUser     Int            @id @default(autoincrement()) 
-  email      String         @unique
-  name       String         @db.VarChar(100)
-  password   String         @db.VarChar(50)
+  idUser       Int              @id @default(autoincrement())
+  email        String           @unique
+  name         String           @db.VarChar(100)
+  password     String           @db.VarChar(50)
   userEstoques Users_Estoques[] // Relacionamento com a tabela de relacionamento
 }
 
 model Estoques {
-  idEstoque      Int          @id @default(autoincrement())
-  id_Product     Int
-  produto        Product      @relation(fields: [id_Product], references: [id_Product])
-  estoqueUsers   Users_Estoques[] // Relacionamento com a tabela de relacionamento
+  idEstoque    Int              @id @default(autoincrement())
+  id_Product   Int
+  produto      Product          @relation(fields: [id_Product], references: [id_Product])
+  estoqueUsers Users_Estoques[] // Relacionamento com a tabela de relacionamento
 }
 
 model Product {
-  id_Product       Int          @id @default(autoincrement())
-  name             String       @db.VarChar(100)
+  id_Product        Int        @id @default(autoincrement())
+  name              String     @db.VarChar(100)
   categoriaProdutos String     @db.VarChar(50)
-  sku              String       @unique @db.VarChar(50)
-  descricao        String?      @db.Text
-  data_de_validade DateTime?
-  produtosEstoque  Estoques[]   @relation("EstoqueProduto") // Relacionamento inverso
+  sku               String     @unique @db.VarChar(50)
+  descricao         String?    @db.Text
+  data_de_validade  DateTime?
+  produtosEstoque   Estoques[] // Relacionamento com a tabela Estoques
 }
 
 model Users_Estoques {
-  idUser     Int
-  idEstoque  Int
+  idUser       Int      @id
+  idEstoque    Int
   user_estoque Users    @relation(fields: [idUser], references: [idUser])
   estoque_user Estoques @relation(fields: [idEstoque], references: [idEstoque])
-
-  @id([idUser, idEstoque]) // Chave primária composta
 }
