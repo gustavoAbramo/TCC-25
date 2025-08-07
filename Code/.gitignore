@@ -1,6 +1,0 @@
-# aqui escondemos oq nao queremos que seja versionado(levado para o gitHub
-# nao vou colocar o env ainda pq o projeto essa privado, mas irei colocar o node_modules
-node_modules/
-
-
-# n esquece do env em gustavo - bruno
