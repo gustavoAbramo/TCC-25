@@ -1,0 +1,1 @@
+//aqui vai conter as rotas de cada pagina do nosso sistema e dps nos so importamos elas no main.jsx
