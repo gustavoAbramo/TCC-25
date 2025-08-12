@@ -1,0 +1,37 @@
+.logo-padrao{
+  width: 50%; /* Define a largura */
+  height: auto; /* Mantém a proporção */
+}
+
+.label-nome{
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Coloca a label acima do input */
+  align-items: flex-end ; 
+  margin-bottom: 5%;
+}
+
+.label-nome .label {
+  position: relative;
+  top: -50em; /* Sobe o texto em relação ao tamanho do elemento */
+  margin-bottom: 5%; /* Espaçamento entre a label e o input */
+  margin-right: 45em;
+}
+
+.label-nome .text-field {
+  position: relative;
+  top: -67em; /* Sobe a input box em relação ao tamanho do elemento */
+  margin-bottom: 5%; /* Espaçamento adicional, se necessário */
+  margin-right: 49em;
+}
+.Headline{
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Coloca a label acima do input */
+  align-items: flex-end ; /* Alinha à esquerda */
+  margin-bottom: 5%;
+  position: relative;
+  top: -55em; /* Sobe o texto em relação ao tamanho do elemento */
+  margin-bottom: 5%; /* Espaçamento entre a label e o input */
+  margin-right: 25em;
+}
