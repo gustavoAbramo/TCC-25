@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+
+.bg-fotologo{
+  background-image: url(../../assets/logo-safeplay.png);
+}
