@@ -1,4 +1,3 @@
-import logo from "../../assets/logo-safeplay.png";
 import "./styles.css";
 import "tailwindcss";
 
@@ -10,7 +9,7 @@ export default function Login() {
       {/* Metade direita com o login */}
       <div className="w-1/2 flex items-center justify-center bg-gray-100 p-4">
         <form className="max-w-sm w-full p-6">
-          <h1 className="mb-6 text-4xl font-bold text-center text-gray-900">
+          <h1 className="mb-6 text-6xl font-bold text-center text-gray-900 p-3">
             Bem-vindo
           </h1>
 
