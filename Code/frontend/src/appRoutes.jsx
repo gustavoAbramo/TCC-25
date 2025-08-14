@@ -5,10 +5,12 @@ import About from "./pages/About";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default function AppRoutes() {
   const location = useLocation();
   const hideHeaderOn = ["/login"];
+  const hideFooterOn = ["/login"]
   return (
     <>
       {!hideHeaderOn.includes(location.pathname) && <Header />}
@@ -18,6 +20,7 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      {!hideFooterOn.includes(location.pathname) && <Footer />}
     </>
   );
 }
