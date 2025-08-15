@@ -1,1 +1,8 @@
+/* na nova versao no só precisamos disso para criar estilos 
+agora para chamar so escreva o segundo nome depois da palavra color */
+
 @import "tailwindcss";
+
+@theme{
+    --color-background: oklch(0.98 0.01 120); 
+}
