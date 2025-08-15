@@ -4,5 +4,8 @@ agora para chamar so escreva o segundo nome depois da palavra color */
 @import "tailwindcss";
 
 @theme{
-    --color-background: oklch(0.98 0.01 120); 
+    --color-background: #101828; 
+    --color-text: #f8fafc;
+    --color-primary: #2563eb;
+    
 }

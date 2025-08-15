@@ -6,19 +6,23 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Contact from "./pages/Contact";
+import DashboardPage from "./pages/Dashboard";
 
 export default function AppRoutes() {
   const location = useLocation();
-  const hideHeaderOn = ["/login"];
-  const hideFooterOn = ["/login"]
+  const hideHeaderOn = ["/login", "/cadastro", "/telaInicial"];
+  const hideFooterOn = ["/login", "/cadastro", "/telaInicial"];
   return (
     <>
       {!hideHeaderOn.includes(location.pathname) && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/sobre" element={<About />} />
+        <Route path="/contato" element={<Contact />} />
+        <Route path="/cadastro" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/telaInicial" element={<DashboardPage />} />
       </Routes>
       {!hideFooterOn.includes(location.pathname) && <Footer />}
     </>
