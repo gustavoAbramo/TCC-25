@@ -14,11 +14,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Users{
-  id        Int      @id @default(autoincrement())
+  id_user        Int      @id @default(autoincrement())
   email     String   @unique @db.VarChar(100)
-  name      String  @unique @db.VarChar(20)
+  name      String   @db.VarChar(40)
   password  String   @db.VarChar(10)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  dataCadastro DateTime @default(now())
+  estoque Estoques[] @relation("UserEstoques") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
+  permissoes PermissoesEstoques[]
+}
+
+model Estoques{
+  id_estoque        Int      @id @default(autoincrement())
+  nome_estoque      String   @db.VarChar(100)
+  dataCriacao DateTime @default(now())
+  users Users[] @relation("UserEstoques") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
+  permissoes PermissoesEstoques[]
+}
+
+model Produtos{
+  id_produto        Int      @id @default(autoincrement())
+  nome_produto      String   @db.VarChar(100)
+  descricao_produto String   @db.VarChar(200)
+  dataValidade      DateTime @db.DateTime()
+  categoria         String   @db.VarChar(100)   
+}
+
+
+
+model PermissoesEstoques{
+  id_permissao Int     @id @default(autoincrement())
+  id_user     Int
+  id_estoque    Int
+  tipo_permissao    String @db.VarChar(40)
+  user       Users    @relation(fields: [id_user], references: [id_user])
+  estoque    Estoques @relation(fields: [id_estoque], references: [id_estoque])
+
+  @@unique([id_user, id_estoque])
+
 }
