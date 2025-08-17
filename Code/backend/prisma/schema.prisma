@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -14,72 +8,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-  enum Cargos {
-    Proprietario // pode fazer tudo
-    Coproprietario // mesmo q acima, so que nao pode determinar cargos
-    Convidado //leitura apenas
+model User {
+  id_user    Int      @id @default(autoincrement())
+  email      String   @unique @db.VarChar(100)
+  name       String   @db.VarChar(40)
+  password   String   @db.VarChar(100)
+  created_at DateTime @default(now())
+  is_active  Boolean  @default(true) // Indica se o usuário está ativo ou não, útil para desativar contas sem deletar
 
-
-    //^^ minha ideia de como seria esses cargos(permissoes) ^^
-  }
-
-
-
-model User{
-  id_user        Int      @id @default(autoincrement())
-  email     String   @unique @db.VarChar(100)
-  name      String   @db.VarChar(40)
-  password  String   @db.VarChar(10)
-  dataCadastro DateTime @default(now())
-  estoque Estoque[] @relation("UserEstoque") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
-  permissoes PermissoesEstoque[]
-  produtos Produto[] //produtos que o usuario criou
+  // Relations
+  stocks      Stock[]            @relation("UserStock")
+  permissions Stock_Permission[]
+  Product     Product[]
 }
 
-model Estoque{
-  id_estoque        Int      @id @default(autoincrement())
-  nome_estoque      String   @db.VarChar(100)
-  dataCriacao DateTime @default(now())
-  users User[] @relation("UserEstoque") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
-  permissoes PermissoesEstoque[]
-  estoques_produtos Estoques_Produto[]
+model Stock {
+  id_stock   Int      @id @default(autoincrement())
+  name       String   @db.VarChar(100)
+  created_at DateTime @default(now())
 
+  // Relations
+  users         User[]             @relation("UserStock")
+  permissions   Stock_Permission[]
+  Stock_Product Stock_Product[]
 }
 
-model Estoques_Produto {
-  id                Int      @id @default(autoincrement())
-  id_estoque        Int
-  id_produto        Int
-  estoque           Estoque @relation(fields: [id_estoque], references: [id_estoque])
-  produto           Produto @relation(fields: [id_produto], references: [id_produto])
+model Stock_Product {
+  id         Int @id @default(autoincrement())
+  id_stock   Int
+  id_product Int
 
-  @@unique([id_estoque, id_produto])
+  stock   Stock   @relation(fields: [id_stock], references: [id_stock])
+  product Product @relation(fields: [id_product], references: [id_product])
+
+  @@unique([id_stock, id_product]) 
 }
 
-
-
-model Produto{
-  id_produto        Int      @id @default(autoincrement())
-  nome_produto      String   @db.VarChar(100)
-  descricao_produto String   @db.VarChar(200)
-  dataValidade      DateTime @db.DateTime()
-  categoria         String   @db.VarChar(100)   
-  id_user           Int
-  usuario           User    @relation(fields: [id_user], references: [id_user]) //relaciona o usuario que criou o produto
-  estoques_produtos Estoques_Produto[]
-}
-
-
-
-model PermissoesEstoque{
-  id_permissao Int     @id @default(autoincrement())
+model Product {
+  id_product  Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  description String?  @db.VarChar(200)
+  expiration  DateTime @db.DateTime()
+  category    String   @db.VarChar(100)
   id_user     Int
-  id_estoque    Int
-  tipo_permissao   Cargos 
-  user       User    @relation(fields: [id_user], references: [id_user])
-  estoque    Estoque @relation(fields: [id_estoque], references: [id_estoque])
 
-  @@unique([id_user, id_estoque])
+  // Relations
+  creator       User            @relation(fields: [id_user], references: [id_user])
+  stock_belongs Stock_Product[]
+}
 
+model Stock_Permission {
+  id           Int          @id @default(autoincrement())
+  id_user      Int
+  id_stock     Int
+  Access_Level Access_Level
 
+  // Relations
+  user  User  @relation(fields: [id_user], references: [id_user])
+  stock Stock @relation(fields: [id_stock], references: [id_stock])
+
+  @@unique([id_user, id_stock]) // para assegurar que um usuário só pode ter uma permissão por estoque
+}
+
+enum Access_Level {
+  Owner
+  CoOwner
+  Guest
 }
