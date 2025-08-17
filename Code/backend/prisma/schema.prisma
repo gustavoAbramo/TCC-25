@@ -14,43 +14,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+  enum Cargos {
+    Proprietario // pode fazer tudo
+    Coproprietario // mesmo q acima, so que nao pode determinar cargos
+    Convidado //leitura apenas
 
-model Users{
+
+    //^^ minha ideia de como seria esses cargos(permissoes) ^^
+  }
+
+
+
+model User{
   id_user        Int      @id @default(autoincrement())
   email     String   @unique @db.VarChar(100)
   name      String   @db.VarChar(40)
   password  String   @db.VarChar(10)
   dataCadastro DateTime @default(now())
-  estoque Estoques[] @relation("UserEstoques") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
-  permissoes PermissoesEstoques[]
+  estoque Estoque[] @relation("UserEstoque") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
+  permissoes PermissoesEstoque[]
+  produtos Produto[] //produtos que o usuario criou
 }
 
-model Estoques{
+model Estoque{
   id_estoque        Int      @id @default(autoincrement())
   nome_estoque      String   @db.VarChar(100)
   dataCriacao DateTime @default(now())
-  users Users[] @relation("UserEstoques") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
-  permissoes PermissoesEstoques[]
+  users User[] @relation("UserEstoque") // essa relacao liga usuarios a varios estoque feitos por outros, compartilhando estoque
+  permissoes PermissoesEstoque[]
+  estoques_produtos Estoques_Produto[]
+
 }
 
-model Produtos{
+model Estoques_Produto {
+  id                Int      @id @default(autoincrement())
+  id_estoque        Int
+  id_produto        Int
+  estoque           Estoque @relation(fields: [id_estoque], references: [id_estoque])
+  produto           Produto @relation(fields: [id_produto], references: [id_produto])
+
+  @@unique([id_estoque, id_produto])
+}
+
+
+
+model Produto{
   id_produto        Int      @id @default(autoincrement())
   nome_produto      String   @db.VarChar(100)
   descricao_produto String   @db.VarChar(200)
   dataValidade      DateTime @db.DateTime()
   categoria         String   @db.VarChar(100)   
+  id_user           Int
+  usuario           User    @relation(fields: [id_user], references: [id_user]) //relaciona o usuario que criou o produto
+  estoques_produtos Estoques_Produto[]
 }
 
 
 
-model PermissoesEstoques{
+model PermissoesEstoque{
   id_permissao Int     @id @default(autoincrement())
   id_user     Int
   id_estoque    Int
-  tipo_permissao    String @db.VarChar(40)
-  user       Users    @relation(fields: [id_user], references: [id_user])
-  estoque    Estoques @relation(fields: [id_estoque], references: [id_estoque])
+  tipo_permissao   Cargos 
+  user       User    @relation(fields: [id_user], references: [id_user])
+  estoque    Estoque @relation(fields: [id_estoque], references: [id_estoque])
 
   @@unique([id_user, id_estoque])
+
 
 }
