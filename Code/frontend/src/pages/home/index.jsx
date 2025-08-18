@@ -13,10 +13,10 @@ export default function Home() {
 
         <div className="relative z-10 text-center py-32 px-6">
           <h1 className="text-6xl md:text-7xl font-light mb-6 leading-tight">
-            Storage <span className="text-blue-400">sistema.</span>
+            Smart Storage 
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Desenvolvemos soluções inteligentes de gestão de estoque para empresas alimentícias inovadoras.
+          Organizar nunca foi tão fácil. Nem tão viciante
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/sobre" className="bg-gray-700 hover:bg-gray-600 px-8 py-3 rounded-lg transition-colors">

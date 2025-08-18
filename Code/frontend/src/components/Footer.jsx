@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="py-20 px-6 text-center bg-gray-800 text-white">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-4xl font-light mb-6">
-            Pronto para conhecer nossa solução?
+            Pronto para organizar?
           </h2>
           <p className="text-gray-300 mb-8">
             Entre em contato conosco e descubra como podemos transformar a

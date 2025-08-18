@@ -10,7 +10,7 @@ export default function About() {
 
         <div className="relative z-10 py-20 px-6 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-light mb-8 text-center">
-            Sobre o <span className="text-blue-400">Storage</span>
+            Smart Storage
           </h1>
           <p className="text-xl text-gray-300 text-center mb-12 leading-relaxed">
             Revolucionando a gestão de estoque alimentício com tecnologia inteligente e soluções personalizadas.
