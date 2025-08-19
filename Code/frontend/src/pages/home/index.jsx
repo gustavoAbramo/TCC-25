@@ -12,8 +12,8 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 text-center py-32 px-6">
-          <h1 className="text-6xl md:text-7xl font-light mb-6 leading-tight">
-            Smart Storage 
+          <h1 className="text-6xl md:text-7xl mb-6 font-semibold">
+            Smart Storage
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
           Organizar nunca foi tão fácil. Nem tão viciante
