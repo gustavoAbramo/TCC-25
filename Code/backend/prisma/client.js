@@ -1,5 +1,4 @@
-// src/prisma/client.js
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './client/index.js'; // Ajuste o caminho conforme necessário
 
 const prisma = new PrismaClient();
 

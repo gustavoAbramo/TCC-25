@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "a74ddab2-87a8-4a62-bcf7-61428c5b46f0",
+		"name": "storage",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45553572",
+		"_collection_link": "https://gustavo-577103.postman.co/workspace/Gustavo's-Workspace~185499bc-644d-4c6f-80bb-97937f630f88/collection/45553572-a74ddab2-87a8-4a62-bcf7-61428c5b46f0?action=share&source=collection_link&creator=45553572"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"gustavo1\",\r\n    \"email\": \"gustavoabramo@gmail.com\",\r\n    \"password\": \"1223a42a42\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
