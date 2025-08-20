@@ -14,7 +14,7 @@ git checkout nome-da-branch
 ```
 -----------------------------------------------------------------------------------------------------------------------------------
 
-No cmd, digite o comando:
+No cmd, dentro da pasta backend digite os comandos:
 
 ```bash
 npm i
@@ -24,3 +24,18 @@ ou
 npm install
 ```
 pra instalar todas as dependências
+
+```
+npx prisma generate
+```
+para criar a pasta com o client
+```
+npx prisma migrate dev
+```
+atualiza as tabelas no banco 
+
+```
+npm run dev
+
+```
+para rodar o servidor com o nodemon
