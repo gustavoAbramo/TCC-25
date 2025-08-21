@@ -96,7 +96,7 @@ export default function Register() {
             </div>
 
             {/* Social Login */}
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1  gap-4">
               <button
                 type="button"
                 className="flex items-center justify-center px-4 py-3 border border-gray-600 rounded-lg hover:bg-gray-700/50 transition-colors"
