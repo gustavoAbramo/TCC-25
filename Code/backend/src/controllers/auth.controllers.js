@@ -29,3 +29,10 @@ export async function registerUser(req, res) {
     return res.status(400).json({ error: error.message });
   }
 }
+
+export default async function loginUser {
+  
+
+
+
+}
