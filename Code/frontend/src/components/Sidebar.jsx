@@ -48,14 +48,14 @@ export default function Sidebar({ setActivePage }) {
                 <div>
                     <button
                         onClick={() => setActivityPage("Login")}
-                        className="w-full px-4 border-1 border-blue-900 py-3  hover:bg-blue-900 rounded-lg font-medium transition-colors"
+                        className="w-full px-4 border-1 border-red-900 py-3  hover:bg-red-800 rounded-lg font-medium transition-colors"
                     >
                         Sair
                     </button>
                 </div>
 
                 <div className="p-4 text-center text-sm text-gray-400">
-                    © 2023 Smart Storage. Todos os direitos reservados.
+                    © 2025 Smart Storage. Todos os direitos reservados.
                 </div>
             </footer>
         </div>
