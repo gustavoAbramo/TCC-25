@@ -45,21 +45,33 @@ export default function Sidebar({ setActivePage }) {
             </nav>
 
             <footer className="p-4">
-                <div>
-                    <button
-                        onClick={() => setActivityPage("Login")}
-                        className="w-full px-4 border-1 border-red-900 py-3  hover:bg-red-800 rounded-lg font-medium transition-colors"
-                    >
-                        Sair
-                    </button>
-                </div>
-
+                <LogoutButton />
                 <div className="p-4 text-center text-sm text-gray-400">
                     © 2025 Smart Storage. Todos os direitos reservados.
                 </div>
             </footer>
         </div>
     );
+
+    function LogoutButton() {
+        const navigate = useNavigate();
+
+        function handleLogout() {
+            // Remova o token de autenticação do localStorage/sessionStorage
+            localStorage.removeItem("authToken");
+            // Redirecione para a página de login
+            navigate("/login");
+        }
+
+        return (
+            <button
+                onClick={handleLogout}
+                className="w-full px-4 border-1 border-red-900 py-3 hover:bg-red-800 rounded-lg font-medium transition-colors"
+            >
+                Sair
+            </button>
+        );
+    }
 }
 {
     /* <ul className="space-y-2">
