@@ -1,6 +1,8 @@
 // src/controllers/user.controller.js
-import { registerUserSchema } from "../utils/user.util.js";
-import { createUser } from "../services/auth.service.js";
+import { registerUserSchema, loginUserSchema } from "../utils/user.util.js";
+import { createUserService, loginUserService } from "../services/auth.service.js";
+
+
 
 export async function registerUser(req, res) {
   try {
@@ -8,7 +10,7 @@ export async function registerUser(req, res) {
     const data = registerUserSchema.parse(req.body);
 
     // Cria o usuário chamando o service
-    const user = await createUser(data);
+    const user = await createUserService(data);
 
     // Responde com sucesso, omitindo senha
     res.status(201).json({
@@ -30,9 +32,29 @@ export async function registerUser(req, res) {
   }
 }
 
-export default async function loginUser {
-  
+export async function loginUser(req, res) {
+  try {
+    // valida os dados recebidos
+    const { email, password } = loginUserSchema.parse(req.body);
 
+    // tenta logar o usuário
+    const { user, token } = await loginUserService({ email, password });
 
+    // envia o token como cookie seguro
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000, // 1 hora
+    });
 
+    // retorna os dados do usuário
+    res.status(200).json({ message: "Login realizado com sucesso", user });
+  } catch (error) {
+
+    if (error.name === "ZodError") {
+      return res.status(400).json({ errors: error.errors });
+    }
+    res.status(400).json({ error: error.message });
+  }
 }

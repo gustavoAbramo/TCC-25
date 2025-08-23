@@ -1,7 +1,8 @@
 import prisma from '../../prisma/client.js'; // Ajuste o caminho conforme necessário
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-export async function createUser({ name, email, password }) {
+export async function createUserService({ name, email, password }) {
   const existing = await prisma.user.findUnique({ where: { email } });
 
   if (existing) {
@@ -20,4 +21,25 @@ export async function createUser({ name, email, password }) {
   });
 
   return user;
+}
+
+export async function loginUserService({ email, password }) {
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) {
+    throw new Error('E-mail ou senha inválidos');
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    throw new Error('E-mail ou senha inválidos');
+  }
+
+  const token = jwt.sign(
+    { userId: user.id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+  return { token, user: { id: user.id, name: user.name, email: user.email } };
 }
