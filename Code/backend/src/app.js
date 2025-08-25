@@ -11,6 +11,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser())
 app.use('/auth', authRoutes);
-app.use('/estoques', storageRoutes)
+app.use('/storages', storageRoutes)
 
 export default app;  // Exporta o app para o server.js usar

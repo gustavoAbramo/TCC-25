@@ -1,13 +1,23 @@
-import { PrismaClient } from '@prisma/client';
-const bd = new PrismaClient();
+import { createStorageSchema } from "../utils/storages.util.js"
+import { createStorageService, seeStoragesServices } from '../services/storages.service.js'
 
-export const createStorage = async (req, res) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).json({ error: "Nome é obrigatório" });
-  try{
-    const newStorage = await bd.Stock.create({ data: { name }});
-    res.status(201).json(newStorage);
-  } catch (error) {
-    res.status(500).json({ error: "erro ao criar estoque"});
+export async function createStorage(req, res) {
+
+  try {
+    const id_user = req.user?.id_user; 
+    if (!id_user) return res.status(401).json({ message: "Usuário não autenticado" });
+
+    const { name } = createStorageSchema.parse(req.body);
+    const storage = await createStorageService(name, id_user);
+    res.status(201).json(storage);
+  } catch (err) {
+    res.status(400).json({ errors: err.errors || err.message });
   }
+
 };
+
+export async function seeStorages (req,res){
+
+
+
+}

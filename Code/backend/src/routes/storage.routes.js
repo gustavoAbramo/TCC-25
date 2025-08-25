@@ -1,10 +1,11 @@
-const express = require('express');
-const {newStorage, seeStorages} = require('../controllers/storage.controllers.js')
+import express from 'express';
+import {createStorage, seeStorages} from '../controllers/storage.controllers.js'
+import authMiddleware from '../middleware/auth.middleware.js'
 
 const router = express.Router();
 
-router.post('/estoques', newStorage );
+router.post('/createStorage', authMiddleware, createStorage );
 
-router.get('/estoques' , seeStorages);
 
-moudule.exports = router
+
+export default router

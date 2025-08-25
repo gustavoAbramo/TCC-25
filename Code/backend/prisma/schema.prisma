@@ -17,31 +17,31 @@ model User {
   is_active  Boolean  @default(true) // Indica se o usuário está ativo ou não, útil para desativar contas sem deletar
 
   // Relations
-  stocks      Stock[]            @relation("UserStock")
-  permissions Stock_Permission[]
+  Storages      Storage[]            @relation("UserStorage")
+  permissions Storage_Permission[]
   Product     Product[]
 }
 
-model Stock {
-  id_stock   Int      @id @default(autoincrement())
+model Storage {
+  id_Storage   Int      @id @default(autoincrement())
   name       String   @db.VarChar(100)
   created_at DateTime @default(now())
 
   // Relations
-  users         User[]             @relation("UserStock")
-  permissions   Stock_Permission[]
-  Stock_Product Stock_Product[]
+  users         User[]             @relation("UserStorage")
+  permissions   Storage_Permission[]
+  Storage_Product Storage_Product[]
 }
 
-model Stock_Product {
+model Storage_Product {
   id         Int @id @default(autoincrement())
-  id_stock   Int
+  id_Storage   Int
   id_product Int
 
-  stock   Stock   @relation(fields: [id_stock], references: [id_stock])
+  Storage   Storage   @relation(fields: [id_Storage], references: [id_Storage])
   product Product @relation(fields: [id_product], references: [id_product])
 
-  @@unique([id_stock, id_product]) 
+  @@unique([id_Storage, id_product]) 
 }
 
 model Product {
@@ -54,20 +54,20 @@ model Product {
 
   // Relations
   creator       User            @relation(fields: [id_user], references: [id_user])
-  stock_belongs Stock_Product[]
+  Storage_belongs Storage_Product[]
 }
 
-model Stock_Permission {
+model Storage_Permission {
   id           Int          @id @default(autoincrement())
   id_user      Int
-  id_stock     Int
+  id_Storage     Int
   Access_Level Access_Level
 
   // Relations
   user  User  @relation(fields: [id_user], references: [id_user])
-  stock Stock @relation(fields: [id_stock], references: [id_stock])
+  Storage Storage @relation(fields: [id_Storage], references: [id_Storage])
 
-  @@unique([id_user, id_stock]) // para assegurar que um usuário só pode ter uma permissão por estoque
+  @@unique([id_user, id_Storage]) // para assegurar que um usuário só pode ter uma permissão por estoque
 }
 
 enum Access_Level {
