@@ -8,4 +8,5 @@ export const createItemSchema = z.object({
   }),
   category: z.string().min(2, "A categoria deve ter pelo menos 2 caracteres"),
   id_user: z.number().int().positive("ID do usuário inválido"),
+  storageIds: z.array(z.number().int().positive()).min(1, "Informe pelo menos um estoque"),
 });
