@@ -1,5 +1,5 @@
 import express from 'express';
-import {createStorage, seeStorages} from '../controllers/storage.controllers.js'
+import {createStorage, seeStorages} from '../controllers/storage.controller.js'
 import authMiddleware from '../middleware/auth.middleware.js'
 
 const router = express.Router();
