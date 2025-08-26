@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import storageRoutes from './routes/storage.routes.js';
 import itemRoutes from './routes/items.routes.js';
-
+import permissionRoutes from './routes/permissions.routes.js'
 dotenv.config();
 
 const app = express();
@@ -14,5 +14,6 @@ app.use(cookieParser())
 app.use('/auth', authRoutes);
 app.use('/storages', storageRoutes);
 app.use('/storages', itemRoutes);
+app.use('/permission', permissionRoutes)
 
 export default app;  // Exporta o app para o server.js usar
