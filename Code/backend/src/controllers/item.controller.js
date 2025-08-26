@@ -1,29 +1,39 @@
-const ItemModel = require('../models/item.model'); // Importa o modelo do item
+import { createItemService, createItemsService } from '../services/item.service.js';
+import { createItemSchema } from '../utils/item.util.js';
+import { z } from 'zod';
 
-// Função para adicionar um item ao estoque
-const addItemToStock = async (req, res) => {
-    try {
-        const { name, quantity, price } = req.body;
+const singleItemSchema = createItemSchema;
+const multipleItemsSchema = z.array(createItemSchema);
 
-        // Valida os campos obrigatórios
-        if (!name || !quantity || !price) {
-            return res.status(400).json({ message: 'Todos os campos são obrigatórios: name, quantity, price.' });
-        }
+export const addItemToStock = async (req, res) => {
+  try {
+    const data = req.body;
 
-        // Cria um novo item no banco de dados
-        const newItem = await ItemModel.create({
-            name,
-            quantity,
-            price,
-        });
+    // Detecta se é array ou objeto e valida
+    let validatedData;
+    let result;
 
-        return res.status(201).json({ message: 'Item adicionado com sucesso!', item: newItem });
-    } catch (error) {
-        console.error('Erro ao adicionar item:', error);
-        return res.status(500).json({ message: 'Erro ao adicionar item ao estoque.' });
+    if (Array.isArray(data)) {
+      validatedData = multipleItemsSchema.parse(data);
+      result = await createItemsService(validatedData);
+      return res.status(201).json({
+        message: `${result.count} itens adicionados com sucesso!`
+      });
+    } else {
+      validatedData = singleItemSchema.parse(data);
+      const newItem = await createItemService(validatedData);
+      return res.status(201).json({
+        message: 'Item adicionado com sucesso!',
+        item: newItem
+      });
     }
-};
+  } catch (error) {
+    console.error('Erro ao adicionar item(s):', error);
 
-module.exports = {
-    addItemToStock,
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ message: 'Erro de validação', errors: error.errors });
+    }
+
+    return res.status(500).json({ message: 'Erro ao adicionar item(s) ao estoque.' });
+  }
 };
