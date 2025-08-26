@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/createStorage', authMiddleware, createStorage );
 
-
+router.get('/seeStorage', authMiddleware, seeStorages)
 
 export default router

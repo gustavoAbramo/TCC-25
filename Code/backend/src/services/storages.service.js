@@ -1,25 +1,77 @@
 import prisma from '../../prisma/client.js';
 
 export async function createStorageService(name,id_user) {
- const storage = await prisma.storage.create({
-    data: {
-      name,
-      users: {
-        connect: [{ id_user: id_user }] // ✅ usar array para many-to-many
+
+// 1. Verifica se o usuário já é dono de um storage com esse nome
+  const existingStorage = await prisma.storage_Permission.findFirst({
+    where: {
+      id_user,
+      Access_Level: 'Owner',
+      Storage: {
+        name
       }
     },
     include: {
-      users: {
-        select: { id_user: true, name: true }
+      Storage: true
+    }
+  });
+
+  if (existingStorage) {
+    throw new Error("Você já possui um estoque com esse nome");
+  }
+
+  // 2. Cria o storage e já conecta o usuário como dono (Owner)
+  const storage = await prisma.storage.create({
+    data: {
+      name,
+      permissions: {
+        create: {
+          id_user,
+          Access_Level: 'Owner'
+        }
+      }
+    },
+    include: {
+      permissions: {
+        include: {
+          user: {
+            select: { id_user: true, name: true, email: true }
+          }
+        }
       }
     }
   });
+
   return storage;
 }
 
 
-export async function seeStoragesServices (name) {
+export async function seeStoragesServices (id_user) {
+    const storages = await prisma.storage_Permission.findMany({
+    where: { id_user },
+    include: {
+      Storage: {
+        include: {
+          permissions: {
+            select: {
+              id_user: true,
+              Access_Level: true
+            }
+          },
+          Storage_Item: true 
+        }
+      }
+    }
+  });
 
-
-
+  // Retorna só os estoques com informações importantes
+return storages.map(sp => ({
+  id: sp.Storage.id_Storage,
+  name: sp.Storage.name,
+  accessLevel: sp.Access_Level,
+  items: (sp.Storage.Storage_Item || []).map(item => ({
+    id: item.id_Item,
+    name: item.name
+  }))
+}));
 }

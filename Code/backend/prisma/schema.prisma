@@ -17,9 +17,7 @@ model User {
   is_active  Boolean  @default(true) // Indica se o usuário está ativo ou não, útil para desativar contas sem deletar
 
   // Relations
-  Storages      Storage[]            @relation("UserStorage")
   permissions Storage_Permission[]
-  Product     Product[]
 }
 
 model Storage {
@@ -28,24 +26,23 @@ model Storage {
   created_at DateTime @default(now())
 
   // Relations
-  users         User[]             @relation("UserStorage")
   permissions   Storage_Permission[]
-  Storage_Product Storage_Product[]
+  Storage_Item Storage_Item[]
 }
 
-model Storage_Product {
+model Storage_Item {
   id         Int @id @default(autoincrement())
   id_Storage   Int
-  id_product Int
+  id_Item Int
 
   Storage   Storage   @relation(fields: [id_Storage], references: [id_Storage])
-  product Product @relation(fields: [id_product], references: [id_product])
+  Item Item @relation(fields: [id_Item], references: [id_Item])
 
-  @@unique([id_Storage, id_product]) 
+  @@unique([id_Storage, id_Item]) 
 }
 
-model Product {
-  id_product  Int      @id @default(autoincrement())
+model Item {
+  id_Item  Int      @id @default(autoincrement())
   name        String   @db.VarChar(100)
   description String?  @db.VarChar(200)
   expiration  DateTime @db.DateTime()
@@ -53,8 +50,7 @@ model Product {
   id_user     Int
 
   // Relations
-  creator       User            @relation(fields: [id_user], references: [id_user])
-  Storage_belongs Storage_Product[]
+  Storage_belongs Storage_Item[]
 }
 
 model Storage_Permission {
