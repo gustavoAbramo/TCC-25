@@ -7,6 +7,6 @@ export const createItemSchema = z.object({
     message: "Data de validade inválida",
   }),
   category: z.string().min(2, "A categoria deve ter pelo menos 2 caracteres"),
-  id_user: z.number().int().positive("ID do usuário inválido"),
-  storageIds: z.array(z.number().int().positive()).min(1, "Informe pelo menos um estoque"),
+  quantity: z.number().int().positive("A quantidade deve ser um número positivo"),
+  storageId: z.number().int().positive("Informe um estoque válido"),
 });

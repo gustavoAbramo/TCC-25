@@ -47,7 +47,8 @@ model Item {
   description String?  @db.VarChar(200)
   expiration  DateTime @db.DateTime()
   category    String   @db.VarChar(100)
-  id_user     Int
+  quantity    Int?
+  created_at  DateTime @default(now())
 
   // Relations
   Storage_belongs Storage_Item[]
