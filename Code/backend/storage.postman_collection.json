@@ -107,6 +107,162 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "seeStorages",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1bGlhQGdtYWlsLmNvbSIsImlhdCI6MTc1NjA4NzU1NSwiZXhwIjoxNzU2MDkxMTU1fQ.Wgkg48_5eHgI5S4wQufbMIddWzqmCPsIbi5jQE-3JSQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/storages/seeStorage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"storages",
+								"seeStorage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "beCoOwener",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"emaildaPessoaParaVirarCoOwener@gmail.com\",\r\n  \"id_Storage\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/permission/beCoOwner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"permission",
+								"beCoOwner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "beGuest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1bGlhQGdtYWlsLmNvbSIsImlhdCI6MTc1NjA4NzU1NSwiZXhwIjoxNzU2MDkxMTU1fQ.Wgkg48_5eHgI5S4wQufbMIddWzqmCPsIbi5jQE-3JSQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"gustavoabramo@gmail.com\",\r\n  \"id_Storage\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/permission/beGuest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"permission",
+								"beGuest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newItens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"salada1212\",\r\n  \"description\": \"salada1212\",\r\n  \"expiration\": \"2025-12-31\",\r\n  \"category\": \"Alimentos\",\r\n  \"quantity\": 10,\r\n  \"storageId\": 4\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/storages/Items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"storages",
+								"Items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reName",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"newName\": \"testee\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/storages/renameStorage/21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"storages",
+								"renameStorage",
+								"21"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
