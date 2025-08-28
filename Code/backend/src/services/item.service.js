@@ -51,3 +51,22 @@ export async function createItemService(item) {
 
   return newItem;
 }
+
+export async function getItemsByStorageService(id_Storage) {
+  const items = await prisma.item.findMany({
+    where: {
+      Storage_belongs: {
+        some: { id_Storage: Number(id_Storage) }, // filtra pelos itens desse estoque
+      },
+    },
+  });
+
+  return items.map(item => ({
+    id: item.id_Item,
+    name: item.name,
+    description: item.description,
+    category: item.category,
+    quantity: item.quantity,
+    expiration: item.expiration.toISOString().split("T")[0], // YYYY-MM-DD
+  }));
+}

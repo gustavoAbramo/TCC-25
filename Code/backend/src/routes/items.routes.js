@@ -1,5 +1,5 @@
 import express from 'express';
-import { addItemToStock } from '../controllers/item.controller.js';
+import { addItemToStock, getItemsByStorage } from '../controllers/item.controller.js';
 import authMiddleware from '../middleware/auth.middleware.js';
 
 const router = express.Router();
@@ -7,6 +7,7 @@ const router = express.Router();
 // Rota para adicionar um item ao estoque
 router.post('/items', authMiddleware, addItemToStock);
 
+router.get('/items/:id', authMiddleware, getItemsByStorage);
 // Outras rotas podem ser adicionadas aqui, como listar, atualizar ou deletar itens
 // Exemplo:
 // router.get('/items', listItems);

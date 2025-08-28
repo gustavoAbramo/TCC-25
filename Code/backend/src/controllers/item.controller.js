@@ -1,4 +1,4 @@
-import { createItemService } from '../services/item.service.js';
+import { createItemService, getItemsByStorageService } from '../services/item.service.js';
 import { createItemSchema } from '../utils/item.util.js';
 
 export const addItemToStock = async (req, res) => {
@@ -36,3 +36,15 @@ export const addItemToStock = async (req, res) => {
     return res.status(500).json({ message: 'Erro interno ao adicionar item.' });
   }
 };
+
+
+export async function getItemsByStorage(req, res) {
+  try {
+    const { id } = req.params; // id do estoque
+    const items = await getItemsByStorageService(Number(id));
+    return res.status(200).json(items);
+  } catch (error) {
+    console.error("Erro ao buscar itens por storage:", error);
+    return res.status(500).json({ message: 'Erro interno ao buscar itens.' });
+  }
+}
