@@ -8,7 +8,7 @@ export default function Storages() {
     const [name, setName] = useState('');
 
     useEffect(() => {
-    api.get('/storages/createStorage').then(res => setStorages(res.data));
+    api.post('/storages/createStorage').then(res => setStorages(res.data));
   }, []);
 
 
@@ -28,7 +28,8 @@ export default function Storages() {
             </div>
 
             <form onSubmit={handleCreate}>
-                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Nome do estoque" />
+                <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Nome do estoque" />
+                <button type="submit">Criar Estoque</button>
             </form>
             <ul>
                 {storages.map(s => <li key={s.id}>{s.name}</li>)}
