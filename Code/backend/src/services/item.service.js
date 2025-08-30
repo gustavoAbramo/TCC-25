@@ -70,3 +70,26 @@ export async function getItemsByStorageService(id_Storage) {
     expiration: item.expiration.toISOString().split("T")[0], // YYYY-MM-DD
   }));
 }
+export async function deleteItemService(id_Item, id_user) {
+  const item = await prisma.item.findUnique({
+    where: { id_Item: Number(id_Item) },
+    include: { Storage_belongs: true },
+  });
+
+  if (!item) throw new Error("Item não encontrado.");
+
+  const storageId = item.Storage_belongs[0]?.id_Storage;
+  if (!storageId) throw new Error("Item não está associado a nenhum estoque.");
+
+  await checkUserPermission(storageId, id_user);
+
+  await prisma.storage_Item.deleteMany({
+    where: { id_Item: Number(id_Item) },
+  });
+
+  await prisma.item.delete({
+    where: { id_Item: Number(id_Item) },
+  });
+
+  return { message: "Item deletado com sucesso." };
+}
