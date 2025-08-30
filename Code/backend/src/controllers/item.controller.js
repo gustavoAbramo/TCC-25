@@ -1,4 +1,4 @@
-import { createItemService, getItemsByStorageService } from '../services/item.service.js';
+import { createItemService, getItemsByStorageService, deleteItemService } from '../services/item.service.js';
 import { createItemSchema } from '../utils/item.util.js';
 
 export const addItemToStock = async (req, res) => {
@@ -46,5 +46,36 @@ export async function getItemsByStorage(req, res) {
   } catch (error) {
     console.error("Erro ao buscar itens por storage:", error);
     return res.status(500).json({ message: 'Erro interno ao buscar itens.' });
+  }
+}
+
+export async function deleteItem(req, res) {
+  try {
+    const { id_Item } = req.params;
+    const id_user = req.user?.id_user;
+
+    if (!id_user) {
+      return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    if (!id_Item || isNaN(Number(id_Item))) {
+      return res.status(400).json({ message: "ID do item inválido." });
+    }
+
+    const result = await deleteItemService(Number(id_Item), id_user);
+
+    return res.status(200).json(result);
+
+  } catch (error) {
+
+    if (error.message && error.message.includes("não tem permissão")) {
+      return res.status(403).json({ message: error.message });
+    }
+
+    if (error.message && error.message.includes("não encontrado")) {
+      return res.status(404).json({ message: error.message });
+    }
+
+    return res.status(500).json({ message: "Erro interno ao deletar item." });
   }
 }
