@@ -67,6 +67,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "sendEmail",
+					"request": {
+					"method": "POST",
+					"header": [
+						{
+						"key": "Content-Type",
+						"value": "application/json"
+						}
+					],
+					"body": {
+						"mode": "raw",
+						"raw": "{\n  \"name\": \"Bete\",\n  \"email\": \"bete@email.com\"\n}"
+					},
+					"url": {
+						"raw": "http://localhost:3000/notifications/email/send",
+						"protocol": "http",
+						"host": [
+						"localhost"
+						],
+						"port": "3000",
+						"path": [
+						"email",
+						"send"
+						]
+					}
+					},
+  					"response": []
 				}
 			]
 		},

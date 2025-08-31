@@ -1,4 +1,4 @@
-const notificationService = require("../services/email.service");
+import notificationService from '../services/email.service.js';
 
 function sendEmail() {
   return async function(req, res) {
@@ -26,4 +26,4 @@ function sendEmail() {
   };
 }
 
-module.exports = sendEmail;
+export default sendEmail();

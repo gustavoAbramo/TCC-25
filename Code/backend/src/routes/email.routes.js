@@ -1,9 +1,9 @@
 import express from 'express';
-import sendEmail from '../controllers/sendEmailController.js';
-//const middleware_login = require("../middlewares/solicitacaoLogin");
+import sendEmail from '../controllers/sendEmail.controller.js';
+import authMiddleware from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-//router.post("/email/send", middleware_login.acesso_login, sendEmail());
+router.post("/email/send", authMiddleware, sendEmail);
 
-module.exports = router;
+export default router;
