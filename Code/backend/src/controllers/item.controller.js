@@ -1,4 +1,4 @@
-import { createItemService, getItemsByStorageService, deleteItemService } from '../services/item.service.js';
+import { createItemService, getItemsByStorageService, deleteItemService, updateItemQuantityService } from '../services/item.service.js';
 import { createItemSchema } from '../utils/item.util.js';
 
 export const addItemToStock = async (req, res) => {
@@ -77,5 +77,22 @@ export async function deleteItem(req, res) {
     }
 
     return res.status(500).json({ message: "Erro interno ao deletar item." });
+  }
+}
+
+export async function updateItemQuantity(req, res) {
+  try {
+    const { id_Item } = req.params;
+    const { quantityChange } = req.body; 
+    const id_user = req.user?.id_user; // pega do token
+
+    if (!id_user) return res.status(401).json({ message: "Usuário não autenticado" });
+
+    const updatedItem = await updateItemQuantityService(Number(id_Item), id_user, Number(quantityChange));
+
+    res.json(updatedItem);
+  } catch (err) {
+    console.error("Erro ao atualizar quantidade:", err);
+    res.status(500).json({ message: "Erro interno no servidor" });
   }
 }

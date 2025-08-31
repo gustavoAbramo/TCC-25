@@ -93,3 +93,29 @@ export async function deleteItemService(id_Item, id_user) {
 
   return { message: "Item deletado com sucesso." };
 }
+
+
+export async function updateItemQuantityService(id_Item, id_user, quantityChange) {
+  // Primeiro pega o item para garantir que pertence ao user
+  const item = await prisma.item.findFirst({
+    where: { id_Item, id_user }
+  });
+
+  if (!item) {
+    throw new Error("Item não encontrado ou sem permissão");
+  }
+
+  // Calcula nova quantidade
+  const newQuantity = item.quantity + quantityChange;
+  if (newQuantity < 0) {
+    throw new Error("Quantidade não pode ser negativa");
+  }
+
+  // Atualiza no banco
+  const updated = await prisma.item.update({
+    where: { id_Item },
+    data: { quantity: newQuantity }
+  });
+
+  return updated;
+}
