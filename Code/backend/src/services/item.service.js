@@ -96,22 +96,34 @@ export async function deleteItemService(id_Item, id_user) {
 
 
 export async function updateItemQuantityService(id_Item, id_user, quantityChange) {
-  // Primeiro pega o item para garantir que pertence ao user
-  const item = await prisma.item.findFirst({
-    where: { id_Item, id_user }
+  // Verifica se o item pertence a um Storage em que o usuário tem permissão
+  const storageItem = await prisma.storage_Item.findFirst({
+    where: {
+      id_Item,
+      Storage: {
+        permissions: {
+          some: {
+            id_user: id_user
+          }
+        }
+      }
+    },
+    include: {
+      Item: true
+    }
   });
 
-  if (!item) {
+  if (!storageItem) {
     throw new Error("Item não encontrado ou sem permissão");
   }
 
-  // Calcula nova quantidade
-  const newQuantity = item.quantity + quantityChange;
+  const item = storageItem.Item;
+
+  const newQuantity = (item.quantity ?? 0) + quantityChange;
   if (newQuantity < 0) {
     throw new Error("Quantidade não pode ser negativa");
   }
 
-  // Atualiza no banco
   const updated = await prisma.item.update({
     where: { id_Item },
     data: { quantity: newQuantity }
