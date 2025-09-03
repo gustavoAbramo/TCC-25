@@ -131,3 +131,50 @@ export async function updateItemQuantityService(id_Item, id_user, quantityChange
 
   return updated;
 }
+
+export async function getItemsCloseToExpiration(days = 7) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Zera a hora para comparar só a data
+
+  const limitDate = new Date();
+  limitDate.setDate(today.getDate() + days);
+  limitDate.setHours(23, 59, 59, 999); // Final do dia
+
+  const items = await prisma.item.findMany({
+    where: {
+      expiration: {
+        gte: today,
+        lte: limitDate,
+      },
+    },
+    include: {
+      Storage_belongs: {
+        include: {
+          Storage: {
+            include: {
+              permissions: {
+                where: {
+                  Access_Level: 'Owner',
+                },
+                include: {
+                  user: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return items
+    .map(item => {
+      const owner = item.Storage_belongs[0]?.Storage?.permissions[0]?.user;
+      return {
+        name: item.name,
+        expiration: item.expiration,
+        ownerEmail: owner?.email || null,
+      };
+    })
+    .filter(item => item.ownerEmail); // Filtra apenas com e-mail válido
+}
