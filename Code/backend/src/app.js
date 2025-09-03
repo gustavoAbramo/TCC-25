@@ -6,6 +6,7 @@ import storageRoutes from './routes/storage.routes.js';
 import itemRoutes from './routes/items.routes.js';
 import EmailRoutes from './routes/email.routes.js';
 import permissionRoutes from './routes/permissions.routes.js'
+import userRoutes from './routes/user.routes.js'
 import cors from 'cors';
 
 
@@ -21,6 +22,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser())
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes)
 app.use('/storages', storageRoutes);
 app.use('/storages', itemRoutes);
 app.use('/permission', permissionRoutes);

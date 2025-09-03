@@ -23,6 +23,7 @@ export default function AppRoutes() {
         <Route path="/cadastro" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/telaInicial" element={<DashboardPage />} />
+        
       </Routes>
       {!hideFooterOn.includes(location.pathname) && <Footer />}
     </>
