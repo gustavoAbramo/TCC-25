@@ -7,7 +7,7 @@ export async function createStorageService(name, id_user) {
       id_user,
       Access_Level: "Owner",
       Storage: {
-        name,
+        name,location
       },
     },
     include: {
@@ -22,7 +22,7 @@ export async function createStorageService(name, id_user) {
   // 2. Cria o storage e já conecta o usuário como dono (Owner)
   const storage = await prisma.storage.create({
     data: {
-      name,
+      name,location,
       permissions: {
         create: {
           id_user,
@@ -66,6 +66,7 @@ export async function seeStoragesServices(id_user) {
   return storages.map((sp) => ({
     id: sp.Storage.id_Storage,
     name: sp.Storage.name,
+    location: sp.Storage.location,
     accessLevel: sp.Access_Level,
     items: (sp.Storage.Storage_Item || []).map((item) => ({
       id: item.id_Item,

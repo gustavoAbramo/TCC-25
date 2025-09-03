@@ -23,6 +23,7 @@ model User {
 model Storage {
   id_Storage   Int      @id @default(autoincrement())
   name       String   @db.VarChar(100)
+  location   String   @db.VarChar(100)
   created_at DateTime @default(now())
 
   // Relations

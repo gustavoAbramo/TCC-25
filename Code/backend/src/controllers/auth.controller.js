@@ -2,8 +2,6 @@
 import { registerUserSchema, loginUserSchema } from "../utils/user.util.js";
 import { createUserService, loginUserService } from "../services/auth.service.js";
 
-
-
 export async function registerUser(req, res) {
   try {
     // Valida os dados recebidos
@@ -22,10 +20,7 @@ export async function registerUser(req, res) {
       },
     });
   } catch (error) {
-    // Validação falhou (Zod)
-    if (error.name === "ZodError") {
-      return res.status(400).json({ errors: error.errors });
-    }
+    if (error.name === "ZodError"){ return res.status(400).json({ errors: error.errors }); }
 
     // Outros erros (ex: e-mail duplicado)
     return res.status(400).json({ error: error.message });
@@ -52,9 +47,7 @@ export async function loginUser(req, res) {
     res.status(200).json({ message: "Login realizado com sucesso", user });
   } catch (error) {
 
-    if (error.name === "ZodError") {
-      return res.status(400).json({ errors: error.errors });
-    }
+    if (error.name === "ZodError") { return res.status(400).json({ errors: error.errors }); }
     res.status(400).json({ error: error.message });
   }
 }
