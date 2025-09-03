@@ -1,6 +1,6 @@
 import prisma from "../../prisma/client.js";
 
-export async function createStorageService(name, id_user) {
+export async function createStorageService(name, id_user, location) {
   // 1. Verifica se o usuário já é dono de um storage com esse nome
   const existingStorage = await prisma.storage_Permission.findFirst({
     where: {
