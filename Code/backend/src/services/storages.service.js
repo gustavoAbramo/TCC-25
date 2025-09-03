@@ -7,7 +7,8 @@ export async function createStorageService(name, id_user, location) {
       id_user,
       Access_Level: "Owner",
       Storage: {
-        name,location
+        name,
+        location,
       },
     },
     include: {
@@ -22,7 +23,8 @@ export async function createStorageService(name, id_user, location) {
   // 2. Cria o storage e já conecta o usuário como dono (Owner)
   const storage = await prisma.storage.create({
     data: {
-      name,location,
+      name,
+      location,
       permissions: {
         create: {
           id_user,
@@ -77,18 +79,51 @@ export async function seeStoragesServices(id_user) {
 export async function renameStorageService(id_user, id_Storage, newName) {
   const isOwner = await prisma.storage_Permission.findUnique({
     where: {
-      id_user_id_Storage: { id_user, id_Storage }
-    }
+      id_user_id_Storage: { id_user, id_Storage },
+    },
   });
 
-  if (!isOwner || isOwner.Access_Level !== 'Owner') {
+  if (!isOwner || isOwner.Access_Level !== "Owner") {
     throw new Error("Apenas o dono do estoque pode renomeá-lo");
   }
 
   const updated = await prisma.storage.update({
     where: { id_Storage },
-    data: { name: newName }
+    data: { name: newName },
   });
 
   return updated;
+}
+
+export async function deleteStorageService(id_user, id_Storage) {
+  const isOwner = await prisma.storage_Permission.findUnique({
+    where: {
+      id_user_id_Storage: { id_user, id_Storage },
+    },
+  });
+
+  if (!isOwner || isOwner.Access_Level !== "Owner") {
+    throw new Error("Apenas o dono do estoque pode deletá-lo");
+  }
+
+  await prisma.storage_Permission.deleteMany({
+    where: {
+      id_Storage: id_Storage,
+    },
+  });
+
+  await prisma.storage_Item.deleteMany({
+    where: {
+      id_Storage: id_Storage,
+    },
+  });
+
+  // Agora sim, deleta o storage
+  await prisma.storage.delete({
+    where: {
+      id_Storage: id_Storage,
+    },
+  });
+
+  return;
 }

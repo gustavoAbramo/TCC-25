@@ -1,5 +1,5 @@
 import { createStorageSchema, renameStorageSchema } from "../utils/storages.util.js"
-import { createStorageService, seeStoragesServices, renameStorageService } from '../services/storages.service.js'
+import { createStorageService, seeStoragesServices, renameStorageService, deleteStorageService } from '../services/storages.service.js'
 
 export async function createStorage(req, res) {
 
@@ -42,6 +42,20 @@ export async function renameStorage(req, res) {
       message: "Nome do estoque atualizado com sucesso",
       storage: updatedStorage
     });
+  } catch (error) {
+    res.status(403).json({ error: error.message });
+  }
+}
+
+export async function deleteStorage(req, res) {
+  try {
+    const id_user = req.user.id_user;
+    const id_Storage = parseInt(req.params.id);
+
+    // Chame o serviço para deletar o storage
+    await deleteStorageService(id_user, id_Storage);
+
+    res.status(200).json({ message: "Estoque deletado com sucesso." });
   } catch (error) {
     res.status(403).json({ error: error.message });
   }
