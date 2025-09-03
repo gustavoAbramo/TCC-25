@@ -1,4 +1,6 @@
-import { useState } from "react"
+import React, {useState} from "react";
+import api  from "../../services/api.service";
+
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
@@ -7,13 +9,22 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsLoading(true)
+    setIsLoading(true);
 
-    // Simular login - redirecionar para dashboard
-    setTimeout(() => {
-      setIsLoading(false)
-      window.location.href = "/telaInicial"
-    }, 2000)
+    try{
+      const response = await api.post('/auth/login', { email, password }, {
+        withCredentials: true
+      });
+
+
+      
+
+    } catch(error) {
+      setIsLoading(false);
+      console.error("Erro na requisição:", error);
+      console.error("Resposta do servidor:", error.response?.data);
+      alert(error.response?.data?.message || "Erro ao fazer login");
+    }
   }
 
   return (
