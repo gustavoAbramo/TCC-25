@@ -1,6 +1,43 @@
-"use client"
+import React, {use, useState} from "react"
+import api  from "../../services/api.service";
+
+
 
 export default function Register() {
+
+const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+
+
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+
+  try{
+    await api.post('/auth/register', {
+      name,
+      email,
+      password,
+    })
+
+    setName('');
+    setEmail('');
+    setPassword('');
+
+    alert("Usuário cadastrado");
+
+  } catch(error) {
+    alert(error);
+  }
+
+}
+
+
+
+
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
       {/* Background Effects */}
@@ -31,10 +68,13 @@ export default function Register() {
           </div>
 
           {/* Form */}
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Nome completo</label>
               <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
                 type="text"
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                 placeholder="Seu nome completo"
@@ -44,6 +84,9 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 type="email"
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                 placeholder="seu@email.com"
@@ -53,6 +96,9 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Senha</label>
               <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
                 type="password"
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                 placeholder="Crie uma senha segura"
