@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import api  from "../../services/api.service";
+import { useNavigate } from "react-router-dom";
 
 
 export default function LoginForm() {
@@ -14,10 +15,19 @@ export default function LoginForm() {
     try{
       const response = await api.post('/auth/login', { email, password }, {
         withCredentials: true
+        
       });
 
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token); // se quiser salvar o token
+        setIsLoading(true);
+        window.location.href = "/telaInicial";
+      }
+      else{
+        alert("falha no login");
+      }
 
-      
+
 
     } catch(error) {
       setIsLoading(false);

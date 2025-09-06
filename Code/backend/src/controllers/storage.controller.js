@@ -8,7 +8,7 @@ export async function createStorage(req, res) {
     if (!id_user) {
       return res.status(401).json({ message: "Usuário não autenticado" });
     }
-    const { name,location } = createStorageSchema.parse(req.body);
+    const { name, location } = createStorageSchema.parse(req.body);
 
     const storage = await createStorageService(name, id_user,location);
     res.status(201).json(storage);

@@ -44,7 +44,7 @@ export async function loginUser(req, res) {
     });
 
     // retorna os dados do usuário
-    res.status(200).json({ message: "Login realizado com sucesso", user });
+    res.status(200).json({ message: "Login realizado com sucesso", user, token });
   } catch (error) {
 
     if (error.name === "ZodError") { return res.status(400).json({ errors: error.errors }); }

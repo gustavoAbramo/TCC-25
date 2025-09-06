@@ -5,20 +5,33 @@ import api from '../services/api.service';
 export default function Storages() {
 
     const [storages, setStorages] = useState([]);
-    const [name, setName] = useState('');
+    const [name, setName] = useState("");
+    const [location, setLocation] = useState("");
 
     useEffect(() => {
-    api.post('/storages/createStorage').then(res => setStorages(res.data));
-  }, []);
+  api.get('/storages/seeStorage', { withCredentials: true }).then(res => setStorages(res.data));
+}, []);
 
 
 
         // fazer post login
 
         const handleCreate = async (e) => {
-        e.preventDefault();
-        const res = await api.post('/storages/createStorage', { name });
-        setStorages([...storages, res.data]);
+            e.preventDefault();
+            try{
+                const token = localStorage.getItem('token');
+                await api.post('/storages/createStorage', { name, location }, {
+                    headers: {Authorization: `Bearer ${token}` },
+                    withCredentials: true
+                });
+                setName('');
+                setLocation('');
+                alert("estoque criado");
+            }
+            catch(error) {
+                alert(error.response?.data?.message || error.message);
+                console.log(error.response);
+            }
     };
 
     return (
@@ -28,14 +41,19 @@ export default function Storages() {
             </div>
 
             <form onSubmit={handleCreate}>
-                <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Nome do estoque" />
+                <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome do estoque" />
+                <p></p>
+                <input type="text" required value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Localizacao" />
+
                 <button type="submit">Criar Estoque</button>
             </form>
             <ul>
-                {storages.map(s => <li key={s.id}>{s.name}</li>)}
+                {storages.map(s => (
+                    <li key={s.id}>
+                        <strong>{s.name}</strong> — {s.location}
+                    </li>
+                ))}
             </ul>
-
-
         </div>
     );
 }
