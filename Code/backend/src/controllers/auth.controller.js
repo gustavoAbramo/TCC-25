@@ -51,3 +51,26 @@ export async function loginUser(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
+export async function logoutUser(req, res) {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false, // true em produção
+      sameSite: "lax",
+    });
+    return res.status(200).json({ message: "Logout realizado com sucesso" });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao fazer logout" });
+  }
+}
+
+
+export async function getCurrentUser(req, res) {
+  try {
+    // Se passou pelo middleware, req.user existe
+    return res.status(200).json({ user: req.user });
+  } catch (error) {
+    return res.status(401).json({ error: "Não autorizado" });
+  }
+}

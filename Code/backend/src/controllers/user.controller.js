@@ -11,3 +11,12 @@ export async function changeUserName(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
+export async function getCurrentUser(req, res) {
+  try {
+    // Se passou pelo middleware, req.user existe
+    return res.status(200).json({ user: req.user });
+  } catch (error) {
+    return res.status(401).json({ error: "Não autorizado" });
+  }
+}

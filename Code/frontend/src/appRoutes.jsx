@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Contact from "./pages/Contact";
 import DashboardPage from "./pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function AppRoutes() {
   const location = useLocation();
@@ -22,12 +23,21 @@ export default function AppRoutes() {
         <Route path="/contato" element={<Contact />} />
         <Route path="/cadastro" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/telaInicial" element={<DashboardPage />} />
+         <Route
+          path="/telaInicial"
+          element={
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+          }
+        />
         
       </Routes>
       {!hideFooterOn.includes(location.pathname) && <Footer />}
     </>
   );
 }
-
+/*
+        <Route path="/telaInicial" element={<DashboardPage />} />
+*/
 //aqui vai conter as rotas de cada pagina do nosso sistema e dps nos so importamos elas no main.jsx

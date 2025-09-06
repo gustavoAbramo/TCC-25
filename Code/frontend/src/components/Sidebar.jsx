@@ -2,16 +2,21 @@ export default function Sidebar({ setActivePage }) {
   const sidebarButtonStyle =
     "w-full px-4 py-3 text-center rounded border border-blue-900 hover:bg-blue-900 transition-colors";
 
-    async function handleLogout() {
-      try {
-        // Limpar o token do localStorage
-        localStorage.removeItem('token');
-        // Redirecionar para a página de login
-        window.location.href = "/login";
-        } catch (error) {
-        console.error('Erro ao fazer logout:', error);
-        }
+  async function handleLogout() {
+    try {
+      // Chama o backend para apagar o cookie do token
+      await fetch("http://localhost:3000/auth/logout", {
+        method: "POST",
+        credentials: "include", // necessário para enviar cookies
+      });
+
+      // Redireciona para login
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
     }
+  }
+
   return (
     <div className="w-64 bg-background-secondary text-white h-full flex flex-col min-h-screen">
       <div className="p-4 text-center text-2xl font-semibold border-b">
@@ -57,8 +62,8 @@ export default function Sidebar({ setActivePage }) {
       <footer className="p-4">
         <div>
           <button
-            onClick={() => handleLogout()}
-            className="w-full px-4 border-1 border-red-900 py-3  hover:bg-red-800 rounded-lg font-medium transition-colors"
+            onClick={handleLogout}
+            className="w-full px-4 border-1 border-red-900 py-3 hover:bg-red-800 rounded-lg font-medium transition-colors"
           >
             Sair
           </button>
@@ -70,19 +75,4 @@ export default function Sidebar({ setActivePage }) {
       </footer>
     </div>
   );
-}
-{
-  /* <ul className="space-y-2">
-      <li className="block px-4 border-1 border-blue-900 hover:bg-blue-900 py-2  rounded">
-          <a href="/" className="block px-4 border-1 border-blue-900 hover:bg-blue-900 py-2  rounded">
-          Dashboard
-          </a>
-      </li>
-      <li className="block px-4 border-1 border-blue-900 hover:bg-blue-900 py-2  rounded">
-          <a href="/" className="block px-4 border-1 border-blue-900 hover:bg-blue-900 py-2  rounded">
-          About
-          </a>
-      </li>
-      
-      </ul> */
 }
