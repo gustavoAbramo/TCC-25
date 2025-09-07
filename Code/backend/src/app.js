@@ -9,7 +9,7 @@ import permissionRoutes from './routes/permissions.routes.js'
 import userRoutes from './routes/user.routes.js'
 import dishRoutes from './routes/dish.routes.js';
 import cors from 'cors';
-
+import historyRoutes from './routes/history.routes.js';
 
 dotenv.config();
 
@@ -29,5 +29,6 @@ app.use('/storages', storageRoutes);
 app.use('/storages', itemRoutes);
 app.use('/permission', permissionRoutes);
 app.use('/notifications', EmailRoutes);
+app.use('/history', historyRoutes);
 
 export default app;  // Exporta o app para o server.js usar
