@@ -1,12 +1,17 @@
 // src/controllers/user.controller.js
-import { registerUserSchema, loginUserSchema } from "../utils/user.util.js";
+// import { registerUserSchema, loginUserSchema } from "../utils/user.util.js";
+import { validateLoginUser, validateRegisterUser } from "../utils/user.util.js";
 import { createUserService, loginUserService } from "../services/auth.service.js";
 
 export async function registerUser(req, res) {
   try {
     // Valida os dados recebidos
-    const data = registerUserSchema.parse(req.body);
-
+    // const data = registerUserSchema.parse(req.body);
+    const { valid, errors, data } = validateRegisterUser(req.body);
+    if (!valid) {
+      return res.status(400).json({ errors });
+    }
+    
     // Cria o usuário chamando o service
     const user = await createUserService(data);
 
@@ -20,20 +25,20 @@ export async function registerUser(req, res) {
       },
     });
   } catch (error) {
-    if (error.name === "ZodError"){ return res.status(400).json({ errors: error.errors }); }
-
-    // Outros erros (ex: e-mail duplicado)
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
 export async function loginUser(req, res) {
   try {
     // valida os dados recebidos
-    const { email, password } = loginUserSchema.parse(req.body);
+    const { valid, errors, data } = validateLoginUser(req.body);
+    if (!valid) {
+      return res.status(400).json({ errors });
+    }
 
     // tenta logar o usuário
-    const { user, token } = await loginUserService({ email, password });
+    const { user, token } = await loginUserService(data);
 
     // envia o token como cookie seguro
     res.cookie("token", token, {
@@ -47,8 +52,7 @@ export async function loginUser(req, res) {
     res.status(200).json({ message: "Login realizado com sucesso", user, token });
   } catch (error) {
 
-    if (error.name === "ZodError") { return res.status(400).json({ errors: error.errors }); }
-    res.status(400).json({ error: error.message });
+ return res.status(500).json({ success: false, message: error.message });
   }
 }
 
