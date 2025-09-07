@@ -107,6 +107,16 @@ export async function prepareDishService(userId, dishId) {
         },
       },
     });
+ 
+    // Histórico de cada ingrediente descontado
+    await prisma.history.create({
+      data: {
+        id_user: userId,
+        id_item: ingredient.id_Item,
+        action: "PREPARE_DISH",
+        quantity: ingredient.quantity,
+      },
+    });
   }
 
   return {

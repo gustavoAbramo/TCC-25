@@ -1,16 +1,25 @@
-import prisma from '../../prisma/client.js';
+import prisma from "../../prisma/client.js";
+
+// Função para registrar histórico
+async function createHistory({ id_user, id_item, action, quantity }) {
+  await prisma.history.create({
+    data: { id_user, id_item, action, quantity },
+  });
+}
 
 async function checkUserPermission(storageId, id_user) {
   const authorizedStorage = await prisma.storage_Permission.findFirst({
     where: {
       id_Storage: storageId,
       id_user: id_user,
-      Access_Level: { in: ['Owner', 'CoOwner'] },
+      Access_Level: { in: ["Owner", "CoOwner"] },
     },
   });
 
   if (!authorizedStorage) {
-    throw new Error('Usuário não tem permissão para adicionar itens a este estoque.');
+    throw new Error(
+      "Usuário não tem permissão para adicionar itens a este estoque."
+    );
   }
 }
 
@@ -32,7 +41,9 @@ export async function createItemService(item) {
   });
 
   if (existingItem) {
-    throw new Error(`O item com o nome "${itemData.name}" e categoria "${itemData.category}" já existe neste estoque.`);
+    throw new Error(
+      `O item com o nome "${itemData.name}" e categoria "${itemData.category}" já existe neste estoque.`
+    );
   }
 
   const newItem = await prisma.item.create({
@@ -49,6 +60,13 @@ export async function createItemService(item) {
     },
   });
 
+  await createHistory({
+    id_user,
+    id_item: newItem.id_Item,
+    action: "ADD_ITEM",
+    quantity: newItem.quantity,
+  });
+
   return newItem;
 }
 
@@ -61,7 +79,7 @@ export async function getItemsByStorageService(id_Storage) {
     },
   });
 
-  return items.map(item => ({
+  return items.map((item) => ({
     id: item.id_Item,
     name: item.name,
     description: item.description,
@@ -83,6 +101,13 @@ export async function deleteItemService(id_Item, id_user) {
 
   await checkUserPermission(storageId, id_user);
 
+  await createHistory({
+    id_user,
+    id_item: item.id_Item,
+    action: "DELETE_ITEM",
+    quantity: item.quantity,
+  });
+
   await prisma.storage_Item.deleteMany({
     where: { id_Item: Number(id_Item) },
   });
@@ -94,8 +119,11 @@ export async function deleteItemService(id_Item, id_user) {
   return { message: "Item deletado com sucesso." };
 }
 
-
-export async function updateItemQuantityService(id_Item, id_user, quantityChange) {
+export async function updateItemQuantityService(
+  id_Item,
+  id_user,
+  quantityChange
+) {
   // Verifica se o item pertence a um Storage em que o usuário tem permissão
   const storageItem = await prisma.storage_Item.findFirst({
     where: {
@@ -103,14 +131,14 @@ export async function updateItemQuantityService(id_Item, id_user, quantityChange
       Storage: {
         permissions: {
           some: {
-            id_user: id_user
-          }
-        }
-      }
+            id_user: id_user,
+          },
+        },
+      },
     },
     include: {
-      Item: true
-    }
+      Item: true,
+    },
   });
 
   if (!storageItem) {
@@ -126,7 +154,14 @@ export async function updateItemQuantityService(id_Item, id_user, quantityChange
 
   const updated = await prisma.item.update({
     where: { id_Item },
-    data: { quantity: newQuantity }
+    data: { quantity: newQuantity },
+  });
+
+  await createHistory({
+    id_user,
+    id_item: item.id_Item,
+    action: "UPDATE_QUANTITY",
+    quantity: quantityChange,
   });
 
   return updated;
@@ -154,7 +189,7 @@ export async function getItemsCloseToExpiration(days = 7) {
             include: {
               permissions: {
                 where: {
-                  Access_Level: 'Owner',
+                  Access_Level: "Owner",
                 },
                 include: {
                   user: true,
@@ -168,7 +203,7 @@ export async function getItemsCloseToExpiration(days = 7) {
   });
 
   return items
-    .map(item => {
+    .map((item) => {
       const owner = item.Storage_belongs[0]?.Storage?.permissions[0]?.user;
       return {
         name: item.name,
@@ -176,5 +211,5 @@ export async function getItemsCloseToExpiration(days = 7) {
         ownerEmail: owner?.email || null,
       };
     })
-    .filter(item => item.ownerEmail); // Filtra apenas com e-mail válido
+    .filter((item) => item.ownerEmail); // Filtra apenas com e-mail válido
 }
