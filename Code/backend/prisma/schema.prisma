@@ -19,6 +19,7 @@ model User {
   // Relations
   permissions Storage_Permission[]
   dishes      Dish[]
+  history     History[]
 }
 
 model Storage {
@@ -55,6 +56,7 @@ model Item {
   // Relations
   Storage_belongs Storage_Item[]
   Dish_belongs    Dish_Item[]
+  history         History[]
 }
 
 model Storage_Permission {
@@ -94,6 +96,20 @@ model Dish_Item {
 
   @@unique([id_Dish, id_Item])
 }
+
+model History {
+  id_History   Int      @id @default(autoincrement())
+  id_user      Int
+  id_item      Int?
+  action       String   @db.VarChar(50)
+  quantity     Int?
+  created_at   DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [id_user], references: [id_user])
+  item Item? @relation(fields: [id_item], references: [id_Item])
+}
+
 
 enum Access_Level {
   Owner
