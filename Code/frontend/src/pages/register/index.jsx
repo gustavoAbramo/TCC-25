@@ -8,6 +8,7 @@ export default function Register() {
 const [name, setName] = useState('');
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
+const [alertMessage, setAlertMessage] = useState(null);
 
 
 
@@ -27,10 +28,10 @@ const handleSubmit = async (e) => {
     setEmail('');
     setPassword('');
 
-    alert("Usuário cadastrado");
+    setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
 
   } catch(error) {
-    alert(error);
+    setAlertMessage({ type: 'error', text: error.message || 'Erro ao cadastrar usuário.' });
   }
 
 }
@@ -67,6 +68,21 @@ const handleSubmit = async (e) => {
             <p className="text-gray-400">Comece a gerenciar seu estoque hoje</p>
           </div>
 
+
+          {alertMessage && (
+        <div
+          className={`mt-4 p-4 rounded-lg text-sm sticky text-center top-17 object-center left-26 ${
+            alertMessage.type === 'success'
+              ? 'bg-green-50 text-green-800'
+              : 'bg-red-50 text-red-800'
+          }`}
+          role="alert"
+        >
+          {alertMessage.text}
+        </div>
+      )}
+
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -102,26 +118,11 @@ const handleSubmit = async (e) => {
                 type="password"
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                 placeholder="Crie uma senha segura"
+                
               />
             </div>
 
             {/* Terms */}
-            <div className="flex items-start space-x-3">
-              <input
-                type="checkbox"
-                className="mt-1 w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
-              />
-              <label className="text-sm text-gray-300">
-                Eu concordo com os{" "}
-                <a href="#" className="text-blue-400 hover:text-blue-300">
-                  Termos de Uso
-                </a>{" "}
-                e{" "}
-                <a href="#" className="text-blue-400 hover:text-blue-300">
-                  Política de Privacidade
-                </a>
-              </label>
-            </div>
 
             {/* Submit Button */}
             <button
@@ -217,6 +218,11 @@ const handleSubmit = async (e) => {
             </div>
             <p className="text-xs text-gray-300">Setup rápido</p>
           </div>
+
+        
+
+
+
         </div>
       </div>
     </div>
