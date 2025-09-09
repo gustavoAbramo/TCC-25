@@ -1,13 +1,29 @@
-import { createItemService, getItemsByStorageService, deleteItemService, updateItemQuantityService } from '../services/item.service.js';
-import { createItemSchema } from '../utils/item.util.js';
-
+import {
+  createItemService,
+  getItemsByStorageService,
+  deleteItemService,
+  updateItemQuantityService,
+} from "../services/item.service.js";
+import { createItemSchema } from "../utils/item.util.js";
 export const addItemToStock = async (req, res) => {
+  const { error, value: data } = createItemSchema.validate(req.body, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    const messages = error.details.map((detail) => detail.message);
+    return res.status(400).json({
+      success: false,
+      message: messages.join("; "),
+      errors: messages,
+    });
+  }
+
   try {
-    const data = createItemSchema.parse(req.body);
     const id_user = req.user?.id_user;
 
     if (!id_user) {
-      return res.status(401).json({ message: 'Usuário não autenticado.' });
+      return res.status(401).json({ success: false, message: "Usuário não autenticado." });
     }
 
     const newItem = await createItemService({
@@ -16,28 +32,23 @@ export const addItemToStock = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: 'Item adicionado com sucesso!',
+      success: true,
+      message: "Item adicionado com sucesso!",
       item: newItem,
     });
-
   } catch (error) {
-    if (error.name === 'ZodError') {
-      return res.status(400).json({ errors: error.errors });
+    if (error.message.includes("não tem permissão")) {
+      return res.status(403).json({ success: false, message: error.message });
     }
 
-    if (error.message.includes('não tem permissão')) {
-      return res.status(403).json({ message: error.message });
+    if (error.message.includes("já existe")) {
+      return res.status(400).json({ success: false, message: error.message });
     }
 
-    if (error.message.includes('já existe')) {
-      return res.status(400).json({ message: error.message });
-    }
-
-    return res.status(500).json({ message: 'Erro interno ao adicionar item.' });
+    console.error(error); // log para ajudar no debug
+    return res.status(500).json({ success: false, message: "Erro interno ao adicionar item." });
   }
 };
-
-
 export async function getItemsByStorage(req, res) {
   try {
     const { id } = req.params; // id do estoque
@@ -45,7 +56,7 @@ export async function getItemsByStorage(req, res) {
     return res.status(200).json(items);
   } catch (error) {
     console.error("Erro ao buscar itens por storage:", error);
-    return res.status(500).json({ message: 'Erro interno ao buscar itens.' });
+    return res.status(500).json({ message: "Erro interno ao buscar itens." });
   }
 }
 
@@ -65,9 +76,7 @@ export async function deleteItem(req, res) {
     const result = await deleteItemService(Number(id_Item), id_user);
 
     return res.status(200).json(result);
-
   } catch (error) {
-
     if (error.message && error.message.includes("não tem permissão")) {
       return res.status(403).json({ message: error.message });
     }
@@ -83,12 +92,17 @@ export async function deleteItem(req, res) {
 export async function updateItemQuantity(req, res) {
   try {
     const { id_Item } = req.params;
-    const { quantityChange } = req.body; 
+    const { quantityChange } = req.body;
     const id_user = req.user?.id_user; // pega do token
 
-    if (!id_user) return res.status(401).json({ message: "Usuário não autenticado" });
+    if (!id_user)
+      return res.status(401).json({ message: "Usuário não autenticado" });
 
-    const updatedItem = await updateItemQuantityService(Number(id_Item), id_user, Number(quantityChange));
+    const updatedItem = await updateItemQuantityService(
+      Number(id_Item),
+      id_user,
+      Number(quantityChange)
+    );
 
     res.json(updatedItem);
   } catch (err) {

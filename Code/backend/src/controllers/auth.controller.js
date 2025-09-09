@@ -1,18 +1,17 @@
 // src/controllers/user.controller.js
 // import { registerUserSchema, loginUserSchema } from "../utils/user.util.js";
 import { validateLoginUser, validateRegisterUser } from "../utils/user.util.js";
-import { createUserService, loginUserService } from "../services/auth.service.js";
+import {
+  createUserService,
+  loginUserService,
+} from "../services/auth.service.js";
 
 export async function registerUser(req, res) {
+  const { valid, errors, data } = validateRegisterUser(req.body);
+  if (!valid) {
+    return res.status(400).json({ errors });
+  }
   try {
-    // Valida os dados recebidos
-    // const data = registerUserSchema.parse(req.body);
-    const { valid, errors, data } = validateRegisterUser(req.body);
-    if (!valid) {
-      return res.status(400).json({ errors });
-    }
-    
-    // Cria o usuário chamando o service
     const user = await createUserService(data);
 
     // Responde com sucesso, omitindo senha
@@ -30,14 +29,12 @@ export async function registerUser(req, res) {
 }
 
 export async function loginUser(req, res) {
-  try {
-    // valida os dados recebidos
-    const { valid, errors, data } = validateLoginUser(req.body);
-    if (!valid) {
-      return res.status(400).json({ errors });
-    }
+  const { valid, errors, data } = validateLoginUser(req.body);
 
-    // tenta logar o usuário
+  if (!valid) {
+    return res.status(400).json({ errors });
+  }
+  try {
     const { user, token } = await loginUserService(data);
 
     // envia o token como cookie seguro
@@ -49,10 +46,11 @@ export async function loginUser(req, res) {
     });
 
     // retorna os dados do usuário
-    res.status(200).json({ message: "Login realizado com sucesso", user, token });
+    res
+      .status(200)
+      .json({ message: "Login realizado com sucesso", user, token });
   } catch (error) {
-
- return res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
@@ -68,7 +66,6 @@ export async function logoutUser(req, res) {
     res.status(500).json({ error: "Erro ao fazer logout" });
   }
 }
-
 
 export async function getCurrentUser(req, res) {
   try {

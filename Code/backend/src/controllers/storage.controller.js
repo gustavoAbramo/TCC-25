@@ -1,22 +1,43 @@
-import { createStorageSchema, renameStorageSchema } from "../utils/storages.util.js"
-import { createStorageService, seeStoragesServices, renameStorageService, deleteStorageService } from '../services/storages.service.js'
+import {
+  createStorageSchema,
+  renameStorageSchema,
+} from "../utils/storages.util.js";
+import {
+  createStorageService,
+  seeStoragesServices,
+  renameStorageService,
+  deleteStorageService,
+} from "../services/storages.service.js";
 
 export async function createStorage(req, res) {
-
-  try {
-    const id_user = req.user?.id_user;
-    if (!id_user) {
-      return res.status(401).json({ message: "Usuário não autenticado" });
-    }
-    const { name, location } = createStorageSchema.parse(req.body);
-
-    const storage = await createStorageService(name, id_user,location);
-    res.status(201).json(storage);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  const id_user = req.user?.id_user;
+  if (!id_user) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
   }
 
-};
+  const { error, value } = createStorageSchema.validate(req.body, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    const message = error.details[0].message;
+
+    return res.status(400).json({
+      success: false,
+      message,
+    });
+  }
+
+  const { name, location } = value;
+
+  try {
+    const storage = await createStorageService(name, id_user, location);
+    return res.status(201).json({ success: true, storage });
+  } catch (error) {
+    console.error("Erro no createStorageService:", error);
+    return res.status(500).json({ message: error.message });
+  }
+}
 
 export async function seeStorages(req, res) {
   try {
@@ -24,26 +45,39 @@ export async function seeStorages(req, res) {
 
     const storages = await seeStoragesServices(id_user);
 
-    res.status(200).json(storages);
-  } catch (err) {
-    res.status(500).json({ message: err.message })
+    res.status(200).json({ success: true, storages });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 }
 
 export async function renameStorage(req, res) {
+  const id_user = req.user.id_user;
+  const id_Storage = parseInt(req.params.id);
+  const { error, value } = renameStorageSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error) {
+    const message = error.details[0].message;
+    return res.status(400).json({ success: false, message });
+  }
+  const { newName } = value;
   try {
-    const id_user = req.user.id_user;
-    const id_Storage = parseInt(req.params.id);
-    const { newName } = renameStorageSchema.parse(req.body);
-
-    const updatedStorage = await renameStorageService(id_user, id_Storage, newName);
+    const updatedStorage = await renameStorageService(
+      id_user,
+      id_Storage,
+      newName
+    );
 
     res.status(200).json({
+      success: true,
       message: "Nome do estoque atualizado com sucesso",
-      storage: updatedStorage
+      storage: updatedStorage,
     });
   } catch (error) {
-    res.status(403).json({ error: error.message });
+    res.status(403).json({
+      success: false,
+       error: error.message });
   }
 }
 
@@ -55,8 +89,12 @@ export async function deleteStorage(req, res) {
     // Chame o serviço para deletar o storage
     await deleteStorageService(id_user, id_Storage);
 
-    res.status(200).json({ message: "Estoque deletado com sucesso." });
+    res.status(200).json({ 
+      success: true,
+      message: "Estoque deletado com sucesso." });
   } catch (error) {
-    res.status(403).json({ error: error.message });
+    res.status(403).json({
+      success: false,
+      error: error.message });
   }
 }
