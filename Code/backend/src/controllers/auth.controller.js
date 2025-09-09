@@ -61,17 +61,17 @@ export async function logoutUser(req, res) {
       secure: false, // true em produção
       sameSite: "lax",
     });
-    return res.status(200).json({ message: "Logout realizado com sucesso" });
+    return res.status(200).json({ success: true, message: "Logout realizado com sucesso" });
   } catch (error) {
-    res.status(500).json({ error: "Erro ao fazer logout" });
+    res.status(500).json({ success: false, error: "Erro ao fazer logout" });
   }
 }
 
 export async function getCurrentUser(req, res) {
   try {
     // Se passou pelo middleware, req.user existe
-    return res.status(200).json({ user: req.user });
+    return res.status(200).json({ success: true, user: req.user });
   } catch (error) {
-    return res.status(401).json({ error: "Não autorizado" });
+    return res.status(401).json({ success: false, error: "Não autorizado" });
   }
 }
