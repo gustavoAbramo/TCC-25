@@ -77,7 +77,6 @@ model Dish {
   name        String    @db.VarChar(100)
   description String?   @db.VarChar(200)
   created_at  DateTime  @default(now())
-  date        DateTime?
   id_user     Int
 
   // Relations
