@@ -1,64 +1,47 @@
-import React, {useState} from "react"
-import api  from "../../services/api.service";
-
-
+import React, { useState, useEffect } from "react";
+import api from "../../services/api.service";
 
 export default function Register() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
-const [name, setName] = useState('');
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
-const [alertMessage, setAlertMessage] = useState(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      await api.post('/auth/register', { name, email, password });
 
+      setName('');
+      setEmail('');
+      setPassword('');
 
+      setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
+      setShowAlert(true);
+    } catch (error) {
+      const msg =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Erro ao cadastrar usuário.';
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+      setAlertMessage({ type: 'error', text: msg });
+      setShowAlert(true);
+    }
+  };
 
-
-  try{
-    await api.post('/auth/register', {
-      name,
-      email,
-      password,
-    })
-
-    setName('');
-    setEmail('');
-    setPassword('');
-
-    setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
-
-  } catch(error) {
-    setAlertMessage({ type: 'error', text: error.message || 'Erro ao cadastrar usuário.' });
-  }
-
-}
-
-
-
+  // Faz o alerta sumir depois de 4 segundos
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => setShowAlert(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-600/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-3/4 left-3/4 w-64 h-64 bg-blue-500/5 rounded-full blur-2xl"></div>
-      </div>
-
       <div className="relative z-10 w-full max-w-md">
-        {/* Back Button */}
-        <button
-          onClick={() => window.history.back()}
-          className="flex items-center text-gray-400 hover:text-white mb-8 transition-colors"
-        >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Voltar
-        </button>
 
         {/* Register Form */}
         <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
@@ -67,21 +50,6 @@ const handleSubmit = async (e) => {
             <h1 className="text-3xl font-light mb-2">Criar conta</h1>
             <p className="text-gray-400">Comece a gerenciar seu estoque hoje</p>
           </div>
-
-
-          {alertMessage && (
-        <div
-          className={`mt-4 p-4 rounded-lg text-sm sticky text-center top-17 object-center left-26 ${
-            alertMessage.type === 'success'
-              ? 'bg-green-50 text-green-800'
-              : 'bg-red-50 text-red-800'
-          }`}
-          role="alert"
-        >
-          {alertMessage.text}
-        </div>
-      )}
-
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -118,11 +86,8 @@ const handleSubmit = async (e) => {
                 type="password"
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                 placeholder="Crie uma senha segura"
-                
               />
             </div>
-
-            {/* Terms */}
 
             {/* Submit Button */}
             <button
@@ -132,8 +97,32 @@ const handleSubmit = async (e) => {
               Criar conta
             </button>
 
+            {/* Novo Alert embaixo do botão */}
+            {alertMessage && (
+              <div
+                className={`mt-3 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm text-center transition-all duration-500 ${
+                  showAlert ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                } ${
+                  alertMessage.type === 'success'
+                    ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                    : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                }`}
+              >
+                {alertMessage.type === 'success' ? (
+                  <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                )}
+                {alertMessage.text}
+              </div>
+            )}
+
             {/* Divider */}
-            <div className="relative">
+            <div className="relative mt-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-600"></div>
               </div>
@@ -143,7 +132,7 @@ const handleSubmit = async (e) => {
             </div>
 
             {/* Social Login */}
-            <div className="grid grid-cols-1  gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <button
                 type="button"
                 className="flex items-center justify-center px-4 py-3 border border-gray-600 rounded-lg hover:bg-gray-700/50 transition-colors"
@@ -181,50 +170,7 @@ const handleSubmit = async (e) => {
             </p>
           </div>
         </div>
-
-        {/* Features Preview */}
-        <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-          <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-lg p-4">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <p className="text-xs text-gray-300">Grátis para começar</p>
-          </div>
-          <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-lg p-4">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </div>
-            <p className="text-xs text-gray-300">100% seguro</p>
-          </div>
-          <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-lg p-4">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <p className="text-xs text-gray-300">Setup rápido</p>
-          </div>
-
-        
-
-
-
-        </div>
       </div>
     </div>
-  )
+  );
 }

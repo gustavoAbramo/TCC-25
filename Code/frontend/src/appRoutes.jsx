@@ -2,7 +2,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Register from "./pages/Register";
+import Register from "./pages/register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
