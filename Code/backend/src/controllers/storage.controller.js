@@ -35,9 +35,11 @@ export async function createStorage(req, res) {
     const storage = await createStorageService(name, id_user, location);
     return res.status(201).json({ success: true, storage });
   } catch (error) {
-    console.error("Erro no createStorageService:", error);
-    return res.status(500).json({ message: error.message });
-  }
+  res.status(error.statusCode || 500).json({
+    success: false,
+    error: error.message,
+  });
+}
 }
 
 export async function seeStorages(req, res) {
@@ -48,7 +50,10 @@ export async function seeStorages(req, res) {
 
     res.status(200).json({ success: true, storages });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(error.statusCode || 500).json({
+      success: false,
+      error: error.message,
+    });
   }
 }
 
@@ -111,7 +116,7 @@ export async function searchStoragesAndItems(req, res) {
     const results = await searchStoragesAndItemsService(req.user.id_user, query);
     return res.status(200).json({ success: true, ...results });
   } catch (error) {
-    return res.status(500).json({
+    return (500).json({
       success: false,
       message: error.message
     });

@@ -17,7 +17,9 @@ export async function createStorageService(name, id_user, location) {
   });
 
   if (existingStorage) {
-    throw new Error("Você já possui um estoque com esse nome");
+    const error = new Error("Você já é dono de um estoque com esse nome e localização");
+    error.statusCode = 400;
+    throw error;
   }
 
   // 2. Cria o storage e já conecta o usuário como dono (Owner)
@@ -47,6 +49,7 @@ export async function createStorageService(name, id_user, location) {
 }
 
 export async function seeStoragesServices(id_user) {
+
   const storages = await prisma.storage_Permission.findMany({
     where: { id_user },
     include: {
@@ -63,6 +66,12 @@ export async function seeStoragesServices(id_user) {
       },
     },
   });
+
+  if (!storages || storages.length === 0) {
+    const error = new Error("Nenhum estoque encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
 
   // Retorna só os estoques com informações importantes
   return storages.map((sp) => ({
@@ -194,4 +203,9 @@ export async function searchStoragesAndItemsService(id_user, query) {
       }))
     ),
   };
+  if (!storages && !items) {
+    const error = new Error("Nenhum estoque ou item encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
 }
