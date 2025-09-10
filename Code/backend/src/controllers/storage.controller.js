@@ -7,6 +7,7 @@ import {
   seeStoragesServices,
   renameStorageService,
   deleteStorageService,
+  searchStoragesAndItemsService,
 } from "../services/storages.service.js";
 
 export async function createStorage(req, res) {
@@ -96,5 +97,23 @@ export async function deleteStorage(req, res) {
     res.status(403).json({
       success: false,
       error: error.message });
+  }
+}
+
+export async function searchStoragesAndItems(req, res) {
+
+  const { query } = req.body;
+  if (!query || typeof query !== "string" || query.trim() === "") {
+    return res.status(400).json({ message: "Query inválida" });
+  }
+
+  try {
+    const results = await searchStoragesAndItemsService(req.user.id_user, query);
+    return res.status(200).json({ success: true, ...results });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 }

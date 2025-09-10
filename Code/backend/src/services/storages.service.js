@@ -127,3 +127,71 @@ export async function deleteStorageService(id_user, id_Storage) {
 
   return;
 }
+
+export async function searchStoragesAndItemsService(id_user, query) {
+  // 🔍 Buscar estoques do usuário cujo nome começa com o termo
+  const storages = await prisma.storage_Permission.findMany({
+    where: {
+      id_user,
+      Storage: {
+        name: {
+          startsWith: query, // case insensitive
+        },
+      },
+    },
+    include: {
+      Storage: true,
+    },
+    take: 15, // Limitar a 15 resultados
+  });
+
+  // 🔍 Buscar itens (Item, não Storage_Item!)
+  const items = await prisma.item.findMany({
+    where: {
+      name: {
+        startsWith: query,
+      },
+      Storage_belongs: {
+        some: {
+          Storage: {
+            permissions: {
+              some: { id_user },
+            },
+          },
+        },
+      },
+    },
+    include: {
+      Storage_belongs: {
+        include: {
+          Storage: {
+            select: {
+              id_Storage: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    take: 15,
+  });
+
+  // Retorno organizado
+  return {
+    storages: storages.map((sp) => ({
+      id: sp.Storage.id_Storage,
+      name: sp.Storage.name,
+      location: sp.Storage.location,
+    })),
+    items: items.flatMap((item) =>
+      item.Storage_belongs.map((sb) => ({
+        id: item.id_Item,
+        name: item.name,
+        storage: {
+          id: sb.Storage.id_Storage,
+          name: sb.Storage.name,
+        },
+      }))
+    ),
+  };
+}
