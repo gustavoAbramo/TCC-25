@@ -11,6 +11,8 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+
     try {
       await api.post('/auth/register', { name, email, password });
 
@@ -21,12 +23,16 @@ export default function Register() {
       setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
       setShowAlert(true);
     } catch (error) {
-      const msg =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        'Erro ao cadastrar usuário.';
+      const errors = error.response?.data?.errors;
 
-      setAlertMessage({ type: 'error', text: msg });
+      if (errors && errors.length > 0) {
+        // Exibe o primeiro erro retornado pelo backend
+        setAlertMessage({ type: 'error', text: errors[0].message });
+      } else {
+        // Mensagem de erro genérica
+        setAlertMessage({ type: 'error', text: 'Erro ao cadastrar usuário.' });
+      }
+
       setShowAlert(true);
     }
   };
@@ -34,7 +40,7 @@ export default function Register() {
   // Faz o alerta sumir depois de 4 segundos
   useEffect(() => {
     if (showAlert) {
-      const timer = setTimeout(() => setShowAlert(false), 4000);
+      const timer = setTimeout(() => setShowAlert(false), 5000);
       return () => clearTimeout(timer);
     }
   }, [showAlert]);
@@ -42,6 +48,13 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
       <div className="relative z-10 w-full max-w-md">
+
+      {/* Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-600/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-3/4 left-3/4 w-64 h-64 bg-blue-500/5 rounded-full blur-2xl"></div>
+      </div>
 
         {/* Register Form */}
         <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
