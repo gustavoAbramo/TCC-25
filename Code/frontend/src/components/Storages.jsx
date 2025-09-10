@@ -2,252 +2,273 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api.service';
 
 export default function Storages() {
-  const [storages, setStorages] = useState([]);
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+    const [storages, setStorages] = useState([]);
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-  // Para adicionar item
-  const [activeStorageId, setActiveStorageId] = useState(null);
-  const [itemData, setItemData] = useState({
-    name: '',
-    description: '',
-    expiration: '',
-    category: '',
-    quantity: ''
-  });
-  const [addingItem, setAddingItem] = useState(false);
+    const [activeStorageId, setActiveStorageId] = useState(null);
+    const [itemData, setItemData] = useState({
+        name: '',
+        description: '',
+        expiration: '',
+        category: '',
+        quantity: ''
+    });
+    const [addingItem, setAddingItem] = useState(false);
 
-  // Para mostrar itens de cada storage
-  const [showItemsFor, setShowItemsFor] = useState(null);
-  const [itemsLoading, setItemsLoading] = useState(false);
+    const [showItemsFor, setShowItemsFor] = useState(null);
+    const [itemsLoading, setItemsLoading] = useState(false);
 
-  // Buscar todos os storages
-  const fetchStorages = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/storages/seeStorage', { withCredentials: true });
-      const data = Array.isArray(res.data.storages) ? res.data.storages : [];
-      setStorages(data);
-    } catch (err) {
-      console.error(err);
-      setError('Erro ao carregar os estoques.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchStorages = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get('/storages/seeStorage', { withCredentials: true });
+            const data = Array.isArray(res.data.storages) ? res.data.storages : [];
+            setStorages(data);
+        } catch (err) {
+            setError('Erro ao carregar os estoques.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  useEffect(() => {
-    fetchStorages();
-  }, []);
+    useEffect(() => {
+        fetchStorages();
+    }, []);
 
-  const handleCreateStorage = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await api.post('/storages/createStorage', { name, location }, { withCredentials: true });
-      const created = res.data.storage;
-      const newStorage = {
-        id: created.id_Storage,
-        name: created.name,
-        location: created.location,
-        accessLevel: created.permissions[0]?.Access_Level || 'Owner',
-        items: []
-      };
-      setStorages(prev => [...prev, newStorage]);
-      setName('');
-      setLocation('');
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.message || 'Erro ao criar estoque.');
-    }
-  };
+    const handleCreateStorage = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await api.post('/storages/createStorage', { name, location }, { withCredentials: true });
+            const created = res.data.storage;
+            const newStorage = {
+                id: created.id_Storage,
+                name: created.name,
+                location: created.location,
+                accessLevel: created.permissions[0]?.Access_Level || 'Owner',
+                items: []
+            };
+            setStorages(prev => [...prev, newStorage]);
+            setName('');
+            setLocation('');
+        } catch (err) {
+            alert(err.response?.data?.message || 'Erro ao criar estoque.');
+        }
+    };
 
-  const handleAddItem = async (storageId) => {
-    const { name, description, expiration, category, quantity } = itemData;
-    if (!name || !description || !expiration || !category || !quantity) return;
+    const handleAddItem = async (storageId) => {
+        const { name, description, expiration, category, quantity } = itemData;
+        if (!name || !description || !expiration || !category || !quantity) return;
 
-    try {
-      setAddingItem(true);
-      const payload = { name, description, expiration, category, quantity: Number(quantity), storageId };
-      const res = await api.post('/storages/Items', payload, { withCredentials: true });
-      const newItem = res.data;
+        try {
+            setAddingItem(true);
+            const payload = { name, description, expiration, category, quantity: Number(quantity), storageId };
+            const res = await api.post('/storages/Items', payload, { withCredentials: true });
+            const newItem = res.data;
 
-      setStorages(prev =>
-        prev.map(s => (s.id === storageId ? { ...s, items: [...s.items, newItem] } : s))
-      );
+            setStorages(prev =>
+                prev.map(s => (s.id === storageId ? { ...s, items: [...s.items, newItem] } : s))
+            );
 
-      setItemData({ name: '', description: '', expiration: '', category: '', quantity: '' });
-      setActiveStorageId(null);
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.message || 'Erro ao adicionar item.');
-    } finally {
-      setAddingItem(false);
-    }
-  };
+            setItemData({ name: '', description: '', expiration: '', category: '', quantity: '' });
+            setActiveStorageId(null);
+        } catch (err) {
+            alert(err.response?.data?.message || 'Erro ao adicionar item.');
+        } finally {
+            setAddingItem(false);
+        }
+    };
 
-  // Buscar itens de um storage específico
-  const fetchItems = async (storageId) => {
-    try {
-      setItemsLoading(true);
-      const res = await api.get(`/storages/items/${storageId}`, { withCredentials: true });
-      const items = Array.isArray(res.data.items) ? res.data.items : [];
+    const fetchItems = async (storageId) => {
+        try {
+            setItemsLoading(true);
+            const res = await api.get(`/storages/items/${storageId}`, { withCredentials: true });
+            const items = Array.isArray(res.data.items) ? res.data.items : [];
 
-      setStorages(prev =>
-        prev.map(s => (s.id === storageId ? { ...s, items } : s))
-      );
+            setStorages(prev =>
+                prev.map(s => (s.id === storageId ? { ...s, items } : s))
+            );
 
-      setShowItemsFor(storageId); // marca que deve mostrar os items
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao buscar itens do estoque.');
-    } finally {
-      setItemsLoading(false);
-    }
-  };
+            setShowItemsFor(storageId);
+        } catch (err) {
+            alert('Erro ao buscar itens do estoque.');
+        } finally {
+            setItemsLoading(false);
+        }
+    };
 
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Gerenciar Estoques</h1>
+    return (
+        <div className="p-8 bg-background min-h-screen">
+            <div className="max-w-3xl mx-auto">
+                <h1 className="text-3xl font-bold mb-6 text-center text-blue-700 drop-shadow">Gerenciar Estoques</h1>
 
-      {/* Formulário de criar estoque */}
-      <form onSubmit={handleCreateStorage} className="mb-6 flex flex-col gap-2">
-        <input
-          type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Nome do estoque"
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          required
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Localização"
-          className="border p-2 rounded"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Criar Estoque
-        </button>
-      </form>
-
-      {loading ? (
-        <p>Carregando estoques...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
-      ) : storages.length === 0 ? (
-        <p>Nenhum estoque encontrado.</p>
-      ) : (
-        <div className="space-y-4">
-          {storages.map((s) => (
-            <div key={s.id} className="border p-4 rounded">
-              <h4>
-                <strong>{s.name}</strong> — {s.location} ({s.accessLevel})
-              </h4>
-
-              {/* Botões */}
-              <div className="flex gap-2 mt-2">
-                <button
-                  className="bg-purple-500 text-white p-2 rounded hover:bg-purple-600"
-                  onClick={() => fetchItems(s.id)}
-                  disabled={itemsLoading}
+                {/* Formulário de criar estoque */}
+                <form
+                    onSubmit={handleCreateStorage}
+                    className="mb-8 bg-background shadow-lg rounded-xl p-6 flex flex-col gap-4 border border-blue-100"
                 >
-                  {itemsLoading && showItemsFor === s.id ? 'Carregando...' : 'Ver Itens'}
-                </button>
-
-                <button
-                  className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
-                  onClick={() => setActiveStorageId(s.id)}
-                >
-                  Adicionar Item
-                </button>
-              </div>
-
-              {/* Lista de itens */}
-              {showItemsFor === s.id && (
-                <ul className="pl-4 mt-2">
-                  {s.items.length === 0 ? (
-                    <li>Nenhum item.</li>
-                  ) : (
-                    s.items.map((item) => (
-                      <li key={item.id}>
-                        {item.name} — {item.quantity} ({item.category}) — Validade: {item.expiration}
-                      </li>
-                    ))
-                  )}
-                </ul>
-              )}
-
-              {/* Formulário inline para adicionar item */}
-              {activeStorageId === s.id && (
-                <div className="mt-2 flex flex-col gap-2 border p-2 rounded">
-                  <input
-                    type="text"
-                    placeholder="Nome"
-                    value={itemData.name}
-                    onChange={(e) => setItemData({ ...itemData, name: e.target.value })}
-                    required
-                    className="border p-1 rounded"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Descrição"
-                    value={itemData.description}
-                    onChange={(e) => setItemData({ ...itemData, description: e.target.value })}
-                    required
-                    className="border p-1 rounded"
-                  />
-                  <input
-                    type="date"
-                    value={itemData.expiration}
-                    onChange={(e) => setItemData({ ...itemData, expiration: e.target.value })}
-                    required
-                    className="border p-1 rounded"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Categoria"
-                    value={itemData.category}
-                    onChange={(e) => setItemData({ ...itemData, category: e.target.value })}
-                    required
-                    className="border p-1 rounded"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Quantidade"
-                    value={itemData.quantity}
-                    onChange={(e) => setItemData({ ...itemData, quantity: e.target.value })}
-                    required
-                    className="border p-1 rounded"
-                  />
-
-                  <div className="flex gap-2">
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <input
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Nome do estoque"
+                            className="border border-blue-200 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        />
+                        <input
+                            type="text"
+                            required
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            placeholder="Localização"
+                            className="border border-blue-200 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        />
+                    </div>
                     <button
-                      className="bg-green-500 text-white p-1 rounded flex-1"
-                      onClick={() => handleAddItem(s.id)}
-                      disabled={addingItem}
+                        type="submit"
+                        className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold p-3 rounded-lg hover:from-blue-600 hover:to-purple-600 transition"
                     >
-                      {addingItem ? 'Adicionando...' : 'Adicionar'}
+                        Criar Estoque
                     </button>
-                    <button
-                      className="bg-gray-400 text-white p-1 rounded flex-1"
-                      onClick={() => setActiveStorageId(null)}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </div>
-              )}
+                </form>
+
+                {loading ? (
+                    <div className="flex justify-center items-center py-10">
+                        <span className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-2"></span>
+                        <span className="text-blue-700 font-medium">Carregando estoques...</span>
+                    </div>
+                ) : error ? (
+                    <p className="text-red-500 text-center">{error}</p>
+                ) : storages.length === 0 ? (
+                    <p className="text-gray-500 text-center">Nenhum estoque encontrado.</p>
+                ) : (
+                    <div className="space-y-6">
+                        {storages.map((s) => (
+                            <div
+                                key={s.id}
+                                className="bg-white border border-blue-100 shadow-md rounded-xl p-6 transition hover:shadow-xl"
+                            >
+                                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                                    <h4 className="text-xl font-semibold text-blue-800 flex items-center gap-2">
+                                        <span className="inline-block w-2 h-2 rounded-full bg-blue-400"></span>
+                                        {s.name}
+                                        <span className="text-sm text-gray-500 font-normal ml-2">
+                                            {s.location}
+                                        </span>
+                                        <span className="ml-2 px-2 py-0.5 rounded bg-blue-100 text-blue-600 text-xs font-medium">
+                                            {s.accessLevel}
+                                        </span>
+                                    </h4>
+                                    <div className="flex gap-2 mt-2 md:mt-0">
+                                        <button
+                                            className={`bg-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-600 transition ${itemsLoading && showItemsFor === s.id ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                            onClick={() => fetchItems(s.id)}
+                                            disabled={itemsLoading}
+                                        >
+                                            {itemsLoading && showItemsFor === s.id ? 'Carregando...' : 'Ver Itens'}
+                                        </button>
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition"
+                                            onClick={() => setActiveStorageId(s.id)}
+                                        >
+                                            Adicionar Item
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Lista de itens */}
+                                {showItemsFor === s.id && (
+                                    <ul className="pl-4 mt-4 space-y-2">
+                                        {s.items.length === 0 ? (
+                                            <li className="text-gray-500">Nenhum item.</li>
+                                        ) : (
+                                            s.items.map((item) => (
+                                                <li
+                                                    key={item.id}
+                                                    className="bg-blue-50 border border-blue-100 rounded-lg p-3 flex flex-col md:flex-row md:items-center md:justify-between"
+                                                >
+                                                    <span className="font-medium text-blue-700">{item.name}</span>
+                                                    <span className="text-gray-600 text-sm">{item.quantity} ({item.category})</span>
+                                                    <span className="text-xs text-gray-400">Validade: {item.expiration}</span>
+                                                </li>
+                                            ))
+                                        )}
+                                    </ul>
+                                )}
+
+                                {/* Formulário inline para adicionar item */}
+                                {activeStorageId === s.id && (
+                                    <div className="mt-4 bg-background rounded-lg p-4 flex flex-col gap-3">
+                                        <div className="flex flex-col md:flex-row gap-3">
+                                            <input
+                                                type="text"
+                                                placeholder="Nome"
+                                                value={itemData.name}
+                                                onChange={(e) => setItemData({ ...itemData, name: e.target.value })}
+                                                required
+                                                className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="Descrição"
+                                                value={itemData.description}
+                                                onChange={(e) => setItemData({ ...itemData, description: e.target.value })}
+                                                required
+                                                className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col md:flex-row gap-3">
+                                            <input
+                                                type="date"
+                                                value={itemData.expiration}
+                                                onChange={(e) => setItemData({ ...itemData, expiration: e.target.value })}
+                                                required
+                                                className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="Categoria"
+                                                value={itemData.category}
+                                                onChange={(e) => setItemData({ ...itemData, category: e.target.value })}
+                                                required
+                                                className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                            />
+                                            <input
+                                                type="number"
+                                                placeholder="Quantidade"
+                                                value={itemData.quantity}
+                                                onChange={(e) => setItemData({ ...itemData, quantity: e.target.value })}
+                                                required
+                                                className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                            />
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button
+                                                className="bg-green-500 text-white p-2 rounded-lg flex-1 font-medium hover:bg-green-600 transition"
+                                                onClick={() => handleAddItem(s.id)}
+                                                disabled={addingItem}
+                                                type="button"
+                                            >
+                                                {addingItem ? 'Adicionando...' : 'Adicionar'}
+                                            </button>
+                                            <button
+                                                className="bg-gray-400 text-white p-2 rounded-lg flex-1 font-medium hover:bg-gray-500 transition"
+                                                onClick={() => setActiveStorageId(null)}
+                                                type="button"
+                                            >
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
-          ))}
         </div>
-      )}
-    </div>
-  );
+    );
 }
