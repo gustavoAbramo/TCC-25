@@ -5,15 +5,27 @@ import {
   createUserService,
   loginUserService,
 } from "../services/auth.service.js";
+import prisma from '../../prisma/client.js'; // ajuste o caminho conforme sua estrutura
 
 export async function registerUser(req, res) {
   const { valid, errors, data } = validateRegisterUser(req.body);
   if (!valid) {
     return res.status(400).json({ errors });
   }
+
+  
+  const emailOccupied = await prisma.User.findUnique({
+    where: { email: data.email.toLowerCase() }
+  });
+
+  if (emailOccupied) {
+    errors.push({ field: "email", message: "E-mail já cadastrado" });
+    return res.status(400).json({ errors });
+  }
+
   try {
     const user = await createUserService(data);
-
+    
     // Responde com sucesso, omitindo senha
     res.status(201).json({
       message: "Usuário cadastrado com sucesso",

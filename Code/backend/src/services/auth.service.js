@@ -6,7 +6,8 @@ export async function createUserService({ name, email, password }) {
   const existing = await prisma.user.findUnique({ where: { email } });
 
   if (existing) {
-    throw new Error('E-mail já cadastrado');
+    errors.push({ field: "email", message: "E-mail já cadastrado" });
+    return res.status(400).json({ errors });
   }
 
   // Hashear a senha antes de salvar

@@ -7,6 +7,8 @@ export default function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -16,24 +18,33 @@ export default function LoginForm() {
       const response = await api.post('/auth/login', { email, password }, {
         withCredentials: true
         
+        
       });
 
       if (response.data.token) {
+        setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
+        setShowAlert(true);
+
+
         localStorage.setItem('token', response.data.token); // se quiser salvar o token
         setIsLoading(true);
         window.location.href = "/telaInicial";
       }
-      else{
-        alert("falha no login");
-      }
-
-
-
     } catch(error) {
       setIsLoading(false);
-      console.error("Erro na requisição:", error);
-      console.error("Resposta do servidor:", error.response?.data);
-      alert(error.response?.data?.message || "Erro ao fazer login");
+
+      const errors = error.response?.data?.errors;
+
+      if (errors && errors.length > 0) {
+        // Exibe o primeiro erro retornado pelo backend
+        setAlertMessage({ type: 'error', text: errors[0].message });
+      } else {
+        // Mensagem de erro genérica
+        setAlertMessage({ type: 'error', text: 'Erro ao fazer login.' });
+      }
+
+      setShowAlert(true);
+
     }
   }
 
@@ -121,6 +132,31 @@ export default function LoginForm() {
                 "Entrar"
               )}
             </button>
+
+            {alertMessage && (
+              <div
+                className={`mt-3 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm text-center transition-all duration-500 ${
+                  showAlert ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                } ${
+                  alertMessage.type === 'success'
+                    ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                    : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                }`}
+              >
+                {alertMessage.type === 'success' ? (
+                  <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                )}
+                {alertMessage.text}
+              </div>
+            )}
+
+
 
             {/* Divider */}
             <div className="relative">

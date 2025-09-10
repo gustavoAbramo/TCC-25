@@ -1,6 +1,8 @@
 import validator from "validator";
 
 export function validateRegisterUser(data) {
+
+
   const errors = [];
   const { name, email, password } = data;
 
