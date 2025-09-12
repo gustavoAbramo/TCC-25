@@ -6,6 +6,7 @@ import {
   loginUserService,
 } from "../services/auth.service.js";
 import prisma from '../../prisma/client.js'; // ajuste o caminho conforme sua estrutura
+import bcrypt from "bcrypt";
 
 export async function registerUser(req, res) {
   const { valid, errors, data } = validateRegisterUser(req.body);
@@ -46,10 +47,30 @@ export async function loginUser(req, res) {
   if (!valid) {
     return res.status(400).json({ errors });
   }
-  try {
-    const { user, token } = await loginUserService(data);
 
-    // envia o token como cookie seguro
+  try {
+    // Buscar o usuário no banco de dados pelo e-mail
+    const user = await prisma.User.findUnique({
+      where: { email: data.email.toLowerCase() },
+    });
+
+    if (!user) {
+      errors.push({ field: "email", message: "Usuário não encontrado" });
+      return res.status(404).json({ errors });
+    }
+
+    // Comparar a senha fornecida com a senha armazenada
+    const passwordMatch = await bcrypt.compare(data.password, user.password);
+
+    if (!passwordMatch) {
+      errors.push({ field: "password", message: "Senha inválida" });
+      return res.status(400).json({ errors });
+    }
+
+    // Gerar token e realizar login
+    const { token } = await loginUserService(data);
+
+    // Enviar o token como cookie seguro
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
@@ -57,10 +78,8 @@ export async function loginUser(req, res) {
       maxAge: 60 * 60 * 1000, // 1 hora
     });
 
-    // retorna os dados do usuário
-    res
-      .status(200)
-      .json({ message: "Login realizado com sucesso", user, token });
+    // Retornar os dados do usuário
+    res.status(200).json({ message: "Login realizado com sucesso", user, token });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
