@@ -30,5 +30,6 @@ app.use('/storages', itemRoutes);
 app.use('/permission', permissionRoutes);
 app.use('/notifications', EmailRoutes);
 app.use('/history', historyRoutes);
+app.use('/password', userRoutes);
 
 export default app;  // Exporta o app para o server.js usar
