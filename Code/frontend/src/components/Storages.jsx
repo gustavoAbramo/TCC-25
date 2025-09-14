@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api.service';
 
 export default function Storages() {
+    const [showForm, setShowForm] = useState(false);
     const [storages, setStorages] = useState([]);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
@@ -53,6 +54,7 @@ export default function Storages() {
             setStorages(prev => [...prev, newStorage]);
             setName('');
             setLocation('');
+            alert("estoque criado com sucesso")
         } catch (err) {
             alert(err.response?.data?.message || 'Erro ao criar estoque.');
         }
@@ -101,39 +103,62 @@ export default function Storages() {
 
     return (
         <div className="p-8 bg-background min-h-screen">
-            <div className="max-w-3xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6 text-center text-blue-700 drop-shadow">Gerenciar Estoques</h1>
-
-                {/* Formulário de criar estoque */}
-                <form
-                    onSubmit={handleCreateStorage}
-                    className="mb-8 bg-background shadow-lg rounded-xl p-6 flex flex-col gap-4 border border-blue-100"
+            <div className="p-6 flex items-center justify-between">
+                <h1 className="text-2xl font-semibold mb-4">Gerenciar Estoques</h1>
+                <button
+                    className="mb-6 ml-16 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium shadow hover:bg-blue-700 transition"
+                    onClick={() => setShowForm((prev) => !prev)}
                 >
-                    <div className="flex flex-col md:flex-row gap-4">
-                        <input
-                            type="text"
-                            required
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Nome do estoque"
-                            className="border border-blue-200 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                        />
-                        <input
-                            type="text"
-                            required
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                            placeholder="Localização"
-                            className="border border-blue-200 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                        />
+                    {showForm ? 'Fechar formulário' : 'Novo Estoque'}
+                </button>
+            </div>
+
+            {showForm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                    <div className="relative w-full max-w-lg mx-auto">
+                        <form
+                            onSubmit={handleCreateStorage}
+                            className="mb-8 bg-background bg-opacity-90 shadow-2xl rounded-xl p-8 flex flex-col gap-4 border-3 border-gray-500 backdrop-blur-md"
+                        >
+                            <button
+                                type="button"
+                                className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold"
+                                onClick={() => setShowForm(false)}
+                                aria-label="Fechar"
+                            >
+                                ×
+                            </button>
+                            <div className="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                                <input
+                                    type="text"
+                                    required
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Nome do estoque"
+                                    className="border border-gray-500 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                />
+                            </div>
+                            <div className='block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-0 border-gray-100 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'>
+                                <input
+                                    type="text"
+                                    required
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    placeholder="Localização"
+                                    className="border border-gray-500 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Criar Estoque
+                            </button>
+                        </form>
                     </div>
-                    <button
-                        type="submit"
-                        className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold p-3 rounded-lg hover:from-blue-600 hover:to-purple-600 transition"
-                    >
-                        Criar Estoque
-                    </button>
-                </form>
+                </div>
+            )}
 
                 {loading ? (
                     <div className="flex justify-center items-center py-10">
@@ -269,6 +294,5 @@ export default function Storages() {
                     </div>
                 )}
             </div>
-        </div>
     );
 }
