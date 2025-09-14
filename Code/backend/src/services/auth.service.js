@@ -1,4 +1,4 @@
-import prisma from '../../prisma/client.js'; // Ajuste o caminho conforme necessário
+import prisma from '../../prisma/client.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -6,19 +6,15 @@ export async function createUserService({ name, email, password }) {
   const existing = await prisma.user.findUnique({ where: { email } });
 
   if (existing) {
-    errors.push({ field: "email", message: "E-mail já cadastrado" });
-    return res.status(400).json({ errors });
+    const error = new Error("E-mail já cadastrado");
+    error.statusCode = 400; // Bad Request
+    throw error;
   }
 
-  // Hashear a senha antes de salvar
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
+    data: { name, email, password: hashedPassword },
   });
 
   return user;
@@ -28,13 +24,17 @@ export async function loginUserService({ email, password }) {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    throw new Error('E-mail ou senha inválidos');
+    const error = new Error("E-mail ou senha inválidos");
+    error.statusCode = 401; // Unauthorized
+    throw error;
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
-    throw new Error('E-mail ou senha inválidos');
+    const error = new Error("E-mail ou senha inválidos");
+    error.statusCode = 401; // Unauthorized
+    throw error;
   }
 
   const token = jwt.sign(
@@ -42,5 +42,9 @@ export async function loginUserService({ email, password }) {
     process.env.JWT_SECRET,
     { expiresIn: '1h' }
   );
-  return { token, user: { id: user.id_user, name: user.name, email: user.email } };
+
+  return {
+    token,
+    user: { id: user.id_user, name: user.name, email: user.email }
+  };
 }
