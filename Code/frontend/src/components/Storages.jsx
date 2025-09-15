@@ -120,15 +120,16 @@ export default function Storages() {
                             onSubmit={handleCreateStorage}
                             className="mb-8 bg-background bg-opacity-90 shadow-2xl rounded-xl p-8 flex flex-col gap-4 border-3 border-gray-500 backdrop-blur-md"
                         >
+                            
                             <button
                                 type="button"
-                                className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold"
+                                className="absolute top-2 right-2 text-red-500 hover:text-red-600 text-2xl font-bold"
                                 onClick={() => setShowForm(false)}
                                 aria-label="Fechar"
                             >
                                 ×
                             </button>
-                            <div className="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                            <div className="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-0 border-gray-300 appearance-none text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
                                 <input
                                     type="text"
                                     required
@@ -138,7 +139,7 @@ export default function Storages() {
                                     className="border border-gray-500 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
                                 />
                             </div>
-                            <div className='block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-0 border-gray-100 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'>
+                            <div className='block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-0 border-b-0 border-gray-100 appearance-none text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'>
                                 <input
                                     type="text"
                                     required
