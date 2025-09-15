@@ -1,4 +1,4 @@
-import express from 'express';
+import express from 'express';  
 import authRoutes from './routes/auth.routes.js';
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -30,6 +30,7 @@ app.use('/storages', itemRoutes);
 app.use('/permission', permissionRoutes);
 app.use('/notifications', EmailRoutes);
 app.use('/history', historyRoutes);
-app.use('/password', userRoutes);
+app.use('/users', userRoutes);
+app.use('/reset-password', userRoutes);
 
 export default app;  // Exporta o app para o server.js usar

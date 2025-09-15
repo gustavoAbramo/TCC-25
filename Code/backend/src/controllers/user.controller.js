@@ -1,7 +1,7 @@
 import { changeUserNameService, 
   requestPasswordResetService,
   resetPasswordService, } from "../services/user.service.js";
-
+  import notificationService from "../services/email.service.js"
 
 export async function changeUserName(req, res) {
   try {
@@ -25,27 +25,42 @@ export async function getCurrentUser(req, res) {
 }
 
 
+
+
+
 export async function forgotPassword(req, res) {
   try {
     const { email } = req.body;
     const { resetToken, user } = await requestPasswordResetService(email);
 
+    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+
     res.cookie("resetToken", resetToken, {
       httpOnly: true,
-      secure: false, // true em produção
+      secure: false, // coloque true só em produção com HTTPS
       sameSite: "Strict",
-      maxAge: 60 * 60 * 1000, // 1h
+      maxAge: 60 * 60 * 1000,
     });
 
-    // Aqui você dispara o e-mail com o link(PAra quando for adicionar o email)
-    // Ex: sendEmail({ to: user.email, subject: "Reset de senha", html: `<a href="http://localhost:3000/reset-password?token=${resetToken}">Resetar Senha</a>` })
+    await notificationService.sendEmail({
+      to: user.email,
+      subject: "Redefinição de Senha - Storage",
+      html: `
+        <p>Olá ${user.name},</p>
+        <p>Você solicitou a redefinição de senha.</p>
+        <p>Clique no botão abaixo para redefinir sua senha:</p>
+        <p><a href="${resetLink}" style="background-color:#2563EB;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">Redefinir Senha</a></p>
+        <p>Este link expira em 15 minutos.</p>
+        <p>Se você não solicitou isso, ignore este e-mail.</p>
+      `,
+    });
 
     res.json({ success: true, message: "E-mail de recuperação enviado." });
   } catch (error) {
+    console.error("ERRO NO FORGOT PASSWORD:", error);
     res.status(400).json({ success: false, message: error.message });
   }
 }
-
 export async function resetPassword(req, res) {
   try {
     const { token, newPassword } = req.body;

@@ -1,14 +1,16 @@
 //aqui vai conter as rotas de cada pagina do nosso sistema e dps nos so importamos elas no main.jsx
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Register from "./pages/register";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Contact from "./pages/Contact";
 import DashboardPage from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import ResetPasswordPage from "./components/ResetPassword";
+
 
 export default function AppRoutes() {
   const location = useLocation();
@@ -18,21 +20,18 @@ export default function AppRoutes() {
     <>
       {!hideHeaderOn.includes(location.pathname) && <Header />}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sobre" element={<About />} />
-        <Route path="/contato" element={<Contact />} />
-        <Route path="/cadastro" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-         <Route
-          path="/telaInicial"
-          element={
-            <PrivateRoute>
-              <DashboardPage />
-            </PrivateRoute>
-          }
-        />
-        
-      </Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/sobre" element={<About />} />
+  <Route path="/contato" element={<Contact />} />
+  <Route path="/cadastro" element={<Register />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/reset-password" element={<ResetPasswordPage />} />
+  <Route path="/telaInicial" element={
+    <PrivateRoute>
+      <DashboardPage />
+    </PrivateRoute>
+  } />
+</Routes>
       {!hideFooterOn.includes(location.pathname) && <Footer />}
     </>
   );
