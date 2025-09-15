@@ -1,6 +1,7 @@
 import prisma from "../../prisma/client.js";
 import crypto from 'crypto';
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 
 /**
  * Altera o nome de um usuário
@@ -33,7 +34,14 @@ export async function requestPasswordResetService(email) {
     throw new Error("Usuário não encontrado.");
   }
 
-  const resetToken = crypto.randomBytes(32).toString("hex");
+  //const resetToken = crypto.randomBytes(32).toString("hex");
+
+  const resetToken = jwt.sign(
+   { userId: user.id_user, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+
   const expires = new Date(Date.now() + 1000 * 60 * 15); // 15 min
 
   await prisma.passwordReset.create({

@@ -30,6 +30,13 @@ export async function forgotPassword(req, res) {
     const { email } = req.body;
     const { resetToken, user } = await requestPasswordResetService(email);
 
+    res.cookie("resetToken", resetToken, {
+      httpOnly: true,
+      secure: false, // true em produção
+      sameSite: "Strict",
+      maxAge: 60 * 60 * 1000, // 1h
+    });
+
     // Aqui você dispara o e-mail com o link(PAra quando for adicionar o email)
     // Ex: sendEmail({ to: user.email, subject: "Reset de senha", html: `<a href="http://localhost:3000/reset-password?token=${resetToken}">Resetar Senha</a>` })
 

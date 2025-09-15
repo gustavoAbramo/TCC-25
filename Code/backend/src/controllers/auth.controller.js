@@ -39,7 +39,7 @@ export async function loginUser(req, res) {
 
   try {
     const { token, user } = await loginUserService(data);
-
+    
     res.cookie("token", token, {
       httpOnly: true,
       secure: false, // true em produção
