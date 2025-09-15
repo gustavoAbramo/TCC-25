@@ -34,17 +34,20 @@ export default function LoginForm() {
       setIsLoading(false);
 
       const errors = error.response?.data?.errors;
+      const message = error.response?.data?.message;
 
       if (errors && errors.length > 0) {
-        // Exibe o primeiro erro retornado pelo backend
+        // Se vier como array de erros
         setAlertMessage({ type: 'error', text: errors[0].message });
+      } else if (message) {
+        // Se vier como string
+        setAlertMessage({ type: 'error', text: message });
       } else {
-        // Mensagem de erro genérica
-        setAlertMessage({ type: 'error', text: 'Erro ao fazer login.' });
+        // Fallback genérico
+        setAlertMessage({ type: 'error', text: 'Erro ao cadastrar usuário.' });
       }
-
+    
       setShowAlert(true);
-
     }
   }
 

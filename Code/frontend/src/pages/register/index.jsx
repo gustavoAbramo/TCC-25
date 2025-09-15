@@ -22,19 +22,24 @@ export default function Register() {
 
       setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
       setShowAlert(true);
-    } catch (error) {
+    }  catch (error) {
       const errors = error.response?.data?.errors;
-
+      const message = error.response?.data?.message;
+    
       if (errors && errors.length > 0) {
-        // Exibe o primeiro erro retornado pelo backend
+        // Se vier como array de erros
         setAlertMessage({ type: 'error', text: errors[0].message });
+      } else if (message) {
+        // Se vier como string
+        setAlertMessage({ type: 'error', text: message });
       } else {
-        // Mensagem de erro genérica
+        // Fallback genérico
         setAlertMessage({ type: 'error', text: 'Erro ao cadastrar usuário.' });
       }
-
+    
       setShowAlert(true);
     }
+    
   };
 
   // Faz o alerta sumir depois de 4 segundos

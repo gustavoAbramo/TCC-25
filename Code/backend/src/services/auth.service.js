@@ -24,7 +24,7 @@ export async function loginUserService({ email, password }) {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    const error = new Error("E-mail ou senha inválidos");
+    const error = new Error("E-mail não cadastrado");
     error.statusCode = 401; // Unauthorized
     throw error;
   }
@@ -32,7 +32,7 @@ export async function loginUserService({ email, password }) {
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
-    const error = new Error("E-mail ou senha inválidos");
+    const error = new Error("Senha inválida");
     error.statusCode = 401; // Unauthorized
     throw error;
   }
