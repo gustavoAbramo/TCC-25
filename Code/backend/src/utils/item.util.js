@@ -7,11 +7,13 @@ const alphanumericSpace = /^[a-zA-Z0-9\s]+$/;
 export const createItemSchema = Joi.object({
   name: Joi.string()
     .min(2)
+    .max(20)
     .pattern(hasLetter, "letra")
     .pattern(alphanumericSpace)
     .required()
     .messages({
       "string.min": "O nome deve ter pelo menos 2 caracteres",
+      "string.max": "Nome muito longo",
       "string.empty": "O nome é obrigatório",
       "string.pattern.name": "O nome deve conter pelo menos uma letra",
       "any.required": "O nome é obrigatório",

@@ -12,9 +12,6 @@ import {
 
 export async function createStorage(req, res) {
   const id_user = req.user?.id_user;
-  if (!id_user) {
-    return res.status(401).json({ message: "Usuário não autenticado" });
-  }
 
   const { error, value } = createStorageSchema.validate(req.body, {
     abortEarly: false,
