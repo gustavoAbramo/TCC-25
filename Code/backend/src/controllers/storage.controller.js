@@ -113,9 +113,9 @@ export async function searchStoragesAndItems(req, res) {
     const results = await searchStoragesAndItemsService(req.user.id_user, query);
     return res.status(200).json({ success: true, ...results });
   } catch (error) {
-    return (500).json({
+    res.status(error.statusCode || 500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 }

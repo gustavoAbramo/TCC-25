@@ -17,10 +17,10 @@ async function checkUserPermission(storageId, id_user) {
   });
 
   if (!authorizedStorage) {
-    throw new Error(
-      "Usuário não tem permissão para adicionar itens a este estoque."
-    );
-  }
+  const error = new Error("Usuário não tem permissão para modificar este estoque.");
+  error.statusCode = 403; 
+  throw error;
+}
 }
 
 export async function createItemService(item) {
@@ -41,9 +41,9 @@ export async function createItemService(item) {
   });
 
   if (existingItem) {
-    throw new Error(
-      `O item com o nome "${itemData.name}" e categoria "${itemData.category}" já existe neste estoque.`
-    );
+    const error = new Error("Item com este nome e categoria já existe neste estoque.");
+    error.statusCode = 400; 
+    throw error;
   }
 
   const newItem = await prisma.item.create({
@@ -74,10 +74,16 @@ export async function getItemsByStorageService(id_Storage) {
   const items = await prisma.item.findMany({
     where: {
       Storage_belongs: {
-        some: { id_Storage: Number(id_Storage) }, // filtra pelos itens desse estoque
+        some: { id_Storage: Number(id_Storage) }, 
       },
     },
   });
+
+  if (items.length === 0) {
+    const error = new Error("Nenhum item encontrado para este estoque.");
+    error.statusCode = 404;
+    throw error;
+  }
 
   return items.map((item) => ({
     id: item.id_Item,
@@ -85,7 +91,7 @@ export async function getItemsByStorageService(id_Storage) {
     description: item.description,
     category: item.category,
     quantity: item.quantity,
-    expiration: item.expiration.toISOString().split("T")[0], // YYYY-MM-DD
+    expiration: item.expiration.toISOString().split("T")[0], 
   }));
 }
 export async function deleteItemService(id_Item, id_user) {
@@ -94,11 +100,20 @@ export async function deleteItemService(id_Item, id_user) {
     include: { Storage_belongs: true },
   });
 
-  if (!item) throw new Error("Item não encontrado.");
+  if (!item) {
+    const error = new Error("Item não encontrado.");
+    error.statusCode = 404;
+    throw error;
+  }
 
   const storageId = item.Storage_belongs[0]?.id_Storage;
-  if (!storageId) throw new Error("Item não está associado a nenhum estoque.");
-
+  
+  if (!storageId) {
+    const error = new Error("Item não está associado a nenhum estoque.");
+    error.statusCode = 400;
+    throw error;
+  }
+  
   await checkUserPermission(storageId, id_user);
 
   await createHistory({
@@ -142,8 +157,12 @@ export async function updateItemQuantityService(
   });
 
   if (!storageItem) {
-    throw new Error("Item não encontrado ou sem permissão");
-  }
+    const error = new Error(
+      "Item não encontrado ou usuário não tem permissão para modificar este item."
+    );
+    error.statusCode = 404;
+    throw error;
+    }
 
   const item = storageItem.Item;
 

@@ -67,3 +67,21 @@ export function validateLoginUser(data) {
     data: { email: email?.toLowerCase(), password },
   };
 }
+
+export function validateEmailUser(data) {
+  const errors = [];
+  const { email } = data;
+
+  // E-mail
+  if (!email || email.trim() === "") {
+    errors.push({ field: "email", message: "E-mail é obrigatório" });
+  } else if (!validator.isEmail(email)) {
+    errors.push({ field: "email", message: "E-mail inválido" });
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    data: { email: email?.toLowerCase() },
+  };
+}

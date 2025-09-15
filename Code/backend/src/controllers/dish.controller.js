@@ -5,14 +5,17 @@ import {
 } from "../services/dish.service.js";
 
 export async function createDish(req, res) {
-  try {
-    const id_user = req.user?.id_user;
-    const data = req.body;
+  const id_user = req.user?.id_user;
+  const data = req.body;
 
+  try {
     const dish = await createDishService(id_user, data);
     res.status(201).json({ success: true, dish });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
 

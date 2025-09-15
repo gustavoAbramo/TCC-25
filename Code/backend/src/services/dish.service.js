@@ -8,6 +8,12 @@ export async function createDishService(userId, data) {
     error.statusCode = 400; // falta de dados
     throw error;  }
 
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      const error = new Error("Nome do prato é obrigatório.");
+      error.statusCode = 400;
+      throw error;
+    }
+    
   for (const ing of ingredients) {
     const storageItem = await prisma.storage_Item.findFirst({
       where: {
@@ -30,7 +36,15 @@ export async function createDishService(userId, data) {
     }
   }
 
-  // Cria o prato com os ingredientes (mas não desconta do estoque ainda)
+  const existingDish = await prisma.dish.findFirst({
+    where: { name, id_user: userId },
+  });
+  if (existingDish) {
+    const error = new Error("Você já tem um prato com este nome.");
+    error.statusCode = 400; 
+    throw error;  
+  }
+
   const dish = await prisma.dish.create({
     data: {
       name,
@@ -103,7 +117,6 @@ export async function prepareDishService(userId, dishId) {
   }
 
   if (errors.length > 0) {
-    // Vamos juntar as mensagens e lançar um erro com statusCode 422
     const combinedMessage = errors.map((e) => e.message).join(" | ");
     const error = new Error(combinedMessage);
     error.statusCode = 422;
@@ -121,7 +134,7 @@ export async function prepareDishService(userId, dishId) {
       },
     });
 
-    // Histórico de cada ingrediente descontado
+
     await prisma.history.create({
       data: {
         id_user: userId,

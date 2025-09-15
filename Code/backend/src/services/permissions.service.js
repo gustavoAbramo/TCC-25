@@ -15,7 +15,9 @@ export async function toCoOwnerService({ email, id_Storage }) {
     });
   
     if (!user) {
-      throw new Error("Usuário com esse e-mail não encontrado");
+      const error = new Error("Usuário não encontrado");
+      error.status = 404;
+      throw error;
     }
   
     // Verifica se o Storage existe
@@ -24,7 +26,9 @@ export async function toCoOwnerService({ email, id_Storage }) {
     });
   
     if (!storage) {
-      throw new Error("Estoque (Storage) não encontrado");
+      const error = new Error("Estoque não encontrado");
+      error.status = 404;
+      throw error;
     }
   
     // Cria ou atualiza a permissão

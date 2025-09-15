@@ -38,27 +38,29 @@ export const addItemToStock = async (req, res) => {
       item: newItem,
     });
   } catch (error) {
-    if (error.message.includes("não tem permissão")) {
-      return res.status(403).json({ success: false, message: error.message });
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Erro interno ao adicionar item.",
     }
-
-    if (error.message.includes("já existe")) {
-      return res.status(400).json({ success: false, message: error.message });
-    }
-
-    console.error(error); // log para ajudar no debug
-    return res.status(500).json({ success: false, message: "Erro interno ao adicionar item." });
-  }
+    );}
 };
-
 export async function getItemsByStorage(req, res) {
+  const { id } = req.params;
+  
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ success: false, message: "ID do estoque inválido." });
+  }
+
   try {
-    const { id } = req.params; // id do estoque
+
     const items = await getItemsByStorageService(Number(id));
     return res.status(200).json({ success: true, items });
+    
   } catch (error) {
-    console.error("Erro ao buscar itens por storage:", error);
-    return res.status(500).json({ success: false, message: "Erro interno ao buscar itens." });
+    res.resCode(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Erro interno ao buscar itens do estoque.",
+    });
   }
 }
 

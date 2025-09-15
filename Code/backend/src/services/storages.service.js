@@ -17,7 +17,9 @@ export async function createStorageService(name, id_user, location) {
   });
 
   if (existingStorage) {
-    const error = new Error("Você já é dono de um estoque com esse nome e localização");
+    const error = new Error(
+      "Você já é dono de um estoque com esse nome e localização"
+    );
     error.statusCode = 400;
     throw error;
   }
@@ -49,7 +51,6 @@ export async function createStorageService(name, id_user, location) {
 }
 
 export async function seeStoragesServices(id_user) {
-
   const storages = await prisma.storage_Permission.findMany({
     where: { id_user },
     include: {
@@ -79,10 +80,7 @@ export async function seeStoragesServices(id_user) {
     name: sp.Storage.name,
     location: sp.Storage.location,
     accessLevel: sp.Access_Level,
-    items: (sp.Storage.Storage_Item || []).map((item) => ({
-      id: item.id_Item,
-      name: item.name,
-    })),
+    itemCount: sp.Storage.Storage_Item.length,
   }));
 }
 export async function renameStorageService(id_user, id_Storage, newName) {
@@ -184,7 +182,12 @@ export async function searchStoragesAndItemsService(id_user, query) {
     },
     take: 15,
   });
-
+  
+  if(!storages.length && !items.length){
+    const error = new Error("Nenhum resultado encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
   // Retorno organizado
   return {
     storages: storages.map((sp) => ({
@@ -203,9 +206,4 @@ export async function searchStoragesAndItemsService(id_user, query) {
       }))
     ),
   };
-  if (!storages && !items) {
-    const error = new Error("Nenhum estoque ou item encontrado");
-    error.statusCode = 404;
-    throw error;
-  }
 }
