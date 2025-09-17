@@ -1,8 +1,6 @@
 import validator from "validator";
 
 export function validateRegisterUser(data) {
-
-
   const errors = [];
   const { name, email, password } = data;
 
@@ -22,19 +20,34 @@ export function validateRegisterUser(data) {
 
   // Senha
   if (!password || password.length < 6) {
-    errors.push({ field: "password", message: "Senha deve ter pelo menos 6 caracteres" });
+    errors.push({
+      field: "password",
+      message: "Senha deve ter pelo menos 6 caracteres",
+    });
   } else {
     if (!/[A-Z]/.test(password)) {
-      errors.push({ field: "password", message: "Senha deve conter pelo menos uma letra maiúscula" });
+      errors.push({
+        field: "password",
+        message: "Senha deve conter pelo menos uma letra maiúscula",
+      });
     }
     if (!/[a-z]/.test(password)) {
-      errors.push({ field: "password", message: "Senha deve conter pelo menos uma letra minúscula" });
+      errors.push({
+        field: "password",
+        message: "Senha deve conter pelo menos uma letra minúscula",
+      });
     }
     if (!/[0-9]/.test(password)) {
-      errors.push({ field: "password", message: "Senha deve conter pelo menos um número" });
+      errors.push({
+        field: "password",
+        message: "Senha deve conter pelo menos um número",
+      });
     }
     if (!/[@$!%*?&]/.test(password)) {
-      errors.push({ field: "password", message: "Senha deve conter pelo menos um caractere especial" });
+      errors.push({
+        field: "password",
+        message: "Senha deve conter pelo menos um caractere especial",
+      });
     }
   }
 
@@ -47,7 +60,7 @@ export function validateRegisterUser(data) {
 
 export function validateLoginUser(data) {
   const errors = [];
-  const { email, password } = data;
+  const { email, password, token } = data;
 
   // E-mail
   if (!email || email.trim() === "") {
@@ -58,13 +71,25 @@ export function validateLoginUser(data) {
 
   // Senha
   if (!password || password.length < 6) {
-    errors.push({ field: "password", message: "Senha deve ter pelo menos 6 caracteres" });
+    errors.push({
+      field: "password",
+      message: "Senha deve ter pelo menos 6 caracteres",
+    });
   }
 
+  if (token !== undefined) {
+    if (typeof token !== "string" || token.length !== 6) {
+      errors.push({ field: "token", message: "Código 2FA inválido" });
+    }
+  }
   return {
     valid: errors.length === 0,
     errors,
-    data: { email: email?.toLowerCase(), password },
+    data: {
+      email: email?.toLowerCase(),
+      password,
+      ...(token !== undefined && { token }), // inclui token somente se existir
+    },
   };
 }
 

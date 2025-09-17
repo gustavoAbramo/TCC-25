@@ -4,59 +4,56 @@ import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
-  const [recoverEmail, setRecoverEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [twoFACode, setTwoFACode] = useState("");
   const [requires2FA, setRequires2FA] = useState(false);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     try {
       const payload = { email, password };
-  
       if (requires2FA) {
-        payload.twoFACode = twoFACode;
+        payload.token = twoFACode;
       }
-  
-      const response = await api.post('/auth/login', payload, {
-        withCredentials: true
+
+      const response = await api.post("/auth/login", payload, {
+        withCredentials: true,
       });
-  
+
       if (response.data.token) {
-        setAlertMessage({ type: 'success', text: 'Login realizado com sucesso!' });
+        setAlertMessage({
+          type: "success",
+          text: "Login realizado com sucesso!",
+        });
         setShowAlert(true);
-        localStorage.setItem('token', response.data.token);
         window.location.href = "/telaInicial";
       }
     } catch (error) {
       setIsLoading(false);
-  
+
       const data = error.response?.data;
-  
+
       if (data?.requires2FA) {
         setRequires2FA(true);
         setAlertMessage({
-          type: 'info',
-          text: 'Digite o código 2FA do seu autenticador.',
+          type: "info",
+          text: "Digite o código 2FA do seu autenticador.",
         });
       } else if (data?.errors && data.errors.length > 0) {
-        setAlertMessage({ type: 'error', text: data.errors[0].message });
+        setAlertMessage({ type: "error", text: data.errors[0].message });
       } else if (data?.message) {
-        setAlertMessage({ type: 'error', text: data.message });
+        setAlertMessage({ type: "error", text: data.message });
       } else {
-        setAlertMessage({ type: 'error', text: 'Erro ao fazer login.' });
+        setAlertMessage({ type: "error", text: "Erro ao fazer login." });
       }
-  
       setShowAlert(true);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
@@ -126,7 +123,7 @@ export default function LoginForm() {
                 required
               />
             </div>
-            {requires2FA && (
+            {requires2FA && ( 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Código 2FA
@@ -142,6 +139,7 @@ export default function LoginForm() {
               </div>
             )}
 
+
             {/* Remember & Forgot */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center space-x-2 cursor-pointer">
@@ -151,13 +149,9 @@ export default function LoginForm() {
                 />
                 <span className="text-gray-300">Lembrar de mim</span>
               </label>
-              <button
-                type="button"
-                onClick={() => setShowModal(true)}
-                className="text-blue-400 hover:text-blue-300"
-              >
+              <a href="#" className="text-blue-400 hover:text-blue-300">
                 Esqueceu a senha?
-              </button>
+              </a>
             </div>
 
             {/* Submit Button */}
@@ -218,6 +212,28 @@ export default function LoginForm() {
                   </svg>
                 )}
                 {alertMessage.text}
+
+                {alertMessage.type === "info" && (
+                  <button
+                    onClick={() => setShowAlert(false)}
+                    className="ml-2 text-gray-400 hover:text-gray-200"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
+                
               </div>
             )}
 
@@ -276,74 +292,6 @@ export default function LoginForm() {
           </div>
         </div>
       </div>
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-gray-900 border border-gray-700 rounded-xl p-8 w-full max-w-2xl min-w-[400px] shadow-2xl">
-            <h2 className="text-2xl font-semibold text-white mb-6">
-              Recuperar senha
-            </h2>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-
-                try {
-                  await api.post("/user/forgot-password", {
-                    email: recoverEmail,
-                  });
-
-                  setShowModal(false);
-                  setAlertMessage({
-                    type: "success",
-                    text: "Se o email existir, enviaremos instruções para redefinir sua senha.",
-                  });
-                  setShowAlert(true);
-                } catch (error) {
-                  console.error("Erro ao enviar email:", error);
-                  setAlertMessage({
-                    type: "error",
-                    text: "Erro ao tentar enviar o e-mail de recuperação.",
-                  });
-                  setShowAlert(true);
-                }
-              }}
-              className="space-y-5"
-            >
-              <div>
-                <label
-                  htmlFor="recoverEmail"
-                  className="block text-sm text-gray-300 mb-2"
-                >
-                  Email cadastrado:
-                </label>
-                <input
-                  type="email"
-                  id="recoverEmail"
-                  value={recoverEmail}
-                  onChange={(e) => setRecoverEmail(e.target.value)}
-                  required
-                  placeholder="seu@email.com"
-                  className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-5 py-2.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
-                >
-                  Enviar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -82,9 +82,9 @@ export async function loginUserService({ email, password, twoFACode }) {
   };
 }
 
-export async function generate2FASecretService(userId) {
+export async function generate2FASecretService(id_user) {
   const user = await prisma.user.findUnique({
-    where: { id_user: userId },
+    where: { id_user: id_user },
   });
 
   // Se o segredo já existe, apenas retorna o otpauth_url novamente
@@ -106,7 +106,7 @@ export async function generate2FASecretService(userId) {
   });
 
   await prisma.user.update({
-    where: { id_user: userId },
+    where: { id_user: id_user },
     data: {
       twoFactorSecret: secret.base32,
       is2FAEnabled: false,
@@ -120,8 +120,8 @@ export async function generate2FASecretService(userId) {
 }
 
 // Validação do token enviado e ativação do 2FA
-export async function verifyAndEnable2FAService(userId, token) {
-  const user = await prisma.user.findUnique({ where: { id_user: userId } });
+export async function verifyAndEnable2FAService(id_user, token) {
+  const user = await prisma.user.findUnique({ where: { id_user: id_user } });
 
   if (!user || !user.twoFactorSecret) {
     throw new Error("Usuário ou segredo 2FA não encontrado.");
@@ -139,7 +139,7 @@ export async function verifyAndEnable2FAService(userId, token) {
   }
 
   await prisma.user.update({
-    where: { id_user: userId },
+    where: { id_user: id_user },
     data: { is2FAEnabled: true },
   });
 

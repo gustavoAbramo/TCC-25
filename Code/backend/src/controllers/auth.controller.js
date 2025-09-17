@@ -39,9 +39,16 @@ export async function loginUser(req, res) {
     return res.status(400).json({ errors });
   }
 
+  
+  // Renomeia 'token' para 'twoFACode' antes de passar pro service
+  const serviceData = {
+    ...data,
+    twoFACode: data.token, // repassa corretamente
+  };
+
   try {
-    const { token, user } = await loginUserService(data);
-    
+    const { token, user } = await loginUserService(serviceData);
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: false, // true em produção
@@ -56,6 +63,14 @@ export async function loginUser(req, res) {
       token,
     });
   } catch (error) {
+    if (error.message === "Código 2FA necessário.") {
+      return res.status(401).json({
+        success: false,
+        message: error.message,
+        requires2FA: true, // flag para frontend mostrar input 2FA
+      });
+    }
+
     res.status(error.statusCode || 500).json({
       success: false,
       message: error.message,
@@ -88,9 +103,9 @@ export async function getCurrentUser(req, res) {
 
 export async function generate2FASecretController(req, res) {
   try {
-    const userId = req.user?.id_user;
+    const id_user = req.user?.id_user;
 
-    const secret = await generate2FASecretService(userId);
+    const secret = await generate2FASecretService(id_user);
 
     res.status(200).json(secret); // { base32, otpauth_url }
   } catch (error) {
@@ -98,20 +113,25 @@ export async function generate2FASecretController(req, res) {
   }
 }
 
-
 export async function verify2FAController(req, res) {
   try {
-    const userId = req.user?.id_user;
+    const id_user = req.user?.id_user;
     const { token } = req.body;
 
     if (!token) {
       return res.status(400).json({ message: "Token 2FA ausente." });
     }
 
-    const result = await verifyAndEnable2FAService(userId, token);
+    const result = await verifyAndEnable2FAService(id_user, token);
 
-    res.status(200).json({ message: "2FA ativado com sucesso.", ...result });
+    res
+      .status(200)
+      .json({ success: true, message: "2FA ativado com sucesso." });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message,
+      requires2FA: error.requires2FA || false,
+    });
   }
 }
