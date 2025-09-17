@@ -1,4 +1,4 @@
-import prisma from "../../prisma/client.js";
+import {prisma, mongoClient} from "../../prisma/client.js";
 
 export async function getHistoryByUser(id_user) {
   return prisma.history.findMany({
