@@ -21,6 +21,8 @@ model User {
   dishes         Dish[]
   history        History[]
   passwordResets PasswordReset[] // <-- relação inversa adicionada
+  is2FAEnabled     Boolean  @default(false)
+  twoFactorSecret  String?  // opcional
 }
 
 model PasswordReset {

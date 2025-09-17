@@ -1,7 +1,6 @@
-import React, {useState} from "react";
-import api  from "../../services/api.service";
+import React, { useState } from "react";
+import api from "../../services/api.service";
 import { useNavigate } from "react-router-dom";
-
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -11,47 +10,53 @@ export default function LoginForm() {
   const [alertMessage, setAlertMessage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-
+  const [twoFACode, setTwoFACode] = useState("");
+  const [requires2FA, setRequires2FA] = useState(false);
+  
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsLoading(true);
-
-    try{
-      const response = await api.post('/auth/login', { email, password }, {
+  
+    try {
+      const payload = { email, password };
+  
+      if (requires2FA) {
+        payload.twoFACode = twoFACode;
+      }
+  
+      const response = await api.post('/auth/login', payload, {
         withCredentials: true
-        
-        
       });
-
+  
       if (response.data.token) {
-        setAlertMessage({ type: 'success', text: 'Usuário cadastrado com sucesso!' });
+        setAlertMessage({ type: 'success', text: 'Login realizado com sucesso!' });
         setShowAlert(true);
-
-
-        localStorage.setItem('token', response.data.token); // se quiser salvar o token
-        setIsLoading(true);
+        localStorage.setItem('token', response.data.token);
         window.location.href = "/telaInicial";
       }
-    } catch(error) {
+    } catch (error) {
       setIsLoading(false);
-
-      const errors = error.response?.data?.errors;
-      const message = error.response?.data?.message;
-
-      if (errors && errors.length > 0) {
-        // Se vier como array de erros
-        setAlertMessage({ type: 'error', text: errors[0].message });
-      } else if (message) {
-        // Se vier como string
-        setAlertMessage({ type: 'error', text: message });
+  
+      const data = error.response?.data;
+  
+      if (data?.requires2FA) {
+        setRequires2FA(true);
+        setAlertMessage({
+          type: 'info',
+          text: 'Digite o código 2FA do seu autenticador.',
+        });
+      } else if (data?.errors && data.errors.length > 0) {
+        setAlertMessage({ type: 'error', text: data.errors[0].message });
+      } else if (data?.message) {
+        setAlertMessage({ type: 'error', text: data.message });
       } else {
-        // Fallback genérico
-        setAlertMessage({ type: 'error', text: 'Erro ao cadastrar usuário.' });
+        setAlertMessage({ type: 'error', text: 'Erro ao fazer login.' });
       }
-    
+  
       setShowAlert(true);
     }
-  }
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
@@ -65,11 +70,21 @@ export default function LoginForm() {
       <div className="relative z-10 w-full max-w-md">
         {/* Back Button */}
         <button
-          onClick={() => window.location.href = "/"}
+          onClick={() => (window.location.href = "/")}
           className="flex items-center text-gray-400 hover:text-white mb-8 transition-colors"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
           Voltar
         </button>
@@ -85,7 +100,9 @@ export default function LoginForm() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Email
+              </label>
               <input
                 type="email"
                 value={email}
@@ -97,7 +114,9 @@ export default function LoginForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Senha</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Senha
+              </label>
               <input
                 type="password"
                 value={password}
@@ -107,6 +126,21 @@ export default function LoginForm() {
                 required
               />
             </div>
+            {requires2FA && (
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Código 2FA
+                </label>
+                <input
+                  type="text"
+                  value={twoFACode}
+                  onChange={(e) => setTwoFACode(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                  placeholder="123456"
+                  required
+                />
+              </div>
+            )}
 
             {/* Remember & Forgot */}
             <div className="flex items-center justify-between text-sm">
@@ -121,7 +155,7 @@ export default function LoginForm() {
                 type="button"
                 onClick={() => setShowModal(true)}
                 className="text-blue-400 hover:text-blue-300"
-                >
+              >
                 Esqueceu a senha?
               </button>
             </div>
@@ -145,27 +179,47 @@ export default function LoginForm() {
             {alertMessage && (
               <div
                 className={`mt-3 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm text-center transition-all duration-500 ${
-                  showAlert ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                  showAlert
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
                 } ${
-                  alertMessage.type === 'success'
-                    ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                    : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                  alertMessage.type === "success"
+                    ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                    : "bg-red-500/20 text-red-300 border border-red-500/30"
                 }`}
               >
-                {alertMessage.type === 'success' ? (
-                  <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                {alertMessage.type === "success" ? (
+                  <svg
+                    className="w-4 h-4 text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 ) : (
-                  <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="w-4 h-4 text-red-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 )}
                 {alertMessage.text}
               </div>
             )}
-
-
 
             {/* Divider */}
             <div className="relative">
@@ -173,7 +227,9 @@ export default function LoginForm() {
                 <div className="w-full border-t border-gray-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-800 text-gray-400">ou continue com</span>
+                <span className="px-2 bg-gray-800 text-gray-400">
+                  ou continue com
+                </span>
               </div>
             </div>
 
@@ -203,17 +259,17 @@ export default function LoginForm() {
                 </svg>
                 Google
               </button>
-              
             </div>
           </form>
-
-                    
 
           {/* Register Link */}
           <div className="mt-8 text-center">
             <p className="text-gray-400">
               Não tem uma conta?{" "}
-              <a href="/cadastro" className="text-blue-400 hover:text-blue-300 font-medium">
+              <a
+                href="/cadastro"
+                className="text-blue-400 hover:text-blue-300 font-medium"
+              >
                 Cadastre-se aqui
               </a>
             </p>
@@ -221,66 +277,73 @@ export default function LoginForm() {
         </div>
       </div>
       {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-              <div className="bg-gray-900 border border-gray-700 rounded-xl p-8 w-full max-w-2xl min-w-[400px] shadow-2xl">
-                <h2 className="text-2xl font-semibold text-white mb-6">Recuperar senha</h2>
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                  
-                    try {
-                      await api.post("/user/forgot-password", {
-                        email: recoverEmail,
-                      });
-                  
-                      setShowModal(false);
-                      setAlertMessage({ type: 'success', text: 'Se o email existir, enviaremos instruções para redefinir sua senha.' });
-                      setShowAlert(true);
-                    } catch (error) {
-                      console.error("Erro ao enviar email:", error);
-                      setAlertMessage({
-                        type: 'error',
-                        text: 'Erro ao tentar enviar o e-mail de recuperação.',
-                      });
-                      setShowAlert(true);
-                    }
-                  }}
-                  
-                  className="space-y-5"
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-gray-900 border border-gray-700 rounded-xl p-8 w-full max-w-2xl min-w-[400px] shadow-2xl">
+            <h2 className="text-2xl font-semibold text-white mb-6">
+              Recuperar senha
+            </h2>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+
+                try {
+                  await api.post("/user/forgot-password", {
+                    email: recoverEmail,
+                  });
+
+                  setShowModal(false);
+                  setAlertMessage({
+                    type: "success",
+                    text: "Se o email existir, enviaremos instruções para redefinir sua senha.",
+                  });
+                  setShowAlert(true);
+                } catch (error) {
+                  console.error("Erro ao enviar email:", error);
+                  setAlertMessage({
+                    type: "error",
+                    text: "Erro ao tentar enviar o e-mail de recuperação.",
+                  });
+                  setShowAlert(true);
+                }
+              }}
+              className="space-y-5"
+            >
+              <div>
+                <label
+                  htmlFor="recoverEmail"
+                  className="block text-sm text-gray-300 mb-2"
                 >
-                  <div>
-                    <label htmlFor="recoverEmail" className="block text-sm text-gray-300 mb-2">
-                      Email cadastrado:
-                    </label>
-                    <input
-                      type="email"
-                      id="recoverEmail"
-                      value={recoverEmail}
-                      onChange={(e) => setRecoverEmail(e.target.value)}
-                      required
-                      placeholder="seu@email.com"
-                      className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div className="flex justify-end space-x-3">
-                    <button
-                      type="button"
-                      onClick={() => setShowModal(false)}
-                      className="px-5 py-2.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
-                    >
-                      Enviar
-                    </button>
-                  </div>
-                </form>
+                  Email cadastrado:
+                </label>
+                <input
+                  type="email"
+                  id="recoverEmail"
+                  value={recoverEmail}
+                  onChange={(e) => setRecoverEmail(e.target.value)}
+                  required
+                  placeholder="seu@email.com"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
-            </div>
-            )}
+              <div className="flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="px-5 py-2.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
+                >
+                  Enviar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
