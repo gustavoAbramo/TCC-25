@@ -8,6 +8,7 @@ import EmailRoutes from './routes/email.routes.js';
 import permissionRoutes from './routes/permissions.routes.js'
 import userRoutes from './routes/user.routes.js'
 import dishRoutes from './routes/dish.routes.js';
+import chatRoutes from "./routes/chat.routes.js";
 import cors from 'cors';
 import historyRoutes from './routes/history.routes.js';
 
@@ -32,5 +33,6 @@ app.use('/notifications', EmailRoutes);
 app.use('/history', historyRoutes);
 app.use('/users', userRoutes);
 app.use('/reset-password', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 export default app;  // Exporta o app para o server.js usar

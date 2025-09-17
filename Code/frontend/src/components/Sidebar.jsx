@@ -50,6 +50,14 @@ export default function Sidebar({ setActivePage }) {
           </li>
           <li>
             <button
+              onClick={() => setActivePage("Chat")}
+              className={sidebarButtonStyle}
+            >
+              Chat
+            </button>
+          </li>
+          <li>
+            <button
               onClick={() => setActivePage("Configurações")}
               className={sidebarButtonStyle}
             >

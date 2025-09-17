@@ -3,6 +3,7 @@ import { useState } from "react";
 import Storages from "../../components/storages";
 import History from "../../components/History";
 import Alexa from "../../components/Alexa";
+import Chat from "../../components/Chat";
 import Settings from "../../components/Settings";
 
 export default function DashboardPage() {
@@ -16,6 +17,8 @@ export default function DashboardPage() {
         return <History />;
       case "Alexa":
         return <Alexa />;
+      case "Chat":
+        return <Chat />;
       case "Configurações":
         return <Settings />;
       default:
