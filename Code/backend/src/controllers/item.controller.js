@@ -57,7 +57,7 @@ export async function getItemsByStorage(req, res) {
     return res.status(200).json({ success: true, items });
     
   } catch (error) {
-    res.resCode(error.statusCode || 500).json({
+    res.status(error.statusCode || 500).json({
       success: false,
       message: error.message || "Erro interno ao buscar itens do estoque.",
     });
@@ -81,15 +81,10 @@ export async function deleteItem(req, res) {
 
     return res.status(200).json({ success: true, ...result });
   } catch (error) {
-    if (error.message && error.message.includes("não tem permissão")) {
-      return res.status(403).json({ success: false, message: error.message });
-    }
-
-    if (error.message && error.message.includes("não encontrado")) {
-      return res.status(404).json({ success: false, message: error.message });
-    }
-
-    return res.status(500).json({ success: false, message: "Erro interno ao deletar item." });
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Erro interno ao deletar item.",
+    });
   }
 }
 
