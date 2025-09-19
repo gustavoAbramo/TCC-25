@@ -43,6 +43,7 @@ para rodar o servidor com o nodemon
 
 Configuração do MongoDb:
 
+antes de começar lembre de instalar o compass e o mongodb para rodar o projeto
 <h2>1. Abra o MongoDB Compass, depois, clique neste botão:<h2>
 
 <img src="Code/frontend/src/assets/passo-1.png">
