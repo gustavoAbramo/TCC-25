@@ -62,7 +62,7 @@ model Item {
   name        String   @db.VarChar(100)
   description String?  @db.VarChar(200)
   expiration  DateTime @db.DateTime()
-  category    String   @db.VarChar(100)
+  category    category
   quantity    Int?
   created_at  DateTime @default(now())
 
@@ -126,4 +126,25 @@ enum Access_Level {
   Owner
   CoOwner
   Guest
+}
+
+enum category {
+  Vegetables
+  Fruits
+  Meats
+  FishAndSeafood
+  Dairy
+  GrainsAndCereals
+  Legumes
+  NutsAndSeeds
+  BakedGoods
+  Condiments
+  SpicesAndHerbs
+  Beverages
+  FrozenFoods
+  CannedFoods
+  OilsAndFats
+  Snacks
+  SweetsAndDesserts
+  OthersFood
 }
