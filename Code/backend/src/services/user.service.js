@@ -1,4 +1,4 @@
-import prisma from "../../prisma/client.js";
+import {prisma} from "../../prisma/client.js";
 import crypto from 'crypto';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';

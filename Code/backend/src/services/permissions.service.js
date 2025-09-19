@@ -1,4 +1,4 @@
-import prisma from '../../prisma/client.js'; 
+import {prisma} from '../../prisma/client.js'; 
 
 export async function toCoOwnerService({ email, id_Storage }) {
     return updatePermission({ email, id_Storage, accessLevel: "CoOwner" });

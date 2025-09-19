@@ -1,35 +1,24 @@
-import {mongoClient, prisma} from "../../prisma/client.js";
+import {prisma} from "../../prisma/client.js";
+import { mongoClient } from "../../mongo/client.mongo.js";
 
-// Função para registrar histórico
 async function createHistory({ id_user, id_item, action, quantity }) {
-  try{
-    await mongoClient.connect();
-    const database = mongoClient.db("history-smart-storage")
-    const collection = database.collection("historico_estoque");
+  try {
+    const db = await mongoClient(); // já retorna o DB
+    const collection = db.collection("historico_estoque");
 
-    const result = await collection.insertOne({
+    await collection.insertOne({
       id_user,
       id_item,
       quantity,
       action,
-      createdAt: new Date(), // ou action.created_at se existir
+      createdAt: new Date(),
     });
 
-  console.log(`Documento inserido com _id: ${result.insertedId}`);
-
-  if (result.acknowledged){
-      console.log(`Registros inseridos no MongoDB.`);
+  } catch (err) {
+    console.error("Erro ao sincronizar:", err);
   }
-  else{
-    console.log("Nenhum registro inserido");
-  }
-
-
-} catch (err) {
-  console.error("Erro ao sincronizar:", err);
-} 
-
 }
+
 
 async function checkUserPermission(storageId, id_user) {
   const authorizedStorage = await prisma.storage_Permission.findFirst({

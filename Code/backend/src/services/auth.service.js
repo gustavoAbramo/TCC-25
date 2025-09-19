@@ -1,4 +1,4 @@
-import prisma from '../../prisma/client.js';
+import {prisma} from '../../prisma/client.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import speakeasy from 'speakeasy';
@@ -50,7 +50,7 @@ export async function loginUserService({ email, password, twoFACode }) {
       secret: user.twoFactorSecret,
       encoding: 'base32',
       token: twoFACode,
-      window: 1,
+      window: 100,
     });
 
     if (!verified) {
@@ -131,7 +131,7 @@ export async function verifyAndEnable2FAService(id_user, token) {
     secret: user.twoFactorSecret,
     encoding: 'base32',
     token,
-    window: 1,
+    window: 100,  
   });
 
   if (!verified) {

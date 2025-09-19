@@ -1,4 +1,4 @@
-import prisma from "../../prisma/client.js";
+import {prisma} from "../../prisma/client.js";
 
 export async function createStorageService(name, id_user, location) {
   // 1. Verifica se o usuário já é dono de um storage com esse nome
