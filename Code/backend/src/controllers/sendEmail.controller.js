@@ -65,4 +65,38 @@ export async function notifyExpiringItems(req, res) {
   }
 }
 
+
+
+export function sendContactEmail() {
+  return async function (req, res) {
+    const { nome, email, empresa, assunto, mensagem } = req.body;
+
+    if (!nome || !email || !mensagem) {
+      return res.status(400).send({ message: "Nome, email e mensagem são obrigatórios." });
+    }
+
+    try {
+      await notificationService.sendEmail({
+        to: process.env.EMAIL_USER, // você recebe no seu email principal
+        subject: `📩 Novo contato: ${assunto || "Sem assunto"}`,
+        html: `
+          <h2>Nova mensagem de contato</h2>
+          <p><b>Nome:</b> ${nome}</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Empresa:</b> ${empresa || "Não informado"}</p>
+          <p><b>Assunto:</b> ${assunto || "Não informado"}</p>
+          <p><b>Mensagem:</b></p>
+          <p>${mensagem}</p>
+        `,
+      });
+
+      res.status(200).send({ message: "Email enviado com sucesso!" });
+    } catch (error) {
+      console.error("Erro ao enviar email:", error);
+      res.status(500).send({ message: "Falha ao enviar email.", error: error.message });
+    }
+  };
+}
+
+
 export default sendEmail();

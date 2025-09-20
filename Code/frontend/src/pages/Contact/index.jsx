@@ -20,24 +20,21 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      setShowModal(true);
-      setForm({
-        nome: "",
-        email: "",
-        empresa: "",
-        assunto: "",
-        mensagem: "",
-      });
-    } catch (err) {
-      alert("Erro ao enviar. Tente novamente.");
-    }
-    setLoading(false);
-  };
+    const response = await fetch("http://localhost:3000/notifications/email/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    if (!response.ok) throw new Error("Erro ao enviar");
+
+    setShowModal(true);
+    setForm({ nome: "", email: "", empresa: "", assunto: "", mensagem: "" });
+  } catch (err) {
+    alert("Erro ao enviar. Tente novamente.");
+  }
+  setLoading(false);
+};
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -59,7 +56,7 @@ export default function Contact() {
 
       {/* Contact Content */}
       <div className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Contact Form */}
           <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
             <h2 className="text-3xl font-light mb-8">Envie sua mensagem</h2>
@@ -166,7 +163,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Email</h3>
-                    <p className="text-gray-300 mb-2">contato@Storage.com</p>
+                    <p className="text-gray-300 mb-2">smartstorage21@gmail.com</p>
                     <p className="text-sm text-gray-400">Respondemos em até 24 horas</p>
                   </div>
                 </div>

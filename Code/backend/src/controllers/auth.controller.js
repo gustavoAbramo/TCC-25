@@ -60,6 +60,7 @@ export async function loginUser(req, res) {
       success: true,
       message: "Login realizado com sucesso",
       user,
+      token,
     });
   } catch (error) {
     if (error.message === "Código 2FA necessário.") {
