@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function Chat() {
   const [messages, setMessages] = useState([
@@ -10,39 +11,21 @@ export default function Chat() {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const chatContainerRef = useRef(null);
 
-  // Função para formatar o texto com quebras de linha
-  const formatMessage = (text) => {
-    if (!text) return "";
-    
-    // Substitui marcadores por quebras de linha e negrito
-    return text
-      .split(/\d+\.\s+/g) // Divide por números (1., 2., etc.)
-      .filter(part => part.trim() !== '')
-      .map(part => {
-        // Adiciona negrito aos títulos
-        if (part.includes("**")) {
-          const parts = part.split("**");
-          return parts.map((p, i) => 
-            i % 2 === 1 ? `<strong>${p}</strong>` : p
-          ).join('');
-        }
-        return part;
-      })
-      .join('<br /><br />'); // Adiciona quebras de linha entre os itens
-  };
+  // Perguntas rápidas
+  const quickQuestions = [
+    "Quais são os alimentos ricos em proteínas?",
+    "Como ter uma alimentação balanceada?",
+    "Quais vitaminas são essenciais para o sistema imunológico?",
+    "Dicas para uma dieta saudável no dia a dia",
+  ];
 
-  // Função para rolar para a última mensagem
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+  // Scroll automático para última mensagem
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isLoading]);
 
-  // Função para enviar mensagem para a API
+  // Enviar mensagem para API
   const sendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
 
@@ -54,15 +37,11 @@ export default function Chat() {
     try {
       const response = await fetch("http://localhost:3000/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: inputMessage }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage.content }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Erro na resposta da API: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Erro: ${response.status}`);
 
       const data = await response.json();
       setMessages((prev) => [
@@ -70,12 +49,12 @@ export default function Chat() {
         { role: "assistant", content: data.reply },
       ]);
     } catch (error) {
-      console.error("Erro ao enviar mensagem:", error);
+      console.error("Erro no chat:", error);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Desculpe, ocorreu um erro. Tente novamente.",
+          content: "⚠️ Desculpe, ocorreu um erro. Tente novamente.",
         },
       ]);
     } finally {
@@ -83,14 +62,12 @@ export default function Chat() {
     }
   };
 
-  // Enviar mensagem com Enter
+  // Enviar com Enter
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
+    if (e.key === "Enter") sendMessage();
   };
 
-  // Limpar o chat
+  // Limpar chat
   const clearChat = () => {
     setMessages([
       {
@@ -100,125 +77,78 @@ export default function Chat() {
     ]);
   };
 
-  // Exemplos de perguntas rápidas
-  const quickQuestions = [
-    "Quais são os alimentos ricos em proteínas?",
-    "Como ter uma alimentação balanceada?",
-    "Quais vitaminas são essenciais para o sistema imunológico?",
-    "Dicas para uma dieta saudável no dia a dia"
-  ];
-
-  const handleQuickQuestion = (question) => {
-    setInputMessage(question);
-    // Foca no input após selecionar uma pergunta rápida
-    setTimeout(() => {
-      document.getElementById("chat-input")?.focus();
-    }, 100);
-  };
-
   return (
-    <div className="flex flex-col h-full max-w-4xl mx-auto p-4 bg-gray-900 rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-blue-400">Assistente de Nutrição</h1>
+    <div className="flex flex-col h-full bg-background-secondary rounded-lg p-4">
+      {/* Perguntas rápidas */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {quickQuestions.map((q, i) => (
+          <button
+            key={i}
+            onClick={() => setInputMessage(q)}
+            className="px-3 py-2 bg-blue-700 hover:bg-blue-600 rounded-lg text-sm transition"
+          >
+            {q}
+          </button>
+        ))}
         <button
           onClick={clearChat}
-          className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium"
+          className="ml-auto px-3 py-2 bg-red-700 hover:bg-red-600 rounded-lg text-sm transition"
         >
-          Limpar Conversa
+          Limpar
         </button>
       </div>
-      
-      <div className="mb-4">
-        <h2 className="text-lg font-medium text-blue-300 mb-2">Perguntas rápidas:</h2>
-        <div className="flex flex-wrap gap-2">
-          {quickQuestions.map((question, index) => (
-            <button
-              key={index}
-              onClick={() => handleQuickQuestion(question)}
-              className="px-3 py-2 bg-blue-800 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors border border-blue-600"
-            >
-              {question}
-            </button>
-          ))}
-        </div>
-      </div>
 
-      <div 
-        ref={chatContainerRef}
-        className="flex-1 overflow-y-auto mb-4 p-4 bg-gray-800 rounded-lg shadow-inner border border-gray-700"
-        style={{ minHeight: "400px", maxHeight: "60vh" }}
-      >
-        <div className="space-y-4">
-          {messages.map((message, index) => (
+      {/* Área de mensagens */}
+      <div className="flex-1 overflow-y-auto space-y-3 mb-4">
+        {messages.map((msg, i) => (
+          <div
+            key={i}
+            className={`flex ${
+              msg.role === "assistant" ? "justify-start" : "justify-end"
+            }`}
+          >
             <div
-              key={index}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
+              className={`p-3 rounded-lg max-w-[75%] ${
+                msg.role === "assistant"
+                  ? "bg-blue-700 text-white"
+                  : "bg-gray-700 text-white"
               }`}
             >
-              <div
-                className={`max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl p-4 rounded-lg ${
-                  message.role === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                {message.role === "assistant" ? (
-                  <div 
-                    className="text-sm message-content"
-                    dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
-                  />
-                ) : (
-                  <p className="text-sm">{message.content}</p>
-                )}
-              </div>
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
             </div>
-          ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-700 text-white p-4 rounded-lg">
-                <div className="flex space-x-2 items-center">
-                  <span className="text-sm mr-2">Digitando</span>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce delay-100"></div>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce delay-200"></div>
-                </div>
-              </div>
+          </div>
+        ))}
+
+        {/* Loading */}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="p-3 rounded-lg bg-blue-700 text-white animate-pulse">
+              Digitando...
             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex items-center bg-gray-800 rounded-lg p-2 border border-gray-700">
+      {/* Input */}
+      <div className="flex">
         <input
           id="chat-input"
           type="text"
+          placeholder="Digite sua pergunta..."
+          className="flex-1 p-3 rounded-l-lg bg-gray-800 border border-gray-600 focus:outline-none"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Digite sua pergunta sobre nutrição..."
-          className="flex-1 py-3 px-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          disabled={isLoading}
+          onKeyDown={handleKeyPress}
         />
         <button
           onClick={sendMessage}
-          disabled={isLoading || !inputMessage.trim()}
-          className="ml-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+          className="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded-r-lg transition"
         >
           Enviar
         </button>
       </div>
-
-      <style>{`
-        .message-content {
-          line-height: 1.6;
-        }
-        .message-content strong {
-          font-weight: bold;
-          color: #a7f3d0;
-        }
-      `}</style>
     </div>
   );
 }
