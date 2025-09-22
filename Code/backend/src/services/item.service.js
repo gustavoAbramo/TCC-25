@@ -4,7 +4,7 @@ import { mongoClient } from "../../mongo/client.mongo.js";
 async function createHistory({ id_user, id_item, action, quantity }) {
   try {
     const db = await mongoClient(); // já retorna o DB
-    const collection = db.collection("historico_estoque");
+    const collection = db.collection("historico-estoque");
 
     await collection.insertOne({
       id_user,
