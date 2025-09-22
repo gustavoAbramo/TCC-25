@@ -4,7 +4,7 @@ import { mongoClient } from "../../mongo/client.mongo.js";
 export async function getUserHistoryService(id_user) {
   try {
     const db = await mongoClient();
-    const collection = db.collection("historico_estoque");
+    const collection = db.collection("historico-estoque");
 
     // Busca todos os logs do usuário
     const logs = await collection
