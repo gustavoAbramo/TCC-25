@@ -53,8 +53,8 @@ antes de começar lembre de instalar o compass e o mongodb para rodar o projeto
 
 <img src="Code/frontend/src/assets/passo-2.png">
 
-<h2>3. Clique no history-stock e clique no '+' e digite no campo database name: `history-smart-storage ` e no collection name: `historico_estoque`, depois salve<h2>
+<h2>3. Clique no history-stock e clique no '+' e digite no campo database name: `history-smart-storage ` e no collection name: `historico-estoque`, depois salve<h2>
 
-<img src="Code/frontend/src/assets/passo-2.png">
+<img src="Code/frontend/src/assets/passo-3.png">
 
 <h2>Pronto, o MongoDB está pronto<h2>
