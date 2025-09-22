@@ -1,31 +1,35 @@
 import { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import {
+  PaperAirplaneIcon,
+  TrashIcon,
+  SparklesIcon,
+  LightBulbIcon,
+  FireIcon,
+} from "@heroicons/react/24/solid";
 
 export default function Chat() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Olá! Sou seu assistente de nutrição. Como posso ajudar você hoje?",
+      content: "👋 Olá! Sou seu assistente de nutrição. Como posso ajudar você hoje?",
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Perguntas rápidas
   const quickQuestions = [
-    "Quais são os alimentos ricos em proteínas?",
-    "Como ter uma alimentação balanceada?",
-    "Quais vitaminas são essenciais para o sistema imunológico?",
-    "Dicas para uma dieta saudável no dia a dia",
+    { label: "Alimentos ricos em proteínas", icon: "💪" },
+    { label: "Alimentação balanceada", icon: "⚖️" },
+    { label: "Vitaminas essenciais", icon: "💊" },
+    { label: "Dicas para o dia a dia", icon: "🍽️" },
   ];
 
-  // Scroll automático para última mensagem
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
 
-  // Enviar mensagem para API
   const sendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
 
@@ -62,44 +66,48 @@ export default function Chat() {
     }
   };
 
-  // Enviar com Enter
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter") sendMessage(); 
   };
 
-  // Limpar chat
   const clearChat = () => {
     setMessages([
       {
         role: "assistant",
-        content: "Olá! Sou seu assistente de nutrição. Como posso ajudar você hoje?",
+        content: "👋 Olá! Sou seu assistente de nutrição. Como posso ajudar você hoje?",
       },
     ]);
   };
 
   return (
-    <div className="flex flex-col h-full bg-background-secondary rounded-lg p-4">
-      {/* Perguntas rápidas */}
-      <div className="flex flex-wrap gap-2 mb-4">
+  <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-900 rounded-xl h-full max-w-6xl mx-auto">
+
+    {/* Dicas rápidas */}
+    <aside className="md:w-1/3 bg-gray-800 rounded-lg p-4 flex flex-col">
+      <h2 className="text-xl font-semibold mb-4 text-white">Dicas Rápidas</h2>
+      <div className="flex flex-col gap-3">
         {quickQuestions.map((q, i) => (
           <button
             key={i}
-            onClick={() => setInputMessage(q)}
-            className="px-3 py-2 bg-blue-700 hover:bg-blue-600 rounded-lg text-sm transition"
+            onClick={() => setInputMessage(q.label)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-full text-sm transition shadow text-white"
           >
-            {q}
+            {q.icon} {q.label}
           </button>
         ))}
         <button
           onClick={clearChat}
-          className="ml-auto px-3 py-2 bg-red-700 hover:bg-red-600 rounded-lg text-sm transition"
+          className="flex items-center gap-2 mt-4 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-full text-sm transition shadow text-white"
         >
+          <TrashIcon className="w-4 h-4" />
           Limpar
         </button>
       </div>
+    </aside>
 
-      {/* Área de mensagens */}
-      <div className="flex-1 overflow-y-auto space-y-3 mb-4">
+    {/* Chat */}
+    <main className="md:w-2/3 flex flex-col bg-gray-800 rounded-lg p-4 shadow-lg">
+      <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pr-2">
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -108,7 +116,7 @@ export default function Chat() {
             }`}
           >
             <div
-              className={`p-3 rounded-lg max-w-[75%] ${
+              className={`p-4 rounded-2xl max-w-[80%] shadow ${
                 msg.role === "assistant"
                   ? "bg-blue-700 text-white"
                   : "bg-gray-700 text-white"
@@ -119,10 +127,9 @@ export default function Chat() {
           </div>
         ))}
 
-        {/* Loading */}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="p-3 rounded-lg bg-blue-700 text-white animate-pulse">
+            <div className="p-4 rounded-2xl bg-blue-700 text-white animate-pulse shadow">
               Digitando...
             </div>
           </div>
@@ -132,23 +139,23 @@ export default function Chat() {
       </div>
 
       {/* Input */}
-      <div className="flex">
+      <div className="flex items-center border border-gray-600 rounded-lg overflow-hidden">
         <input
-          id="chat-input"
           type="text"
           placeholder="Digite sua pergunta..."
-          className="flex-1 p-3 rounded-l-lg bg-gray-800 border border-gray-600 focus:outline-none"
+          className="flex-1 p-3 bg-gray-800 text-white placeholder-gray-400 focus:outline-none"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={handleKeyPress}
         />
         <button
           onClick={sendMessage}
-          className="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded-r-lg transition"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1"
         >
-          Enviar
+          <PaperAirplaneIcon className="w-5 h-5 rotate-45" />
         </button>
       </div>
-    </div>
+    </main>
+  </div>
   );
 }

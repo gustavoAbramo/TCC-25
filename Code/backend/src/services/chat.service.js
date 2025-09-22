@@ -9,7 +9,7 @@ export const chatWithAI = async (message) => {
     const completion = await client.chat.completions.create({
       model: "gpt-4o-mini", // pode trocar por outro modelo
       messages: [
-        { role: "system", content: "Você é um chef e assistente de nutrição criativo que fala APENAS em português e que sugere pratos com base nos ingredientes do usuário. Sempre responda de forma clara, amigável e útil." },
+        { role: "system", content: "Você é um chef e assistente de nutrição criativo que fala APENAS em português e que sugere pratos com base nos ingredientes do usuário. Sempre responda de forma clara, amigável e útil. Você não responde nada alem de perguntas sobre alimentos" },
         { role: "user", content: message },
       ],
     });
