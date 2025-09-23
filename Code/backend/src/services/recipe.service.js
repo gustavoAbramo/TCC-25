@@ -1,6 +1,6 @@
 import {prisma} from "../../prisma/client.js";
 
-export async function createDishService(userId, data) {
+export async function createRecipeService(userId, data) {
   const { name, description, ingredients } = data;
 
   if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
@@ -9,7 +9,7 @@ export async function createDishService(userId, data) {
     throw error;  }
 
     if (!name || typeof name !== 'string' || name.trim() === '') {
-      const error = new Error("Nome do prato é obrigatório.");
+      const error = new Error("Nome da receita é obrigatório.");
       error.statusCode = 400;
       throw error;
     }
@@ -36,16 +36,16 @@ export async function createDishService(userId, data) {
     }
   }
 
-  const existingDish = await prisma.dish.findFirst({
+  const existingRecipe = await prisma.recipe.findFirst({
     where: { name, id_user: userId },
   });
-  if (existingDish) {
-    const error = new Error("Você já tem um prato com este nome.");
-    error.statusCode = 400; 
+  if (existingRecipe) {
+    const error = new Error("Você já tem uma receita com este nome.");
+    error.statusCode = 400;
     throw error;  
   }
 
-  const dish = await prisma.dish.create({
+  const recipe = await prisma.recipe.create({
     data: {
       name,
       description,
@@ -59,33 +59,31 @@ export async function createDishService(userId, data) {
     },
   });
 
-  return dish;
+  return recipe;
 }
-
-export async function prepareDishService(userId, dishId) {
-  const dish = await prisma.dish.findUnique({
-    where: { id_Dish: dishId },
+export async function prepareRecipeService(userId, recipeId) {
+  const recipe = await prisma.recipe.findUnique({
+    where: { id_Recipe: recipeId },
     include: { ingredients: { include: { Item: true } } },
   });
 
-  if (!dish) {
-    const error = new Error("Prato não encontrado.");
-    error.statusCode = 404; // não encontrado
+  if (!recipe) {
+    const error = new Error("Receita não encontrada.");
+    error.statusCode = 404;
     throw error;
   }
 
-  if (dish.id_user !== userId) {
-    const error = new Error("Você não tem permissão para este prato.");
-    error.statusCode = 403; // proibido
+  if (recipe.id_user !== userId) {
+    const error = new Error("Você não tem permissão para esta receita.");
+    error.statusCode = 403;
     throw error;
   }
 
   const errors = [];
 
-  for (const ingredient of dish.ingredients) {
+  for (const ingredient of recipe.ingredients) {
     const item = ingredient.Item;
 
-    // Busca o storageItem e verifica se o usuário tem permissão Owner ou CoOwner no estoque
     const storageItem = await prisma.storage_Item.findFirst({
       where: {
         id_Item: item.id_Item,
@@ -123,8 +121,7 @@ export async function prepareDishService(userId, dishId) {
     throw error;
   }
 
-  // Descontar os ingredientes
-  for (const ingredient of dish.ingredients) {
+  for (const ingredient of recipe.ingredients) {
     await prisma.item.update({
       where: { id_Item: ingredient.id_Item },
       data: {
@@ -134,26 +131,25 @@ export async function prepareDishService(userId, dishId) {
       },
     });
 
-
     await prisma.history.create({
       data: {
         id_user: userId,
         id_item: ingredient.id_Item,
-        action: "PREPARE_DISH",
+        action: "PREPARE_RECIPE",
         quantity: ingredient.quantity,
       },
     });
   }
 
   return {
-    message: `Hoje você vai preparar o prato '${dish.name}'. Ingredientes descontados do estoque.`,
+    message: `Hoje você vai preparar a receita '${recipe.name}'. Ingredientes descontados do estoque.`,
   };
 }
 
-export async function getDishesByUserService(userId) {
-  const dishes = await prisma.dish.findMany({
+export async function getRecipesByUserService(userId) {
+  const recipes = await prisma.recipe.findMany({
     where: { id_user: userId },
     include: { ingredients: { include: { Item: true } } },
   });
-  return dishes;
+  return recipes;
 }

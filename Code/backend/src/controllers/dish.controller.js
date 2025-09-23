@@ -1,16 +1,16 @@
 import {
-  createDishService,
-  prepareDishService,
-  getDishesByUserService,
-} from "../services/dish.service.js";
+  createRecipeService,
+  prepareRecipeService,
+  getRecipesByUserService,
+} from "../services/recipe.service.js";
 
-export async function createDish(req, res) {
+export async function createRecipe(req, res) {
   const id_user = req.user?.id_user;
   const data = req.body;
 
   try {
-    const dish = await createDishService(id_user, data);
-    res.status(201).json({ success: true, dish });
+    const recipe = await createRecipeService(id_user, data);
+    res.status(201).json({ success: true, recipe });
   } catch (error) {
     res.status(error.statusCode || 500).json({
       success: false,
@@ -19,17 +19,17 @@ export async function createDish(req, res) {
   }
 }
 
-export async function prepareDish(req, res) {
+export async function prepareRecipe(req, res) {
 
   const id_user = req.user?.id_user;
-  const dishId = parseInt(req.params.id_dish, 10);
+  const recipeId = parseInt(req.params.id_recipe, 10);
 
-  if (!dishId) {
-    return res.status(400).json({ success: false, message: "ID do prato inválido" });
+  if (!recipeId) {
+    return res.status(400).json({ success: false, message: "ID da receita inválido" });
   }
 
   try {
-    const result = await prepareDishService(id_user, dishId);
+    const result = await prepareRecipeService(id_user, recipeId);
     res.json({ success: true, result });
   } catch (error) {
     res.status(error.statusCode || 500).json({
@@ -39,12 +39,12 @@ export async function prepareDish(req, res) {
   }
 }
 
-export async function getDishesByUser(req, res) {
+export async function getRecipesByUser(req, res) {
   const id_user = req.user?.id_user;
 
   try {
-    const dishes = await getDishesByUserService(id_user);
-    res.json({ success: true, dishes });
+    const recipe = await getRecipesByUserService(id_user);
+    res.json({ success: true, recipe });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
   }

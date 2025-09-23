@@ -18,7 +18,7 @@ model User {
 
   // Relations
   permissions    Storage_Permission[]
-  dishes         Dish[]
+  recipes        Recipe[]
   history        History[]
   passwordResets PasswordReset[] // <-- relação inversa adicionada
   is2FAEnabled     Boolean  @default(false)
@@ -68,7 +68,7 @@ model Item {
 
   // Relations
   Storage_belongs Storage_Item[]
-  Dish_belongs    Dish_Item[]
+  Recipe_belongs    Recipe_Item[]
   history         History[]
 }
 
@@ -85,8 +85,8 @@ model Storage_Permission {
   @@unique([id_user, id_Storage]) // para assegurar que um usuário só pode ter uma permissão por estoque
 }
 
-model Dish {
-  id_Dish     Int      @id @default(autoincrement())
+model Recipe {
+  id_Recipe   Int      @id @default(autoincrement())
   name        String   @db.VarChar(100)
   description String?  @db.VarChar(200)
   created_at  DateTime @default(now())
@@ -94,19 +94,19 @@ model Dish {
 
   // Relations
   user        User        @relation(fields: [id_user], references: [id_user])
-  ingredients Dish_Item[]
+  ingredients Recipe_Item[]
 }
 
-model Dish_Item {
+model Recipe_Item {
   id       Int @id @default(autoincrement())
-  id_Dish  Int
+  id_Recipe  Int
   id_Item  Int
   quantity Int
 
-  Dish Dish @relation(fields: [id_Dish], references: [id_Dish])
+  Recipe Recipe @relation(fields: [id_Recipe], references: [id_Recipe])
   Item Item @relation(fields: [id_Item], references: [id_Item])
 
-  @@unique([id_Dish, id_Item])
+  @@unique([id_Recipe, id_Item])
 }
 
 model History {
