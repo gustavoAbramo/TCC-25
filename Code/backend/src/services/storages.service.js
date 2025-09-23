@@ -47,7 +47,7 @@ export async function createStorageService(name, id_user, location) {
     },
   });
 
-  return storage;
+  return { id: storage.id_Storage, name: storage.name, location: storage.location, accessLevel: storage.permissions[0].Access_Level };
 }
 
 export async function seeStoragesServices(id_user) {
