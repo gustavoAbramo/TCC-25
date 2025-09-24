@@ -105,9 +105,20 @@ export async function generate2FASecretController(req, res) {
   try {
     const id_user = req.user?.id_user;
 
+    
+    
     const secret = await generate2FASecretService(id_user);
-
-    res.status(200).json(secret); // { base32, otpauth_url }
+    
+    if (secret.alreadyEnabled) {
+      return res.status(200).json({
+        success: true,
+        message: secret.message,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      data: secret
+    }); // { base32, otpauth_url }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

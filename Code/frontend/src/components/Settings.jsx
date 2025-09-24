@@ -10,18 +10,25 @@ export default function Settings() {
   const [loading, setLoading] = useState(false);
 
   // Gera o QR Code apenas quando o botão for clicado
-  async function handleGenerate2FA() {
-    setLoading(true);
-    setError('');
-    try {
-      const response = await axios.get('/auth/2fa/generate');
-      setOtpauthUrl(response.data.otpauth_url);
-      setError('');
-    } catch (err) {
-      setError('Erro ao gerar QR code 2FA');
+async function handleGenerate2FA() {
+  setLoading(true);
+  setError('');
+  try {
+    const response = await axios.get('/auth/2fa/generate');
+
+    if (response.data.data?.otpauth_url) {
+      // pega a URL correta
+      setOtpauthUrl(response.data.data.otpauth_url);
+    } else if (response.data.message) {
+      // caso já esteja ativado
+      setSuccessMsg(response.data.message);
     }
-    setLoading(false);
+  } catch (err) {
+    setError('Erro ao gerar QR code 2FA');
   }
+  setLoading(false);
+}
+
 
   async function handleVerify2FA(e) {
     e.preventDefault();

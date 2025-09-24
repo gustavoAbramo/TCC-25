@@ -87,6 +87,14 @@ export async function generate2FASecretService(id_user) {
     where: { id_user: id_user },
   });
 
+  // 🔒 Se já ativou o 2FA, não precisa gerar/mostrar secret de novo
+  if (user.is2FAEnabled) {
+    return {
+      alreadyEnabled: true,
+      message: "A verificação em duas etapas já está ativada para este usuário.",
+    };
+  }
+
   // Se o segredo já existe, apenas retorna o otpauth_url novamente
   if (user.twoFactorSecret) {
     return {
