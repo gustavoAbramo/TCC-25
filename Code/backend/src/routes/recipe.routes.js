@@ -1,5 +1,5 @@
 import express from 'express';
-import {createRecipe, prepareRecipe, getRecipesByUser} from '../controllers/dish.controller.js';
+import {createRecipe, prepareRecipe, getRecipesByUser} from '../controllers/recipe.controller.js';
 import authMiddleware from '../middleware/auth.middleware.js';
 
 const router = express.Router();

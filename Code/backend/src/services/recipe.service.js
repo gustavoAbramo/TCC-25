@@ -13,7 +13,6 @@ export async function createRecipeService(userId, data) {
       error.statusCode = 400;
       throw error;
     }
-    
   for (const ing of ingredients) {
     const storageItem = await prisma.storage_Item.findFirst({
       where: {
