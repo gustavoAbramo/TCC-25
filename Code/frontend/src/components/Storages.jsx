@@ -254,14 +254,32 @@ export default function Storages() {
                                                 required
                                                 className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
                                             />
-                                            <input
-                                                type="text"
-                                                placeholder="Categoria"
+                                           <select
                                                 value={itemData.category}
                                                 onChange={(e) => setItemData({ ...itemData, category: e.target.value })}
                                                 required
                                                 className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                                            />
+                                            >
+                                                <option value="" disabled className="text-blue-600">Selecione uma categoria</option>
+                                                <option value="Legumes" className="text-blue-600">Legumes</option>
+                                                <option value="Frutas" className="text-blue-600">Frutas</option>
+                                                <option value="Carnes" className="text-blue-600">Carnes</option>
+                                                <option value="PeixesEFrutosDoMar" className="text-blue-600">Peixes e frutos do mar</option>
+                                                <option value="Laticinios" className="text-blue-600">Laticínios</option>
+                                                <option value="CereaisEGraos" className="text-blue-600">Cereais e grãos</option>
+                                                <option value="NozesESementes" className="text-blue-600">Nozes e sementes</option>
+                                                <option value="ProdutosAssados" className="text-blue-600">Produtos assados</option>
+                                                <option value="Condimentos" className="text-blue-600">Condimentos</option>
+                                                <option value="EspeciariasEErvas" className="text-blue-600">Especiarias e ervas</option>
+                                                <option value="Bebidas" className="text-blue-600">Bebidas</option>
+                                                <option value="AlimentosCongelados" className="text-blue-600">Alimentos congelados</option>
+                                                <option value="AlimentosEnlatados" className="text-blue-600">Alimentos enlatados</option>
+                                                <option value="OleosEGorduras" className="text-blue-600">Óleos e gorduras</option>
+                                                <option value="Petiscos" className="text-blue-600">Petiscos</option>
+                                                <option value="DocesESobremesa" className="text-blue-600">Doces</option>
+                                                <option value="OutrosAlimentos" className="text-blue-600">Outro</option>
+                                                
+                                            </select>
                                             <input
                                                 type="number"
                                                 placeholder="Quantidade"

@@ -135,7 +135,6 @@ enum category {
   FishAndSeafood
   Dairy
   GrainsAndCereals
-  Legumes
   NutsAndSeeds
   BakedGoods
   Condiments
@@ -147,4 +146,22 @@ enum category {
   Snacks
   SweetsAndDesserts
   OthersFood
+ //português
+  Legumes
+  Frutas
+  Carnes
+  PeixesEFrutosDoMar
+  Laticinios
+  CereaisEGraos
+  NozesESementes
+  ProdutosAssados
+  Condimentos
+  EspeciariasEErvas
+  Bebidas
+  AlimentosCongelados
+  AlimentosEnlatados
+  OleosEGorduras
+  Petiscos
+  DocesESobremesas
+  OutrosAlimentos
 }
