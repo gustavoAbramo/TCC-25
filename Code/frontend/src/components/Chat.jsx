@@ -31,40 +31,82 @@ export default function Chat() {
   }, [messages, isLoading]);
 
   const sendMessage = async () => {
-    if (!inputMessage.trim() || isLoading) return;
+  if (!inputMessage.trim() || isLoading) return;
 
-    const userMessage = { role: "user", content: inputMessage };
-    setMessages((prev) => [...prev, userMessage]);
-    setInputMessage("");
-    setIsLoading(true);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: "⚠️ Você precisa estar logado!" },
+    ]);
+    return;
+  }
 
-    try {
-      const response = await fetch("http://localhost:3000/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage.content }),
-      });
+  const userMessage = { role: "user", content: inputMessage };
+  setMessages((prev) => [...prev, userMessage]);
+  setInputMessage("");
+  setIsLoading(true);
 
-      if (!response.ok) throw new Error(`Erro: ${response.status}`);
 
-      const data = await response.json();
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: data.reply },
-      ]);
-    } catch (error) {
-      console.error("Erro no chat:", error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: "⚠️ Desculpe, ocorreu um erro. Tente novamente.",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
+try {
+  // Detecta se é comando especial
+  if (inputMessage.toLowerCase().startsWith("criar estoque")) {
+    const partes = inputMessage.split("chamado");
+    const estoqueNome = partes[1]?.trim().replace(/"/g, "") || "Novo Estoque";
+
+    const response = await fetch("http://localhost:3000/storages/createStorage", {
+  method: "POST",
+  credentials: "include", // mantém o cookie JWT
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: estoqueNome,
+    location: "araras", // localização padrão
+  }),
+});
+
+
+    if (!response.ok) throw new Error(`Erro: ${response.status}`);
+    const data = await response.json();
+
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: `✅ Estoque "${estoqueNome}" criado com sucesso!` },
+    ]);
+  } else {
+    // Pergunta normal para IA
+    const response = await fetch("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ message: userMessage.content }),
+    });
+
+    if (!response.ok) throw new Error(`Erro: ${response.status}`);
+    const data = await response.json();
+
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: data.reply },
+    ]);
+  }
+} catch (error) {
+  console.error("Erro no chat:", error);
+  setMessages((prev) => [
+    ...prev,
+    {
+      role: "assistant",
+      content: "⚠️ Desculpe, ocorreu um erro. Tente novamente.",
+    },
+  ]);
+} finally {
+  setIsLoading(false);
+}
   };
+
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") sendMessage(); 

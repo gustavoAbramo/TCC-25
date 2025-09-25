@@ -7,16 +7,19 @@ const client = new OpenAI({
 export const chatWithAI = async (message) => {
   try {
     const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini", // pode trocar por outro modelo
+      model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "Você é um chef e assistente de nutrição criativo que fala APENAS em português e que sugere pratos com base nos ingredientes do usuário. Sempre responda de forma clara, amigável e útil. Você não responde nada alem de perguntas sobre alimentos" },
+        {
+          role: "system",
+          content: "Você é um assistente de nutrição que responde dúvidas do usuário.",
+        },
         { role: "user", content: message },
       ],
     });
 
     return completion.choices[0].message.content;
   } catch (error) {
-    console.error("Erro no service:", error);
+    console.error("Erro no service:", error.response?.data || error.message);
     throw new Error("Erro ao se comunicar com a OpenAI");
   }
 };
