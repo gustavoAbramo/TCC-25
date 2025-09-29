@@ -1,23 +1,30 @@
 import {prisma} from "../../prisma/client.js";
 import { mongoClient } from "../../mongo/client.mongo.js";
 
-async function createHistory({ id_user, id_item, action, quantity }) {
-  try {
-    const db = await mongoClient(); // já retorna o DB
-    const collection = db.collection("historico-estoque");
+  async function createHistory({ id_user, id_item, action, quantity }) {
+    try {
+      const db = await mongoClient(); // já retorna o DB
+      const collection = db.collection("historico-estoque");
 
-    await collection.insertOne({
-      id_user,
-      id_item,
-      quantity,
-      action,
-      createdAt: new Date(),
-    });
+      await collection.createIndex(
+        { createdAt: 1},
+        { expireAfterSeconds: 60 * 60 * 24 * 365 } 
+      );
 
-  } catch (err) {
-    console.error("Erro ao sincronizar:", err);
+
+
+      await collection.insertOne({
+        id_user,
+        id_item,
+        quantity,
+        action,
+        createdAt: new Date(),
+      });
+
+    } catch (err) {
+      console.error("Erro ao sincronizar:", err);
+    }
   }
-}
 
 
 async function checkUserPermission(storageId, id_user) {
