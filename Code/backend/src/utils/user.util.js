@@ -60,7 +60,7 @@ export function validateRegisterUser(data) {
 
 export function validateLoginUser(data) {
   const errors = [];
-  const { email, password, token } = data;
+  const { email, password, token, rememberMe } = data;
 
   // E-mail
   if (!email || email.trim() === "") {
@@ -89,6 +89,7 @@ export function validateLoginUser(data) {
       email: email?.toLowerCase(),
       password,
       ...(token !== undefined && { token }), // inclui token somente se existir
+      ...(rememberMe !== undefined && { rememberMe }), // inclui rememberMe somente se existir
     },
   };
 }

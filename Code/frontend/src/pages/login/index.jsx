@@ -12,13 +12,14 @@ export default function LoginForm() {
   const [requires2FA, setRequires2FA] = useState(false);
   const [recoverEmail, setRecoverEmail] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const payload = { email, password };
+      const payload = { email, password, rememberMe };
       if (requires2FA) {
         payload.token = twoFACode;
       }
@@ -146,10 +147,12 @@ export default function LoginForm() {
               <label className="flex items-center space-x-2 cursor-pointer">
                 <input
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
                 />
                 <span className="text-gray-300">Lembrar de mim</span>
-              </label>{" "}
+              </label>
               <button
                 type="button"
                 onClick={() => setShowModal(true)}

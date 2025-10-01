@@ -22,7 +22,7 @@ export async function createUserService({ name, email, password }) {
 }
 
 // Login de usuário com suporte a 2FA
-export async function loginUserService({ email, password, twoFACode }) {
+export async function loginUserService({ email, password, twoFACode, rememberMe }) {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -60,6 +60,9 @@ export async function loginUserService({ email, password, twoFACode }) {
     }
   }
 
+
+  const expiresIn = rememberMe ? '7d' : '1h'; // Expires in 7 days if rememberMe is true, otherwise 1 hour
+  console.log("rememberMe:", rememberMe, "→ JWT expires in:", expiresIn);
   // Geração do token JWT
   const token = jwt.sign(
     {
@@ -68,7 +71,7 @@ export async function loginUserService({ email, password, twoFACode }) {
       name: user.name,
     },
     process.env.JWT_SECRET,
-    { expiresIn: '1h' }
+    { expiresIn}
   );
 
   return {

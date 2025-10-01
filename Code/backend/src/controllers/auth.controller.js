@@ -44,6 +44,7 @@ export async function loginUser(req, res) {
   const serviceData = {
     ...data,
     twoFACode: data.token, // repassa corretamente
+     rememberMe: data.rememberMe || false,
   };
 
   try {
@@ -53,7 +54,7 @@ export async function loginUser(req, res) {
       httpOnly: true,
       secure: false, // true em produção
       sameSite: "lax",
-      maxAge: 60 * 60 * 1000, // 1h
+      maxAge: serviceData.rememberMe ? 7 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000,
     });
 
     res.status(200).json({
