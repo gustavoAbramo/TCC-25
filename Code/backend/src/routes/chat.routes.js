@@ -1,5 +1,6 @@
 import express from 'express';
 import OpenAI from 'openai';
+import { createItemService } from "../services/item.service.js";
 
 const router = express.Router();
 
@@ -27,5 +28,26 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Erro ao chamar OpenAI" });
   }
 });
+/*
+router.post("/storages/:id/items", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const id_user = req.user.id; // supondo que você pega do token
+    const { name, category, quantity, expiration } = req.body;
 
+    const newItem = await createItemService({
+      id_user,
+      storageId: Number(id),
+      name,
+      category,
+      quantity,
+      expiration,
+    });
+
+    res.status(201).json(newItem);
+  } catch (err) {
+    res.status(err.statusCode || 500).json({ error: err.message });
+  }
+});
+*/
 export default router;
