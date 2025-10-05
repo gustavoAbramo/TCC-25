@@ -1,0 +1,7 @@
+nome bd: smart-storage-db
+user: adminsmrtstg
+senha: commitEpico97
+
+mysql -h smart-storage-db.cehgs2k4wk6h.us-east-1.rds.amazonaws.com -P 3306 -u adminsmrtstg -p --ssl-ca="caminho-do-certificado\us-east-1-bundle.pem"
+
+Se você mudar de rede (ex: Wi-Fi da faculdade), provavelmente vai ter que atualizar o My IP nas regras de entrada.
