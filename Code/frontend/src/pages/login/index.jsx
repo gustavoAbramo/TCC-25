@@ -29,8 +29,9 @@ export default function LoginForm() {
       });
 
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.user.id_user);
+        //localStorage.setItem("token", response.data.token);
+        //localStorage.setItem("userId", response.data.user.id_user);
+        setUser(data);
         setAlertMessage({
           type: "success",
           text: "Login realizado com sucesso!",

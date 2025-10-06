@@ -143,7 +143,6 @@ useEffect(() => {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,   // 🔑 agora manda o token certo
           },
           body: JSON.stringify({ name: estoqueNome, location: "araras" }),
         });
