@@ -43,52 +43,52 @@ async function checkUserPermission(storageId, id_user) {
 }
 }
 
-export async function createItemService(item) {
-  const { storageId, id_user, quantity, ...itemData } = item;
+  export async function createItemService(item) {
+    const { storageId, id_user, quantity, ...itemData } = item;
 
-  await checkUserPermission(storageId, id_user);
+    await checkUserPermission(storageId, id_user);
 
-  const existingItem = await prisma.item.findFirst({
-    where: {
-      name: itemData.name,
-      category: itemData.category,
-      Storage_belongs: {
-        some: {
-          id_Storage: storageId,
+    const existingItem = await prisma.item.findFirst({
+      where: {
+        name: itemData.name,
+        category: itemData.category,
+        Storage_belongs: {
+          some: {
+            id_Storage: storageId,
+          },
         },
       },
-    },
-  });
+    });
 
-  if (existingItem) {
-    const error = new Error("Item com este nome e categoria já existe neste estoque.");
-    error.statusCode = 400; 
-    throw error;
-  }
+    if (existingItem) {
+      const error = new Error("Item com este nome e categoria já existe neste estoque.");
+      error.statusCode = 400; 
+      throw error;
+    }
 
-  const newItem = await prisma.item.create({
-    data: {
-      ...itemData,
-      quantity,
-      expiration: new Date(itemData.expiration),
-      Storage_belongs: {
-        create: { id_Storage: storageId },
+    const newItem = await prisma.item.create({
+      data: {
+        ...itemData,
+        quantity,
+        expiration: new Date(itemData.expiration),
+        Storage_belongs: {
+          create: { id_Storage: storageId },
+        },
       },
-    },
-    include: {
-      Storage_belongs: true,
-    },
-  });
+      include: {
+        Storage_belongs: true,
+      },
+    });
 
-  await createHistory({
-    id_user,
-    id_item: newItem.id_Item,
-    action: "ADD_ITEM",
-    quantity: newItem.quantity,
-  });
+    await createHistory({
+      id_user,
+      id_item: newItem.id_Item,
+      action: "ADD_ITEM",
+      quantity: newItem.quantity,
+    });
 
-  return newItem;
-}
+    return newItem;
+  }
 
 export async function getItemsByStorageService(id_Storage) {
   const items = await prisma.item.findMany({
