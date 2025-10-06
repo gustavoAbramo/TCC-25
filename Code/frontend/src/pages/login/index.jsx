@@ -28,17 +28,14 @@ export default function LoginForm() {
         withCredentials: true,
       });
 
-      if (response.data.token) {
-        //localStorage.setItem("token", response.data.token);
-        //localStorage.setItem("userId", response.data.user.id_user);
-        setUser(data);
-        setAlertMessage({
-          type: "success",
-          text: "Login realizado com sucesso!",
-        });
-        setShowAlert(true);
-        window.location.href = "/telaInicial";
-      }
+      if (response.data.success) {
+      setAlertMessage({
+        type: "success",
+        text: "Login realizado com sucesso!",
+      });
+      setShowAlert(true);
+      window.location.href = "/telaInicial";
+    }
     } catch (error) {
       setIsLoading(false);
 

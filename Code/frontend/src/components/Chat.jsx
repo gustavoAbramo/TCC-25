@@ -3,13 +3,6 @@ import ReactMarkdown from "react-markdown";
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 export default function Chat() {
-
-  <div className="text-xs text-white mb-2">
-  {localStorage.getItem("token")
-    ? `🔐 Logado como usuário #${localStorage.getItem("userId")}`
-    : "🚫 Não logado"}
-</div>
-
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -19,15 +12,13 @@ export default function Chat() {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showFuncoes, setShowFuncoes] = useState(false);
+  const [user, setUser] = useState(null);
 
-  // controle do formulario lateral "Adicionar item"
   const [showAddItemForm, setShowAddItemForm] = useState(false);
   const [formItemName, setFormItemName] = useState("");
   const [formItemQuantity, setFormItemQuantity] = useState(1);
   const [selectedStorageId, setSelectedStorageId] = useState(null);
-  const [lastStorageId, setLastStorageId] = useState(
-    () => localStorage.getItem("lastStorageId") || null
-  );
+  const [lastStorageId, setLastStorageId] = useState(null);
   const [storages, setStorages] = useState([]);
 
   const messagesEndRef = useRef(null);
@@ -39,66 +30,63 @@ export default function Chat() {
     { label: "Dicas para o dia a dia", icon: "🍽️" },
   ];
 
-
-
-  // scroll automático
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
 
-  // carregar estoques quando o componente monta
-  function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
+  // Recupera o último estoque salvo
+  useEffect(() => {
+    const storedId = localStorage.getItem("lastStorageId");
+    if (storedId) setLastStorageId(storedId);
+  }, []);
 
-useEffect(() => {
-  const loadStorages = async () => {
-    const token = localStorage.getItem("token") || getCookie("token");
-    if (!token) {
-      console.debug("Chat.jsx: nenhum token encontrado.");
-      return;
-    }
+  // Buscar usuário logado (via cookie)
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/chat/me", {
+          credentials: "include",
+        });
+        if (!res.ok) throw new Error("Não autenticado");
+        const data = await res.json();
+        setUser(data);
+      } catch {
+        setUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
 
-    try {
-      const res = await fetch("http://localhost:3000/storages/seeStorage", {
-        method: "GET",
-        credentials: "include",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+  // Carrega estoques do usuário
+  useEffect(() => {
+    const loadStorages = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/storages/seeStorage", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!res.ok) throw new Error(`Erro ao carregar estoques: ${res.status}`);
+        const data = await res.json();
 
-      if (!res.ok) throw new Error(`Erro ao carregar estoques: ${res.status}`);
-      const data = await res.json();
+        const parsed = Array.isArray(data)
+          ? data.map((s) => ({ id: s.id, name: s.name }))
+          : Array.isArray(data.storages)
+          ? data.storages.map((s) => ({ id: s.id, name: s.name }))
+          : [];
 
-      const parsed = Array.isArray(data)
-        ? data.map((s) => ({
-            id: s.id,
-            name: s.name,
-          }))
-        : Array.isArray(data.storages)
-        ? data.storages.map((s) => ({
-            id: s.id,
-            name: s.name,
-          }))
-        : [];
-
-      setStorages(parsed);
-    } catch (err) {
-      console.error("Erro ao buscar estoques:", err);
-    }
-  };
-
-  loadStorages();
-}, []);
-
+        setStorages(parsed);
+      } catch (err) {
+        console.error("Erro ao buscar estoques:", err);
+      }
+    };
+    loadStorages();
+  }, []);
 
   const sendMessage = async (msg) => {
     const finalMessage = msg ?? inputMessage;
     if (!finalMessage || !finalMessage.trim() || isLoading) return;
 
-    const token = localStorage.getItem("token");
-    if (!token) {
+    if (!user) {
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: "⚠️ Você precisa estar logado!" },
@@ -114,7 +102,7 @@ useEffect(() => {
     try {
       const lowerMessage = finalMessage.toLowerCase();
 
-      // LISTAR FUNÇÕES
+      // Mostrar funções
       if (lowerMessage === "funcoes" || lowerMessage === "funções") {
         const funcoesDisponiveis = [
           '📦 Criar estoque → escreva: criar estoque chamado <nome>',
@@ -133,7 +121,7 @@ useEffect(() => {
         ]);
       }
 
-      // CRIAR ESTOQUE
+      // Criar estoque
       else if (lowerMessage.startsWith("criar estoque")) {
         const partes = finalMessage.split("chamado");
         const estoqueNome = partes[1]?.trim().replace(/"/g, "") || "Novo Estoque";
@@ -141,26 +129,22 @@ useEffect(() => {
         const response = await fetch("http://localhost:3000/storages/createStorage", {
           method: "POST",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: estoqueNome, location: "araras" }),
         });
 
         if (!response.ok) throw new Error(`Erro: ${response.status}`);
         const data = await response.json();
 
-        // tenta pegar ID retornado pelo backend e salvar
         const newId = data?.id || data?.storageId || data?.id_Storage || null;
         if (newId) {
           setLastStorageId(String(newId));
           localStorage.setItem("lastStorageId", String(newId));
-          // atualiza lista de storages localmente (se possível)
-          setStorages((prev) => {
-            // evita duplicar se já existir
-            if (prev.some((p) => p.id === Number(newId))) return prev;
-            return [...prev, { id: Number(newId), name: estoqueNome }];
-          });
+          setStorages((prev) =>
+            prev.some((p) => p.id === Number(newId))
+              ? prev
+              : [...prev, { id: Number(newId), name: estoqueNome }]
+          );
           setSelectedStorageId(Number(newId));
         }
 
@@ -173,7 +157,7 @@ useEffect(() => {
         ]);
       }
 
-      // ADICIONAR ITEM (quando digitado manualmente)
+      // Adicionar item via texto
       else if (lowerMessage.startsWith("adicionar item ao estoque")) {
         const partes = finalMessage.split("ao estoque");
         const itemDetails = partes[1]?.trim() || "";
@@ -194,8 +178,6 @@ useEffect(() => {
 
         const nomeItem = itemMatch[1];
         const quantidade = parseInt(itemMatch[2], 10);
-
-        // decide qual storageId usar: opção selecionada, último criado, ou null
         const storageIdToUse =
           selectedStorageId ?? (lastStorageId ? Number(lastStorageId) : null);
 
@@ -211,59 +193,37 @@ useEffect(() => {
           return;
         }
 
-        try {
-          const response = await fetch("http://localhost:3000/storages/Items", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              name: nomeItem,
-              description: descricaoItem,
-              quantity: Number(quantidade),
-              category: "Frutas",
-              expiration: "2025-12-31",
-              storageId: Number(storageIdToUse),
-            }),
-          });
+        const response = await fetch("http://localhost:3000/storages/Items", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: nomeItem,
+            quantity: Number(quantidade),
+            category: "Frutas",
+            expiration: "2025-12-31",
+            storageId: Number(storageIdToUse),
+          }),
+        });
 
-          if (!response.ok) {
-            // tenta ler mensagem de erro do backend
-            const text = await response.text().catch(() => null);
-            throw new Error(`Erro ao adicionar item: ${response.status} ${text ?? ""}`);
-          }
-          const data = await response.json();
+        if (!response.ok) throw new Error(`Erro ao adicionar item: ${response.status}`);
+        const data = await response.json();
 
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: "assistant",
-              content: `✅ Item "${nomeItem}" (x${quantidade}) adicionado com sucesso ao estoque (id: ${storageIdToUse})!`,
-            },
-          ]);
-        } catch (error) {
-          console.error("Erro ao adicionar item:", error);
-          setMessages((prev) => [
-            ...prev,
-            {
-              role: "assistant",
-              content: "⚠️ Erro ao adicionar item ao estoque.",
-            },
-          ]);
-        } finally {
-          setIsLoading(false);
-        }
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `✅ Item "${nomeItem}" (x${quantidade}) adicionado com sucesso ao estoque (id: ${storageIdToUse})!`,
+          },
+        ]);
       }
 
-      // MENSAGEM NORMAL PARA IA
+      // Conversa normal com IA
       else {
         const response = await fetch("http://localhost:3000/api/chat", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: finalMessage }),
         });
 
@@ -279,17 +239,14 @@ useEffect(() => {
       console.error("Erro no chat:", error);
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "⚠️ Desculpe, ocorreu um erro. Tente novamente.",
-        },
+        { role: "assistant", content: "⚠️ Desculpe, ocorreu um erro. Tente novamente." },
       ]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // função que é chamada ao submeter o formulário lateral "Adicionar item"
+  // Submissão do formulário de adicionar item
   const handleAddItemSubmit = async () => {
     if (!formItemName.trim() || !formItemQuantity) {
       setMessages((prev) => [
@@ -299,11 +256,7 @@ useEffect(() => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-    const storageIdToUse = selectedStorageId ?? (lastStorageId ? Number(lastStorageId) : null);
-
-    if (!token || !userId) {
+    if (!user) {
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: "⚠️ Você precisa estar logado!" },
@@ -311,6 +264,7 @@ useEffect(() => {
       return;
     }
 
+    const storageIdToUse = selectedStorageId ?? (lastStorageId ? Number(lastStorageId) : null);
     if (!storageIdToUse) {
       setMessages((prev) => [
         ...prev,
@@ -323,15 +277,11 @@ useEffect(() => {
     }
 
     setIsLoading(true);
-
     try {
       const response = await fetch("http://localhost:3000/storages/Items", {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           storageId: Number(storageIdToUse),
           name: formItemName.trim(),
@@ -341,10 +291,7 @@ useEffect(() => {
         }),
       });
 
-      if (!response.ok) {
-        const text = await response.text().catch(() => null);
-        throw new Error(`Erro: ${response.status} ${text ?? ""}`);
-      }
+      if (!response.ok) throw new Error(`Erro: ${response.status}`);
       const data = await response.json();
 
       setMessages((prev) => [
@@ -355,7 +302,6 @@ useEffect(() => {
         },
       ]);
 
-      // salvar último estoque usado
       localStorage.setItem("lastStorageId", String(storageIdToUse));
       setLastStorageId(String(storageIdToUse));
     } catch (error) {
@@ -366,7 +312,6 @@ useEffect(() => {
       ]);
     } finally {
       setIsLoading(false);
-      // limpa o formulário
       setFormItemName("");
       setFormItemQuantity(1);
       setShowAddItemForm(false);
@@ -391,6 +336,10 @@ useEffect(() => {
       {/* Sidebar */}
       <aside className="md:w-1/3 bg-gray-800 rounded-lg p-4 flex flex-col">
         <h2 className="text-xl font-semibold mb-4 text-white">Dicas Rápidas</h2>
+        <div className="text-xs text-white mb-2">
+          {user ? `🔐 Logado como ${user.name}` : "🚫 Não logado"}
+        </div>
+
         <div className="flex flex-col gap-3">
           {quickQuestions.map((q, i) => (
             <button
@@ -402,7 +351,6 @@ useEffect(() => {
             </button>
           ))}
 
-          {/* Botão Funções */}
           <button
             onClick={() => setShowFuncoes(!showFuncoes)}
             className="flex items-center justify-between gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-full text-sm transition shadow text-white"
@@ -426,7 +374,6 @@ useEffect(() => {
                 📦 Criar estoque (preencher input)
               </button>
 
-              {/* Novo: botão para abrir formulário de adicionar item */}
               <button
                 onClick={() => setShowAddItemForm((s) => !s)}
                 className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm text-white"
@@ -450,26 +397,24 @@ useEffect(() => {
                     placeholder="Quantidade"
                     className="p-2 rounded bg-gray-800 text-white text-sm"
                   />
-
                   <div className="flex gap-2 items-center">
                     <label className="text-xs text-gray-300">Estoque:</label>
                     <select
-                    value={selectedStorageId || ""}
-                    onChange={(e) => setSelectedStorageId(Number(e.target.value))}
-                    className="p-2 rounded bg-gray-800 text-white mb-2"
-                  >
-                    {storages.length === 0 ? (
-                      <option value="">(nenhum estoque)</option>
-                    ) : (
-                      storages.map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.name}
-                        </option>
-                      ))
-                    )}
-                  </select>
+                      value={selectedStorageId || ""}
+                      onChange={(e) => setSelectedStorageId(Number(e.target.value))}
+                      className="p-2 rounded bg-gray-800 text-white mb-2"
+                    >
+                      {storages.length === 0 ? (
+                        <option value="">(nenhum estoque)</option>
+                      ) : (
+                        storages.map((s) => (
+                          <option key={s.id} value={s.id}>
+                            {s.name}
+                          </option>
+                        ))
+                      )}
+                    </select>
                   </div>
-
                   <div className="flex gap-2">
                     <button
                       onClick={handleAddItemSubmit}
@@ -496,7 +441,6 @@ useEffect(() => {
             </div>
           )}
 
-          {/* Botão limpar global */}
           <button
             onClick={clearChat}
             className="flex items-center gap-2 mt-4 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-full text-sm transition shadow text-white"
@@ -511,10 +455,7 @@ useEffect(() => {
       <main className="md:w-2/3 flex flex-col bg-gray-800 rounded-lg p-4 shadow-lg">
         <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pr-2">
           {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}
-            >
+            <div key={i} className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}>
               <div
                 className={`p-4 rounded-2xl max-w-[80%] shadow ${
                   msg.role === "assistant" ? "bg-blue-700 text-white" : "bg-gray-700 text-white"
@@ -524,7 +465,6 @@ useEffect(() => {
               </div>
             </div>
           ))}
-
           {isLoading && (
             <div className="flex justify-start">
               <div className="p-4 rounded-2xl bg-blue-700 text-white animate-pulse shadow">
@@ -532,11 +472,9 @@ useEffect(() => {
               </div>
             </div>
           )}
-
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input */}
         <div className="flex items-center border border-gray-600 rounded-lg overflow-hidden">
           <input
             type="text"
