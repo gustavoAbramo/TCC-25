@@ -1,31 +1,28 @@
-import {prisma} from "../../prisma/client.js";
+import { prisma } from "../../prisma/client.js";
 import { mongoClient } from "../../mongo/client.mongo.js";
+import { category } from "../../prisma/client/index.js";
 
-  async function createHistory({ id_user, id_item, action, quantity }) {
-    try {
-      const db = await mongoClient(); // já retorna o DB
-      const collection = db.collection("historico-estoque");
+async function createHistory({ id_user, id_item, action, quantity }) {
+  try {
+    const db = await mongoClient(); // já retorna o DB
+    const collection = db.collection("historico-estoque");
 
-      await collection.createIndex(
-        { createdAt: 1},
-        { expireAfterSeconds: 60 * 60 * 24 * 365 } 
-      );
+    await collection.createIndex(
+      { createdAt: 1 },
+      { expireAfterSeconds: 60 * 60 * 24 * 365 }
+    );
 
-
-
-      await collection.insertOne({
-        id_user,
-        id_item,
-        quantity,
-        action,
-        createdAt: new Date(),
-      });
-
-    } catch (err) {
-      console.error("Erro ao sincronizar:", err);
-    }
+    await collection.insertOne({
+      id_user,
+      id_item,
+      quantity,
+      action,
+      createdAt: new Date(),
+    });
+  } catch (err) {
+    console.error("Erro ao sincronizar:", err);
   }
-
+}
 
 async function checkUserPermission(storageId, id_user) {
   const authorizedStorage = await prisma.storage_Permission.findFirst({
@@ -37,64 +34,85 @@ async function checkUserPermission(storageId, id_user) {
   });
 
   if (!authorizedStorage) {
-  const error = new Error("Usuário não tem permissão para modificar este estoque.");
-  error.statusCode = 403; 
-  throw error;
-}
-}
-
-  export async function createItemService(item) {
-    const { storageId, id_user, quantity, ...itemData } = item;
-
-    await checkUserPermission(storageId, id_user);
-
-    const existingItem = await prisma.item.findFirst({
-      where: {
-        name: itemData.name,
-        category: itemData.category,
-        Storage_belongs: {
-          some: {
-            id_Storage: storageId,
-          },
-        },
-      },
-    });
-
-    if (existingItem) {
-      const error = new Error("Item com este nome e categoria já existe neste estoque.");
-      error.statusCode = 400; 
-      throw error;
-    }
-
-    const newItem = await prisma.item.create({
-      data: {
-        ...itemData,
-        quantity,
-        expiration: new Date(itemData.expiration),
-        Storage_belongs: {
-          create: { id_Storage: storageId },
-        },
-      },
-      include: {
-        Storage_belongs: true,
-      },
-    });
-
-    await createHistory({
-      id_user,
-      id_item: newItem.id_Item,
-      action: "ADD_ITEM",
-      quantity: newItem.quantity,
-    });
-
-    return newItem;
+    const error = new Error(
+      "Usuário não tem permissão para modificar este estoque."
+    );
+    error.statusCode = 403;
+    throw error;
   }
+}
+
+export async function createItemService(item) {
+  const { storageId, id_user, quantity, ...itemData } = item;
+
+  await checkUserPermission(storageId, id_user);
+
+  const existingItem = await prisma.item.findFirst({
+    where: {
+      name: itemData.name,
+      category: itemData.category,
+      Storage_belongs: {
+        some: {
+          id_Storage: storageId,
+        },
+      },
+    },
+  });
+
+  if (existingItem) {
+    const error = new Error(
+      "Item com este nome e categoria já existe neste estoque."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const validCategories = ["bebida", "comida"];
+  const validUnits = [
+    "unidades",
+    "gramas",
+    "quilogramas",
+    "mililitros",
+    "litros",
+  ];
+
+  const category = itemData.category.toLowerCase();
+  if (!validCategories.includes(category)) {
+    throw new Error("Categoria inválida");
+  }
+
+  const unit = (itemData.unit || "unidades").toLowerCase();
+  if (!validUnits.includes(unit)) {
+    throw new Error("Unidade de medida inválida");
+  }
+
+  const newItem = await prisma.item.create({
+    data: {
+      ...itemData,
+      quantity,
+      category,
+      unit,
+      expiration: new Date(itemData.expiration),
+      Storage_belongs: { create: { id_Storage: storageId } },
+    },
+    include: { Storage_belongs: true },
+  });
+
+  await createHistory({
+    id_user,
+    id_item: newItem.id_Item,
+    action: "ADD_ITEM",
+    quantity: newItem.quantity,
+  });
+
+  return newItem;
+}
 
 export async function getItemsByStorageService(id_Storage) {
   const items = await prisma.item.findMany({
     where: {
       Storage_belongs: {
-        some: { id_Storage: Number(id_Storage) }, 
+        some: { id_Storage: Number(id_Storage) },
       },
     },
   });
@@ -111,7 +129,7 @@ export async function getItemsByStorageService(id_Storage) {
     description: item.description,
     category: item.category,
     quantity: item.quantity,
-    expiration: item.expiration.toISOString().split("T")[0], 
+    expiration: item.expiration.toISOString().split("T")[0],
   }));
 }
 export async function deleteItemService(id_Item, id_user) {
@@ -127,13 +145,13 @@ export async function deleteItemService(id_Item, id_user) {
   }
 
   const storageId = item.Storage_belongs[0]?.id_Storage;
-  
+
   if (!storageId) {
     const error = new Error("Item não está associado a nenhum estoque.");
     error.statusCode = 400;
     throw error;
   }
-  
+
   await checkUserPermission(storageId, id_user);
 
   await createHistory({
@@ -182,7 +200,7 @@ export async function updateItemQuantityService(
     );
     error.statusCode = 404;
     throw error;
-    }
+  }
 
   const item = storageItem.Item;
 

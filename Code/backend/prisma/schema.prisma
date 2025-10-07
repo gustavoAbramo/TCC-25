@@ -63,6 +63,7 @@ model Item {
   description String?  @db.VarChar(200)
   expiration  DateTime @db.DateTime()
   category    category
+  unit        unit_of_measurement
   quantity    Int?
   created_at  DateTime @default(now())
 
@@ -129,39 +130,14 @@ enum Access_Level {
 }
 
 enum category {
-  Vegetables
-  Fruits
-  Meats
-  FishAndSeafood
-  Dairy
-  GrainsAndCereals
-  NutsAndSeeds
-  BakedGoods
-  Condiments
-  SpicesAndHerbs
-  Beverages
-  FrozenFoods
-  CannedFoods
-  OilsAndFats
-  Snacks
-  SweetsAndDesserts
-  OthersFood
- //português
-  Legumes
-  Frutas
-  Carnes
-  PeixesEFrutosDoMar
-  Laticinios
-  CereaisEGraos
-  NozesESementes
-  ProdutosAssados
-  Condimentos
-  EspeciariasEErvas
-  Bebidas
-  AlimentosCongelados
-  AlimentosEnlatados
-  OleosEGorduras
-  Petiscos
-  DocesESobremesas
-  OutrosAlimentos
+  bebida
+  comida
+}
+
+enum unit_of_measurement {
+  unidades
+  gramas
+  quilogramas
+  mililitros
+  litros
 }

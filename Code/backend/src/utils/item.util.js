@@ -4,6 +4,19 @@ import Joi from "joi";
 const hasLetter = /[a-zA-Z]/;
 const alphanumericSpace = /^[a-zA-Z0-9\s]+$/;
 
+const unit_of_measurement = [
+  "quilogramas",
+  "gramas",
+  "miligramas",
+  "litros",
+  "mililitros",
+  "unidades",
+];
+const validCategories = [
+  "comida",
+  "bebida",
+];
+
 export const createItemSchema = Joi.object({
   name: Joi.string()
     .min(2)
@@ -37,16 +50,12 @@ export const createItemSchema = Joi.object({
     }),
 
   category: Joi.string()
-    .min(2)
-    .pattern(hasLetter, "letra")
-    .pattern(alphanumericSpace)
+    .valid(...validCategories)
     .required()
     .messages({
-      "string.min": "A categoria deve ter pelo menos 2 caracteres",
+      "any.only": "Categoria inválida",
       "string.empty": "A categoria é obrigatória",
-      "string.pattern.name": "A categoria deve conter pelo menos uma letra",
       "any.required": "A categoria é obrigatória",
-      "string.pattern.base": "A categoria só pode conter letras, números e espaços",
     }),
 
   quantity: Joi.number()
@@ -58,6 +67,15 @@ export const createItemSchema = Joi.object({
       "number.integer": "A quantidade deve ser um número inteiro",
       "number.positive": "A quantidade deve ser um número positivo",
       "any.required": "A quantidade é obrigatória",
+    }),
+
+  unit: Joi.string()
+    .valid(...unit_of_measurement)
+    .required()
+    .messages({
+      "any.only": "Unidade de medida inválida",
+      "string.empty": "A unidade de medida é obrigatória",
+      "any.required": "A unidade de medida é obrigatória",
     }),
 
   storageId: Joi.number()
