@@ -15,7 +15,8 @@ export default function Storages() {
         description: '',
         expiration: '',
         category: '',
-        quantity: ''
+        quantity: '',
+        unit: ''
     });
     const [addingItem, setAddingItem] = useState(false);
 
@@ -61,12 +62,12 @@ export default function Storages() {
     };
 
     const handleAddItem = async (storageId) => {
-        const { name, description, expiration, category, quantity } = itemData;
+        const { name, description, expiration, category, quantity, unit } = itemData;
         if (!name || !description || !expiration || !category || !quantity) return;
 
         try {
             setAddingItem(true);
-            const payload = { name, description, expiration, category, quantity: Number(quantity), storageId };
+            const payload = { name, description, expiration, category, quantity: Number(quantity), unit, storageId };
             const res = await api.post('/storages/Items', payload, { withCredentials: true });
             const newItem = res.data;
 
@@ -74,7 +75,7 @@ export default function Storages() {
                 prev.map(s => (s.id === storageId ? { ...s, items: [...s.items, newItem] } : s))
             );
 
-            setItemData({ name: '', description: '', expiration: '', category: '', quantity: '' });
+            setItemData({ name: '', description: '', expiration: '', category: '', quantity: '', unit: '' });
             setActiveStorageId(null);
         } catch (err) {
             alert(err.response?.data?.message || 'Erro ao adicionar item.');
@@ -261,23 +262,8 @@ export default function Storages() {
                                                 className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
                                             >
                                                 <option value="" disabled className="text-blue-600">Selecione uma categoria</option>
-                                                <option value="Legumes" className="text-blue-600">Legumes</option>
-                                                <option value="Frutas" className="text-blue-600">Frutas</option>
-                                                <option value="Carnes" className="text-blue-600">Carnes</option>
-                                                <option value="PeixesEFrutosDoMar" className="text-blue-600">Peixes e frutos do mar</option>
-                                                <option value="Laticinios" className="text-blue-600">Laticínios</option>
-                                                <option value="CereaisEGraos" className="text-blue-600">Cereais e grãos</option>
-                                                <option value="NozesESementes" className="text-blue-600">Nozes e sementes</option>
-                                                <option value="ProdutosAssados" className="text-blue-600">Produtos assados</option>
-                                                <option value="Condimentos" className="text-blue-600">Condimentos</option>
-                                                <option value="EspeciariasEErvas" className="text-blue-600">Especiarias e ervas</option>
-                                                <option value="Bebidas" className="text-blue-600">Bebidas</option>
-                                                <option value="AlimentosCongelados" className="text-blue-600">Alimentos congelados</option>
-                                                <option value="AlimentosEnlatados" className="text-blue-600">Alimentos enlatados</option>
-                                                <option value="OleosEGorduras" className="text-blue-600">Óleos e gorduras</option>
-                                                <option value="Petiscos" className="text-blue-600">Petiscos</option>
-                                                <option value="DocesESobremesa" className="text-blue-600">Doces</option>
-                                                <option value="OutrosAlimentos" className="text-blue-600">Outro</option>
+                                                <option value="comida" className="text-blue-600">Comida</option>
+                                                <option value="bebida" className="text-blue-600">Bebida</option>
                                                 
                                             </select>
                                             <input
@@ -288,6 +274,20 @@ export default function Storages() {
                                                 required
                                                 className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
                                             />
+                                            <select
+                                                value={itemData.unit}
+                                                onChange={(e) => setItemData({ ...itemData, unit: e.target.value })}
+                                                required
+                                                className="border border-blue-200 p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                            >
+                                                <option value="" disabled className="text-blue-600">Selecione a unidade de medida</option>
+                                                <option value="gramas" className="text-blue-600">Gramas (g)</option>
+                                                <option value="quilogramas" className="text-blue-600">Quiogramas (kg)</option>
+                                                <option value="mililitros" className="text-blue-600">Mililitros (ml)</option>
+                                                <option value="litros" className="text-blue-600">Litros (L)</option>
+                                                <option value="unidades" className="text-blue-600">Unidade</option>
+                                                
+                                            </select>
                                         </div>
                                         <div className="flex gap-2">
                                             <button
