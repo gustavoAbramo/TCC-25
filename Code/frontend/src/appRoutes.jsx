@@ -10,9 +10,10 @@ import Contact from "./pages/Contact";
 import DashboardPage from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import ResetPasswordPage from "./components/ResetPassword";
+import Settings from "./components/Settings";
 
 
-export default function AppRoutes() {
+export default function AppRoutes({userName, setUserName}) {
   const location = useLocation();
   const hideHeaderOn = ["/login", "/cadastro", "/telaInicial"];
   const hideFooterOn = ["/login", "/cadastro", "/telaInicial"];
@@ -20,17 +21,19 @@ export default function AppRoutes() {
     <>
       {!hideHeaderOn.includes(location.pathname) && <Header />}
       <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/sobre" element={<About />} />
-  <Route path="/contato" element={<Contact />} />
-  <Route path="/cadastro" element={<Register />} />
-  <Route path="/login" element={<Login />} />
-  <Route path="/reset-password" element={<ResetPasswordPage />} />
-  <Route path="/telaInicial" element={
-    <PrivateRoute>
-      <DashboardPage />
-    </PrivateRoute>
-  } />
+        <Route path="/" element={<Home />} />
+        <Route path="/sobre" element={<About />} />
+        <Route path="/contato" element={<Contact />} />
+        <Route path="/cadastro" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/settings" element={<Settings userName={userName} setUserName={setUserName} />} />
+        <Route path="/telaInicial" element={
+          <PrivateRoute>
+            <DashboardPage userName={userName} setUserName={setUserName} />
+          </PrivateRoute>
+
+        } />
 </Routes>
       {!hideFooterOn.includes(location.pathname) && <Footer />}
     </>

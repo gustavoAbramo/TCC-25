@@ -1,6 +1,6 @@
 import Sidebar from "../../components/Sidebar";
 import { useState } from "react";
-import Storages from "../../components/storages";
+import Storages from "../../components/Storages";
 import History from "../../components/History";
 import Alexa from "../../components/Alexa";
 import Chat from "../../components/Chat";
