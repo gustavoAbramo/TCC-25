@@ -17,6 +17,8 @@ export default function Chat() {
   const [showAddItemForm, setShowAddItemForm] = useState(false);
   const [formItemName, setFormItemName] = useState("");
   const [formItemQuantity, setFormItemQuantity] = useState(1);
+  const [formItemCategory, setFormItemCategory] = useState("comida");
+  const [formItemUnit, setFormItemUnit] = useState("unidades");
   const [selectedStorageId, setSelectedStorageId] = useState(null);
   const [lastStorageId, setLastStorageId] = useState(null);
   const [storages, setStorages] = useState([]);
@@ -248,12 +250,13 @@ export default function Chat() {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: nomeItem,
-            quantity: Number(quantidade),
-            category: "Frutas",
-            expiration: "2025-12-31",
-            storageId: Number(storageIdToUse),
-          }),
+          storageId: Number(storageIdToUse),
+          name: formItemName.trim(),
+          quantity: Number(formItemQuantity),
+          category: formItemCategory,
+          unit: formItemUnit,
+          expiration: "2025-12-31",
+        }),
         });
 
         if (!response.ok) {
@@ -349,7 +352,8 @@ export default function Chat() {
           storageId: Number(storageIdToUse),
           name: formItemName.trim(),
           quantity: Number(formItemQuantity),
-          category: "Frutas",
+          category: "comida",
+          unit: "unidades",
           expiration: "2025-12-31",
         }),
       });
@@ -400,40 +404,45 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-900 rounded-xl h-full max-w-6xl mx-auto relative">
-      {/* Toast (aparece no topo e some automaticamente) */}
-      {toast && (
-        <div
-          className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-center transition-all duration-300 ${
+  <div className="flex flex-col md:flex-row gap-6 bg-gray-900 min-h-screen w-full overflow-hidden text-white relative">
+    {/* Toast (aparece no topo e some automaticamente) */}
+    {toast && (
+      <div
+        className={`absolute top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl text-sm text-center shadow-lg transition-all duration-300
+          ${
             toast.type === "success"
-              ? "bg-green-500/20 text-green-300 border border-green-500/30"
+              ? "bg-green-600 text-white border border-green-700 shadow-green-800/30 animate-slideDownFade"
               : toast.type === "warning"
-              ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
-              : "bg-red-500/20 text-red-300 border border-red-500/30"
+              ? "bg-yellow-500 text-gray-900 border border-yellow-600 shadow-yellow-800/30 animate-slideDownFade"
+              : "bg-red-600 text-white border border-red-700 shadow-red-900/30 animate-slideDownFade"
           }`}
+      >
+        {toast.type === "success" ? (
+          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        ) : toast.type === "warning" ? (
+          <svg className="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.29 3.86l-7.5 13A1 1 0 003.75 18h16.5a1 1 0 00.86-1.5l-7.5-13a1 1 0 00-1.72 0z" />
+          </svg>
+        ) : (
+          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        )}
+        <div className="text-sm font-medium">{toast.message}</div>
+        <button
+          onClick={() => setToast(null)}
+          className="ml-3 text-white/70 hover:text-white transition"
         >
-          {toast.type === "success" ? (
-            <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          ) : toast.type === "warning" ? (
-            <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.29 3.86l-7.5 13A1 1 0 003.75 18h16.5a1 1 0 00.86-1.5l-7.5-13a1 1 0 00-1.72 0z" />
-            </svg>
-          ) : (
-            <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          )}
-          <div className="text-sm">{toast.message}</div>
-          <button onClick={() => setToast(null)} className="ml-3 text-gray-400 hover:text-gray-200">
-            ✕
-          </button>
-        </div>
-      )}
+          ✕
+        </button>
+      </div>
+    )}
 
-      {/* Sidebar */}
-      <aside className="md:w-1/3 bg-gray-800 rounded-lg p-4 flex flex-col">
+    {/* Sidebar */}
+    <aside className="md:w-1/3 bg-gray-800 rounded-none md:rounded-r-2xl p-4 flex flex-col justify-between md:min-h-screen shadow-lg">
+      <div>
         <h2 className="text-xl font-semibold mb-4 text-white">Dicas Rápidas</h2>
         <div className="text-xs text-white mb-2">
           {user ? `🔐 Logado como ${user.name}` : "🚫 Não logado"}
@@ -481,13 +490,14 @@ export default function Chat() {
               </button>
 
               {showAddItemForm && (
-                <div className="mt-2 p-3 bg-gray-700 rounded-lg flex flex-col gap-2">
+                <div className="mt-2 p-3 bg-gray-700 rounded-lg flex flex-col gap-3">
                   <input
                     value={formItemName}
                     onChange={(e) => setFormItemName(e.target.value)}
                     placeholder='Nome do item (ex: "Maçã")'
                     className="p-2 rounded bg-gray-800 text-white text-sm"
                   />
+
                   <input
                     value={formItemQuantity}
                     onChange={(e) => setFormItemQuantity(Number(e.target.value))}
@@ -496,12 +506,43 @@ export default function Chat() {
                     placeholder="Quantidade"
                     className="p-2 rounded bg-gray-800 text-white text-sm"
                   />
+
+                  {/* Categoria */}
                   <div className="flex gap-2 items-center">
-                    <label className="text-xs text-gray-300">Estoque:</label>
+                    <label className="text-xs text-gray-300 w-20">Categoria:</label>
+                    <select
+                      value={formItemCategory}
+                      onChange={(e) => setFormItemCategory(e.target.value)}
+                      className="flex-1 p-2 rounded bg-gray-800 text-white text-sm"
+                    >
+                      <option value="comida">🍽️ Comida</option>
+                      <option value="bebida">🥤 Bebida</option>
+                    </select>
+                  </div>
+
+                  {/* Unidade */}
+                  <div className="flex gap-2 items-center">
+                    <label className="text-xs text-gray-300 w-20">Unidade:</label>
+                    <select
+                      value={formItemUnit}
+                      onChange={(e) => setFormItemUnit(e.target.value)}
+                      className="flex-1 p-2 rounded bg-gray-800 text-white text-sm"
+                    >
+                      <option value="unidades">Unidades</option>
+                      <option value="gramas">Gramas</option>
+                      <option value="quilogramas">Quilogramas</option>
+                      <option value="mililitros">Mililitros</option>
+                      <option value="litros">Litros</option>
+                    </select>
+                  </div>
+
+                  {/* Estoque */}
+                  <div className="flex gap-2 items-center">
+                    <label className="text-xs text-gray-300 w-20">Estoque:</label>
                     <select
                       value={selectedStorageId || ""}
                       onChange={(e) => setSelectedStorageId(Number(e.target.value))}
-                      className="p-2 rounded bg-gray-800 text-white mb-2"
+                      className="flex-1 p-2 rounded bg-gray-800 text-white text-sm"
                     >
                       {storages.length === 0 ? (
                         <option value="">(nenhum estoque)</option>
@@ -514,16 +555,17 @@ export default function Chat() {
                       )}
                     </select>
                   </div>
+                  
                   <div className="flex gap-2">
                     <button
                       onClick={handleAddItemSubmit}
-                      className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded text-sm text-white"
+                      className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded text-sm text-white transition"
                     >
                       Adicionar
                     </button>
                     <button
                       onClick={() => setShowAddItemForm(false)}
-                      className="px-3 py-2 bg-gray-600 hover:bg-gray-500 rounded text-sm text-white"
+                      className="px-3 py-2 bg-gray-600 hover:bg-gray-500 rounded text-sm text-white transition"
                     >
                       Cancelar
                     </button>
@@ -548,54 +590,55 @@ export default function Chat() {
             Limpar
           </button>
         </div>
-      </aside>
+      </div>
+    </aside>
 
-      {/* Chat */}
-      <main className="md:w-2/3 flex flex-col bg-gray-800 rounded-lg p-4 shadow-lg">
-        <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pr-2">
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}
-            >
-              <div
-                className={`p-4 rounded-2xl max-w-[80%] shadow ${
-                  msg.role === "assistant"
-                    ? "bg-blue-700 text-white"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                <ReactMarkdown>{msg.content}</ReactMarkdown>
-              </div>
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="p-4 rounded-2xl bg-blue-700 text-white animate-pulse shadow">
-                Digitando...
-              </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        <div className="flex items-center border border-gray-600 rounded-lg overflow-hidden">
-          <input
-            type="text"
-            placeholder="Digite sua pergunta..."
-            className="flex-1 p-3 bg-gray-800 text-white placeholder-gray-400 focus:outline-none"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
-          />
-          <button
-            onClick={() => sendMessage()}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1"
+    {/* Chat */}
+    <main className="md:w-2/3 flex flex-col bg-gray-800 rounded-none md:rounded-l-2xl p-4 shadow-lg">
+      <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pr-2">
+        {messages.map((msg, i) => (
+          <div
+            key={i}
+            className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}
           >
-            <PaperAirplaneIcon className="w-5 h-5 rotate-45" />
-          </button>
-        </div>
-      </main>
-    </div>
-  );
+            <div
+              className={`p-4 rounded-2xl max-w-[80%] shadow ${
+                msg.role === "assistant"
+                  ? "bg-blue-700 text-white"
+                  : "bg-gray-700 text-white"
+              }`}
+            >
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
+            </div>
+          </div>
+        ))}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="p-4 rounded-2xl bg-blue-700 text-white animate-pulse shadow">
+              Digitando...
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className="flex items-center border border-gray-600 rounded-lg overflow-hidden">
+        <input
+          type="text"
+          placeholder="Digite sua pergunta..."
+          className="flex-1 p-3 bg-gray-800 text-white placeholder-gray-400 focus:outline-none"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyDown={handleKeyPress}
+        />
+        <button
+          onClick={() => sendMessage()}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1"
+        >
+          <PaperAirplaneIcon className="w-5 h-5 rotate-45" />
+        </button>
+      </div>
+    </main>
+  </div>
+);
 }
