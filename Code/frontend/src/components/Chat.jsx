@@ -21,6 +21,8 @@ export default function Chat() {
   const [lastStorageId, setLastStorageId] = useState(null);
   const [storages, setStorages] = useState([]);
 
+  const [toast, setToast] = useState(null); // <-- estado para toast
+
   const messagesEndRef = useRef(null);
 
   const quickQuestions = [
@@ -29,6 +31,39 @@ export default function Chat() {
     { label: "Vitaminas essenciais", icon: "💊" },
     { label: "Dicas para o dia a dia", icon: "🍽️" },
   ];
+
+  // Função para exibir toast (simples)
+  const showToast = (type, message) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 4000);
+  };
+
+  // Função que tenta extrair uma mensagem amigável de um erro (remove JSON técnico)
+  const parseServerError = (error) => {
+    try {
+      const raw = typeof error === "string" ? error : error?.message ?? String(error);
+      // tenta achar JSON dentro da string e parsear
+      const idx = raw.indexOf("{");
+      if (idx !== -1) {
+        const jsonPart = raw.substring(idx);
+        const parsed = JSON.parse(jsonPart);
+        let msg = parsed.message || parsed.error || "Erro inesperado";
+        if (Array.isArray(parsed.errors) && parsed.errors.length) {
+          msg += ` — ${parsed.errors.join("; ")}`;
+        }
+        return msg;
+      }
+      // se não for JSON, tenta remover prefixos técnicos (ex: "Erro ao adicionar item (400): ...")
+      const colon = raw.indexOf(":");
+      if (colon !== -1 && raw.slice(colon + 1).trim()) {
+        return raw.slice(colon + 1).trim();
+      }
+      return raw;
+    } catch (e) {
+      // fallback: retorna mensagem simples
+      return error?.message ?? String(error);
+    }
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -47,11 +82,12 @@ export default function Chat() {
         const res = await fetch("http://localhost:3000/api/chat/me", {
           credentials: "include",
         });
-        if (!res.ok) throw new Error("Não autenticado");
+        if (!res.ok) throw new Error(`Não autenticado (${res.status})`);
         const data = await res.json();
         setUser(data);
-      } catch {
+      } catch (err) {
         setUser(null);
+        console.error("Erro ao buscar usuário:", err);
       }
     };
     fetchUser();
@@ -65,7 +101,7 @@ export default function Chat() {
           method: "GET",
           credentials: "include",
         });
-        if (!res.ok) throw new Error(`Erro ao carregar estoques: ${res.status}`);
+        if (!res.ok) throw new Error(`Erro ao carregar estoques (${res.status})`);
         const data = await res.json();
 
         const parsed = Array.isArray(data)
@@ -77,6 +113,12 @@ export default function Chat() {
         setStorages(parsed);
       } catch (err) {
         console.error("Erro ao buscar estoques:", err);
+        const userMsg = parseServerError(err);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: `⚠️ ${userMsg}` },
+        ]);
+        showToast("error", userMsg);
       }
     };
     loadStorages();
@@ -133,10 +175,14 @@ export default function Chat() {
           body: JSON.stringify({ name: estoqueNome, location: "araras" }),
         });
 
-        if (!response.ok) throw new Error(`Erro: ${response.status}`);
-        const data = await response.json();
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`Erro ao criar estoque (${response.status}): ${text}`);
+        }
 
+        const data = await response.json();
         const newId = data?.id || data?.storageId || data?.id_Storage || null;
+
         if (newId) {
           setLastStorageId(String(newId));
           localStorage.setItem("lastStorageId", String(newId));
@@ -155,6 +201,7 @@ export default function Chat() {
             content: `✅ Estoque "${estoqueNome}" criado com sucesso!${newId ? ` (id: ${newId})` : ""}`,
           },
         ]);
+        showToast("success", `Estoque "${estoqueNome}" criado com sucesso!`);
       }
 
       // Adicionar item via texto
@@ -164,14 +211,15 @@ export default function Chat() {
         const itemMatch = itemDetails.match(/"([^"]+)"\s+quantidade\s+(\d+)/i);
 
         if (!itemMatch) {
+          const userMsg = 'Formato inválido. Use: adicionar item ao estoque "<nome>" quantidade <número>';
           setMessages((prev) => [
             ...prev,
             {
               role: "assistant",
-              content:
-                '⚠️ Formato inválido. Use: adicionar item ao estoque "<nome do item>" quantidade <número>',
+              content: `⚠️ ${userMsg}`,
             },
           ]);
+          showToast("warning", userMsg);
           setIsLoading(false);
           return;
         }
@@ -182,13 +230,15 @@ export default function Chat() {
           selectedStorageId ?? (lastStorageId ? Number(lastStorageId) : null);
 
         if (!storageIdToUse) {
+          const userMsg = "Nenhum estoque selecionado. Selecione um estoque antes de adicionar.";
           setMessages((prev) => [
             ...prev,
             {
               role: "assistant",
-              content: "⚠️ Nenhum estoque selecionado. Selecione um estoque antes de adicionar.",
+              content: `⚠️ ${userMsg}`,
             },
           ]);
+          showToast("warning", userMsg);
           setIsLoading(false);
           return;
         }
@@ -206,16 +256,20 @@ export default function Chat() {
           }),
         });
 
-        if (!response.ok) throw new Error(`Erro ao adicionar item: ${response.status}`);
-        const data = await response.json();
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`Erro ao adicionar item (${response.status}): ${text}`);
+        }
 
+        const data = await response.json();
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: `✅ Item "${nomeItem}" (x${quantidade}) adicionado com sucesso ao estoque (id: ${storageIdToUse})!`,
+            content: `✅ Item "${nomeItem}" (x${quantidade}) adicionado com sucesso!`,
           },
         ]);
+        showToast("success", `Item "${nomeItem}" adicionado com sucesso!`);
       }
 
       // Conversa normal com IA
@@ -227,7 +281,11 @@ export default function Chat() {
           body: JSON.stringify({ message: finalMessage }),
         });
 
-        if (!response.ok) throw new Error(`Erro: ${response.status}`);
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`Erro na IA (${response.status}): ${text}`);
+        }
+
         const data = await response.json();
 
         setMessages((prev) => [
@@ -237,10 +295,15 @@ export default function Chat() {
       }
     } catch (error) {
       console.error("Erro no chat:", error);
+      const userMsg = parseServerError(error);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Desculpe, ocorreu um erro. Tente novamente." },
+        {
+          role: "assistant",
+          content: `⚠️ ${userMsg}`,
+        },
       ]);
+      showToast("error", userMsg);
     } finally {
       setIsLoading(false);
     }
@@ -291,25 +354,30 @@ export default function Chat() {
         }),
       });
 
-      if (!response.ok) throw new Error(`Erro: ${response.status}`);
-      const data = await response.json();
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Erro ao adicionar item (${response.status}): ${text}`);
+      }
 
+      const data = await response.json();
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: `✅ Item "${data.name ?? formItemName}" (x${data.quantity ?? formItemQuantity}) adicionado com sucesso ao estoque (id: ${storageIdToUse})!`,
+          content: `✅ Item "${data.name ?? formItemName}" (x${data.quantity ?? formItemQuantity}) adicionado com sucesso!`,
         },
       ]);
-
+      showToast("success", `Item "${data.name ?? formItemName}" adicionado com sucesso!`);
       localStorage.setItem("lastStorageId", String(storageIdToUse));
       setLastStorageId(String(storageIdToUse));
     } catch (error) {
       console.error("Erro ao adicionar item:", error);
+      const userMsg = parseServerError(error);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Erro ao adicionar item ao estoque." },
+        { role: "assistant", content: `⚠️ ${userMsg}` },
       ]);
+      showToast("error", userMsg);
     } finally {
       setIsLoading(false);
       setFormItemName("");
@@ -332,7 +400,38 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-900 rounded-xl h-full max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-900 rounded-xl h-full max-w-6xl mx-auto relative">
+      {/* Toast (aparece no topo e some automaticamente) */}
+      {toast && (
+        <div
+          className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-center transition-all duration-300 ${
+            toast.type === "success"
+              ? "bg-green-500/20 text-green-300 border border-green-500/30"
+              : toast.type === "warning"
+              ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
+              : "bg-red-500/20 text-red-300 border border-red-500/30"
+          }`}
+        >
+          {toast.type === "success" ? (
+            <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ) : toast.type === "warning" ? (
+            <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.29 3.86l-7.5 13A1 1 0 003.75 18h16.5a1 1 0 00.86-1.5l-7.5-13a1 1 0 00-1.72 0z" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          )}
+          <div className="text-sm">{toast.message}</div>
+          <button onClick={() => setToast(null)} className="ml-3 text-gray-400 hover:text-gray-200">
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Sidebar */}
       <aside className="md:w-1/3 bg-gray-800 rounded-lg p-4 flex flex-col">
         <h2 className="text-xl font-semibold mb-4 text-white">Dicas Rápidas</h2>
@@ -455,10 +554,15 @@ export default function Chat() {
       <main className="md:w-2/3 flex flex-col bg-gray-800 rounded-lg p-4 shadow-lg">
         <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pr-2">
           {messages.map((msg, i) => (
-            <div key={i} className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}>
+            <div
+              key={i}
+              className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}
+            >
               <div
                 className={`p-4 rounded-2xl max-w-[80%] shadow ${
-                  msg.role === "assistant" ? "bg-blue-700 text-white" : "bg-gray-700 text-white"
+                  msg.role === "assistant"
+                    ? "bg-blue-700 text-white"
+                    : "bg-gray-700 text-white"
                 }`}
               >
                 <ReactMarkdown>{msg.content}</ReactMarkdown>
