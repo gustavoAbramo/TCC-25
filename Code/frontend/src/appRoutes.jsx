@@ -12,7 +12,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import ResetPasswordPage from "./components/ResetPassword";
 import Settings from "./components/Settings";
 
-
 export default function AppRoutes({userName, setUserName}) {
   const location = useLocation();
   const hideHeaderOn = ["/login", "/cadastro", "/telaInicial"];

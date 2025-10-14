@@ -1,4 +1,4 @@
-export default function Sidebar({ setActivePage }) {
+export default function Sidebar({ setActivePage, userName, }) {
   const sidebarButtonStyle =
     "w-full px-4 py-3 text-center rounded border border-blue-900 hover:bg-blue-900 transition-colors";
 
@@ -16,6 +16,7 @@ export default function Sidebar({ setActivePage }) {
       console.error("Erro ao fazer logout:", error);
     }
   }
+
 
   return (
     <div className="w-64 bg-background-secondary text-white h-full flex flex-col min-h-screen">
@@ -68,6 +69,10 @@ export default function Sidebar({ setActivePage }) {
       </nav>
 
       <footer className="p-4">
+        <div className="flex items-center gap-2">
+          <img className="w-12 p-2" src="src/assets/user-icon.svg" alt="usuario"></img>
+          <span>{userName}</span>
+        </div>
         <div>
           <button
             onClick={handleLogout}
