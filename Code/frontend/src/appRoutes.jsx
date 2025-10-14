@@ -26,10 +26,10 @@ export default function AppRoutes({userName, setUserName}) {
         <Route path="/cadastro" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/settings" element={<Settings userName={userName} setUserName={setUserName} />} />
+        <Route path="/settings" element={<Settings/>} />
         <Route path="/telaInicial" element={
           <PrivateRoute>
-            <DashboardPage userName={userName} setUserName={setUserName} />
+            <DashboardPage/>
           </PrivateRoute>
 
         } />

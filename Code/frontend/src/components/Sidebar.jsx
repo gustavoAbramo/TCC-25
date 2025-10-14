@@ -1,91 +1,89 @@
-export default function Sidebar({ setActivePage, userName, }) {
+import React, { useState, useEffect } from "react";
+import api from "../services/api.service";
+
+export default function Sidebar({ setActivePage }) {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await api.get("/user/me", { withCredentials: true });
+        setUserName(res.data.user.name);
+      } catch (error) {
+        console.error("Erro ao buscar o usuário:", error);
+      }
+    }
+    fetchUser();
+  }, []);
+
   const sidebarButtonStyle =
     "w-full px-4 py-3 text-center rounded border border-blue-900 hover:bg-blue-900 transition-colors";
 
   async function handleLogout() {
     try {
-      // Chama o backend para apagar o cookie do token
       await fetch("http://localhost:3000/auth/logout", {
         method: "POST",
-        credentials: "include", // necessário para enviar cookies
+        credentials: "include",
       });
-
-      // Redireciona para login
       window.location.href = "/login";
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
   }
 
-
   return (
-    <div className="w-64 bg-background-secondary text-white h-full flex flex-col min-h-screen">
-      <div className="p-4 text-center text-2xl font-semibold border-b">
-        Smart Storage
-      </div>
-      <nav className="flex-1 p-4 columns-1 ">
+    <aside className="w-64 bg-background-secondary text-white flex flex-col min-h-screen">
+      {/* Header */}
+      <header className="p-6 border-b border-blue-900 text-center">
+        <h1 className="text-2xl font-semibold">Smart Storage</h1>
+      </header>
+
+      {/* Navigation */}
+      <nav className="flex-1 p-6">
         <ul className="space-y-4">
-          <li>
-            <button
-              onClick={() => setActivePage("estoques")}
-              className={sidebarButtonStyle}
-            >
-              Estoques
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActivePage("Histórico")}
-              className={sidebarButtonStyle}
-            >
-              Histórico
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActivePage("Alexa")}
-              className={sidebarButtonStyle}
-            >
-              Alexa
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActivePage("Chat")}
-              className={sidebarButtonStyle}
-            >
-              Chat
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActivePage("Configurações")}
-              className={sidebarButtonStyle}
-            >
-              Configurações
-            </button>
-          </li>
+          {[
+            { label: "Estoques", page: "estoques" },
+            { label: "Histórico", page: "Histórico" },
+            { label: "Alexa", page: "Alexa" },
+            { label: "Chat", page: "Chat" },
+            { label: "Configurações", page: "Configurações" },
+          ].map(({ label, page }) => (
+            <li key={page}>
+              <button
+                onClick={() => setActivePage(page)}
+                className={sidebarButtonStyle}
+                type="button"
+              >
+                {label}
+              </button>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      <footer className="p-4">
-        <div className="flex items-center gap-2">
-          <img className="w-12 p-2" src="src/assets/user-icon.svg" alt="usuario"></img>
-          <span>{userName}</span>
-        </div>
-        <div>
-          <button
-            onClick={handleLogout}
-            className="w-full px-4 border-1 border-red-900 py-3 hover:bg-red-800 rounded-lg font-medium transition-colors"
-          >
-            Sair
-          </button>
+      {/* Footer */}
+      <footer className="p-6 border-t border-blue-900">
+        <div className="flex items-center gap-3 mb-4">
+          <img
+            src="src/assets/user-icon.svg"
+            alt="Usuário"
+            className="w-12 h-12 p-2 rounded-full bg-blue-900"
+          />
+          <span className="text-lg font-medium truncate">{userName || "Carregando..."}</span>
         </div>
 
-        <div className="p-4 text-center text-sm text-gray-400">
+        <button
+          onClick={handleLogout}
+          className="w-full py-3 rounded-lg bg-red-700 hover:bg-red-800 transition-colors font-semibold"
+          type="button"
+        >
+          Sair
+        </button>
+
+        <p className="mt-6 text-center text-sm text-gray-400 select-none">
           © 2025 Smart Storage. Todos os direitos reservados.
-        </div>
+        </p>
       </footer>
-    </div>
+    </aside>
   );
 }
