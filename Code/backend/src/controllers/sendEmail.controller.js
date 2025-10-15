@@ -32,38 +32,44 @@ function sendEmail() {
 }
 
 
-export async function notifyExpiringItems(req, res) {
+export async function processExpirationNotifications() {
   try {
-    const items = await getItemsCloseToExpiration(7); // Itens que vencem nos próximos 7 dias
+    const items = await getItemsCloseToExpiration(7);
 
     if (!items.length) {
-      return res.status(200).json({ message: "Nenhum item próximo da expiração." });
+      console.log("📭 Nenhum item próximo da validade.");
+      return { message: "Nenhum item próximo da validade." };
     }
 
     for (const item of items) {
       await notificationService.sendEmail({
+        from: `"SmartStorage" <smartstorage21@gmail.com>`,
         to: item.ownerEmail,
-        subject: `⚠️ Item "${item.name}" está perto da expiração`,
+        subject: `⚠️ Item "${item.name}" próximo da expiração`,
         html: `
           <p>Olá,</p>
-          <p>O item <strong>${item.name}</strong> está com a data de expiração próxima: <strong>${item.expiration.toISOString().split('T')[0]}</strong>.</p>
-          <p>Verifique seu estoque e tome as medidas necessárias.</p>
+          <p>O item <strong>${item.name}</strong> expira em ${new Date(item.expiration).toLocaleDateString()}.</p>
         `,
       });
     }
 
-    res.status(200).json({
-      message: `E-mails enviados para ${items.length} usuários.`,
-    });
-
+    console.log(`✅ ${items.length} notificações enviadas.`);
+    return { message: `${items.length} notificações enviadas.` };
   } catch (error) {
-    console.error("Erro ao notificar usuários:", error);
-    res.status(500).json({
-      message: "Erro ao enviar e-mails.",
-      error: error.message
-    });
+    console.error("❌ Erro ao enviar notificações:", error);
+    throw error;
   }
 }
+
+export async function notifyExpiringItems(req, res) {
+  try {
+    const result = await processExpirationNotifications();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: "Erro ao notificar usuários" });
+  }
+}
+
 
 
 
