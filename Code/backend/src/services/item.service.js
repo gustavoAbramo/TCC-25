@@ -2,7 +2,7 @@ import { prisma } from "../../prisma/client.js";
 import { mongoClient } from "../../mongo/client.mongo.js";
 import { category } from "../../prisma/client/index.js";
 
-async function createHistory({ id_user, id_item, action, quantity }) {
+async function createHistory({ id_user, id_item, action, quantity, username, itemName }) {
   try {
     const db = await mongoClient(); // já retorna o DB
     const collection = db.collection("historico-estoque");
@@ -15,6 +15,8 @@ async function createHistory({ id_user, id_item, action, quantity }) {
     await collection.insertOne({
       id_user,
       id_item,
+      username,
+      itemName,
       quantity,
       action,
       createdAt: new Date(),
@@ -43,7 +45,7 @@ async function checkUserPermission(storageId, id_user) {
 }
 
 export async function createItemService(item) {
-  const { storageId, id_user, quantity, ...itemData } = item;
+  const { storageId, id_user, username, quantity, itemName, ...itemData } = item;
 
   await checkUserPermission(storageId, id_user);
 
@@ -103,6 +105,8 @@ export async function createItemService(item) {
     id_item: newItem.id_Item,
     action: "ADD_ITEM",
     quantity: newItem.quantity,
+    username,
+    itemName: newItem.name,
   });
 
   return newItem;
@@ -159,6 +163,8 @@ export async function deleteItemService(id_Item, id_user) {
     id_item: item.id_Item,
     action: "DELETE_ITEM",
     quantity: item.quantity,
+    username,
+    itemName: newItem.name,
   });
 
   await prisma.storage_Item.deleteMany({
@@ -219,6 +225,8 @@ export async function updateItemQuantityService(
     id_item: item.id_Item,
     action: "UPDATE_QUANTITY",
     quantity: quantityChange,
+    username,
+    itemName: newItem.name
   });
 
   return updated;

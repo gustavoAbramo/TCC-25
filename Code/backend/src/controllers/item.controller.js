@@ -22,6 +22,7 @@ export const addItemToStock = async (req, res) => {
 
   try {
     const id_user = req.user?.id_user;
+    const username = req.user?.name;
 
     if (!id_user) {
       return res.status(401).json({ success: false, message: "Usuário não autenticado." });
@@ -30,6 +31,7 @@ export const addItemToStock = async (req, res) => {
     const newItem = await createItemService({
       ...data,
       id_user,
+      username,
     });
 
     return res.status(201).json({
