@@ -2,7 +2,7 @@ import { prisma } from "../../prisma/client.js";
 import { mongoClient } from "../../mongo/client.mongo.js";
 import { category } from "../../prisma/client/index.js";
 
-async function createHistory({ id_user, id_item, action, quantity, username, itemName }) {
+async function createHistory({ id_user, id_item, action, quantity, username, itemName, unit }) {
   try {
     const db = await mongoClient(); // já retorna o DB
     const collection = db.collection("historico-estoque");
@@ -18,6 +18,7 @@ async function createHistory({ id_user, id_item, action, quantity, username, ite
       username,
       itemName,
       quantity,
+      unit,
       action,
       createdAt: new Date(),
     });
@@ -106,6 +107,7 @@ export async function createItemService(item) {
     action: "ADD_ITEM",
     quantity: newItem.quantity,
     username,
+    unit,
     itemName: newItem.name,
   });
 
@@ -136,7 +138,7 @@ export async function getItemsByStorageService(id_Storage) {
     expiration: item.expiration.toISOString().split("T")[0],
   }));
 }
-export async function deleteItemService(id_Item, id_user) {
+export async function deleteItemService(id_Item, id_user, username) {
   const item = await prisma.item.findUnique({
     where: { id_Item: Number(id_Item) },
     include: { Storage_belongs: true },
@@ -163,8 +165,9 @@ export async function deleteItemService(id_Item, id_user) {
     id_item: item.id_Item,
     action: "DELETE_ITEM",
     quantity: item.quantity,
+    unit: item.unit,
     username,
-    itemName: newItem.name,
+    itemName: item.name,
   });
 
   await prisma.storage_Item.deleteMany({
@@ -181,7 +184,8 @@ export async function deleteItemService(id_Item, id_user) {
 export async function updateItemQuantityService(
   id_Item,
   id_user,
-  quantityChange
+  quantityChange,
+  username
 ) {
   // Verifica se o item pertence a um Storage em que o usuário tem permissão
   const storageItem = await prisma.storage_Item.findFirst({
@@ -226,7 +230,8 @@ export async function updateItemQuantityService(
     action: "UPDATE_QUANTITY",
     quantity: quantityChange,
     username,
-    itemName: newItem.name
+    unit: item.unit,
+    itemName: item.name
   });
 
   return updated;

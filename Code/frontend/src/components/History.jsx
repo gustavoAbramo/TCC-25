@@ -35,7 +35,7 @@ export default function History() {
                 <ul>
                     {history.map((item) => (
                         <li key={item._id}>
-                            {item.username} adicionou {item.quantity} de {item.itemName} em {new Date(item.createdAt).toLocaleString()}
+                            {item.username} adicionou {item.quantity} {item.unit} de {item.itemName} em {new Date(item.createdAt).toLocaleString()}
                         </li>
                     ))}
                 </ul>
