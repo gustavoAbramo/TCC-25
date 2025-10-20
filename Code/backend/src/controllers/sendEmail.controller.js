@@ -3,7 +3,9 @@ import { getItemsCloseToExpiration } from '../services/item.service.js';
 
 console.log("DEBUG EMAIL:", {
   EMAIL_USER: process.env.EMAIL_USER,
-  EMAIL_APP_PASSWORD: process.env.EMAIL_APP_PASSWORD
+  GMAIL_CLIENT_ID: process.env.GMAIL_CLIENT_ID,
+  GMAIL_CLIENT_SECRET: process.env.GMAIL_CLIENT_SECRET,
+  GMAIL_REFRESH_TOKEN: process.env.GMAIL_REFRESH_TOKEN,
 });
 function sendEmail() {
   return async function(req, res) {
@@ -15,7 +17,9 @@ function sendEmail() {
     try {
       console.log("ENV:", {
         EMAIL_USER: process.env.EMAIL_USER,
-        EMAIL_APP_PASSWORD: process.env.EMAIL_APP_PASSWORD ? "definida" : "NÃO DEFINIDA",
+        GMAIL_CLIENT_ID: process.env.GMAIL_CLIENT_ID,
+        GMAIL_CLIENT_SECRET: process.env.GMAIL_CLIENT_SECRET,
+        GMAIL_REFRESH_TOKEN: process.env.GMAIL_REFRESH_TOKEN ? "definida" : "NÃO DEFINIDA",
       });
 
       await notificationService.sendEmail({
