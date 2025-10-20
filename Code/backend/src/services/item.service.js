@@ -5,7 +5,7 @@ import { category } from "../../prisma/client/index.js";
 async function createHistory({ id_user, id_item, action, quantity, username, itemName, unit }) {
   try {
     const db = await mongoClient(); // já retorna o DB
-    const collection = db.collection("historico-estoque");
+    const collection = db.collection("logsHistorico");
 
     await collection.createIndex(
       { createdAt: 1 },

@@ -10,8 +10,22 @@ let mongoInstance;
 
 export async function mongoClient() {
   if (!mongoInstance) {
-    mongoInstance = new MongoClient(mongoUrl);
-    await mongoInstance.connect();
+    try {
+      // verifica se a conexão é local (ex: mongodb://localhost:27017)
+      const isLocal = mongoUrl.includes("localhost") || mongoUrl.includes("127.0.0.1");
+
+      mongoInstance = new MongoClient(mongoUrl, isLocal ? {} : {
+        tls: true,
+        authMechanism: "SCRAM-SHA-256",
+      });
+
+      await mongoInstance.connect();
+      console.log(`✅ Conectado ao MongoDB (${isLocal ? "local" : "Azure"})!`);
+    } catch (error) {
+      console.error("❌ Erro ao conectar ao MongoDB:", error);
+      throw error;
+    }
   }
-  return mongoInstance.db(mongoDbName); 
+
+  return mongoInstance.db(mongoDbName);
 }
