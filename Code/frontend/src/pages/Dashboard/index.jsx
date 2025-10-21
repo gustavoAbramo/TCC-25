@@ -4,6 +4,7 @@ import Storages from "../../components/Storages";
 import History from "../../components/History";
 import Alexa from "../../components/Alexa";
 import Chat from "../../components/Chat";
+import Recipes from "../../components/Recipes";
 import Settings from "../../components/Settings";
 
 export default function DashboardPage({ userName }) {
@@ -19,6 +20,8 @@ export default function DashboardPage({ userName }) {
         return <Alexa />;
       case "Chat":
         return <Chat />;
+      case "Receitas":
+        return <Recipes />;
       case "Configurações":
         return <Settings />;
       default:
