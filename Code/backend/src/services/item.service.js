@@ -135,6 +135,7 @@ export async function getItemsByStorageService(id_Storage) {
     description: item.description,
     category: item.category,
     quantity: item.quantity,
+    unit: item.unit,
     expiration: item.expiration.toISOString().split("T")[0],
   }));
 }

@@ -59,13 +59,14 @@ export default function Storages() {
 
   const handleAddItem = async (storageId) => {
     const { name, description, expiration, category, quantity, unit } = itemData;
-    if (!name || !description || !expiration || !category || !quantity) return;
+    if (!name || !description || !expiration || !category || !quantity || !unit) return;
 
     try {
       setAddingItem(true);
       const payload = { name, description, expiration, category, quantity: Number(quantity), unit, storageId };
       const res = await api.post('/storages/Items', payload, { withCredentials: true });
-      const newItem = res.data;
+      const newItem = res.data.item ;
+      console.log('handleAddItem response:', res.data);
       setStorages(prev => prev.map(s => (s.id === storageId ? { ...s, items: [...s.items, newItem] } : s)));
       setItemData({ name: '', description: '', expiration: '', category: '', quantity: '', unit: '' });
       setActiveStorageId(null);
@@ -192,7 +193,7 @@ export default function Storages() {
                   ) : (
                     s.items.map((item) => (
                       <li key={item.id} className="bg-gray-800 border border-gray-700 rounded-lg p-3 flex justify-between items-center">
-                        <span className="font-medium text-blue-300">{item.name}</span>
+                        <span className="font-medium text-blue-300">{item.name} </span>
                         <span className="text-gray-400 text-sm">{item.quantity} {item.unit}</span>
                         <span className="text-xs text-gray-500">Validade: {item.expiration}</span>
                       </li>
