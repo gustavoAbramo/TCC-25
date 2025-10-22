@@ -1,6 +1,6 @@
 import { prisma } from "../../prisma/client.js";
 import { mongoClient } from "../../mongo/client.mongo.js";
-import { category } from "../../prisma/client/index.js";
+
 
 async function createHistory({ id_user, id_item, action, quantity, username, itemName, unit }) {
   try {
@@ -283,4 +283,52 @@ export async function getItemsCloseToExpiration(days = 7) {
       };
     })
     .filter((item) => item.ownerEmail); // Filtra apenas com e-mail válido
+}
+
+export async function searchItemToRecipeService(id_user, query) {
+  
+
+  const items = await prisma.item.findMany({
+    where: {
+      name: {
+        startsWith: query,
+      },
+      Storage_belongs: {
+        some: {
+          Storage: {
+            permissions: {
+              some: { id_user },
+            },
+          },
+        },
+      },
+    },
+    include: {
+      Storage_belongs: {
+        include: {
+          Storage: {
+            select: {
+              id_Storage: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    take: 15,
+  });
+
+  return {
+    items: items.flatMap((item) =>
+      item.Storage_belongs.map((sb) => ({
+        id: item.id_Item,
+        name: item.name,
+        storage: {
+          id: sb.Storage.id_Storage,
+          name: sb.Storage.name,
+        },
+      }))
+    ),
+  };
+  
 }

@@ -3,6 +3,7 @@ import {
   getItemsByStorageService,
   deleteItemService,
   updateItemQuantityService,
+  searchItemToRecipeService,
 } from "../services/item.service.js";
 import { createItemSchema } from "../utils/item.util.js";
 
@@ -25,7 +26,9 @@ export const addItemToStock = async (req, res) => {
     const username = req.user?.name;
 
     if (!id_user) {
-      return res.status(401).json({ success: false, message: "Usuário não autenticado." });
+      return res
+        .status(401)
+        .json({ success: false, message: "Usuário não autenticado." });
     }
 
     const newItem = await createItemService({
@@ -43,21 +46,21 @@ export const addItemToStock = async (req, res) => {
     res.status(error.statusCode || 500).json({
       success: false,
       message: error.message || "Erro interno ao adicionar item.",
-    }
-    );}
+    });
+  }
 };
 export async function getItemsByStorage(req, res) {
   const { id } = req.params;
-  
+
   if (isNaN(Number(id))) {
-    return res.status(400).json({ success: false, message: "ID do estoque inválido." });
+    return res
+      .status(400)
+      .json({ success: false, message: "ID do estoque inválido." });
   }
 
   try {
-
     const items = await getItemsByStorageService(Number(id));
     return res.status(200).json({ success: true, items });
-    
   } catch (error) {
     res.status(error.statusCode || 500).json({
       success: false,
@@ -72,11 +75,15 @@ export async function deleteItem(req, res) {
     const id_user = req.user?.id_user;
 
     if (!id_user) {
-      return res.status(401).json({ success: false, message: "Usuário não autenticado." });
+      return res
+        .status(401)
+        .json({ success: false, message: "Usuário não autenticado." });
     }
 
     if (!id_Item || isNaN(Number(id_Item))) {
-      return res.status(400).json({ success: false, message: "ID do item inválido." });
+      return res
+        .status(400)
+        .json({ success: false, message: "ID do item inválido." });
     }
 
     const result = await deleteItemService(Number(id_Item), id_user);
@@ -97,7 +104,9 @@ export async function updateItemQuantity(req, res) {
     const id_user = req.user?.id_user; // pega do token
 
     if (!id_user)
-      return res.status(401).json({ success: false, message: "Usuário não autenticado" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Usuário não autenticado" });
 
     const updatedItem = await updateItemQuantityService(
       Number(id_Item),
@@ -108,6 +117,29 @@ export async function updateItemQuantity(req, res) {
     res.json({ success: true, item: updatedItem });
   } catch (err) {
     console.error("Erro ao atualizar quantidade:", err);
-    res.status(500).json({ success: false, message: "Erro interno no servidor" });
+    res
+      .status(500)
+      .json({ success: false, message: "Erro interno no servidor" });
+  }
+}
+
+export async function searchItemToRecipeController(req, res) {
+  const { id_user } = req.user?.id_user;
+
+  const { query } = req.body;
+  if (!query || typeof query !== "string" || query.trim() === "") {
+    return res.status(400).json({ message: "Query inválida" });
+  }
+  try {
+    const results = await searchItemToRecipeController(
+      id_user,
+      query
+    );
+    return res.status(200).json({ success: true, ...results });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
