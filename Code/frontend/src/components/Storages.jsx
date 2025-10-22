@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api.service';
 
 export default function Storages() {
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [permissionType, setPermissionType] = useState("guest"); // Default: Visitante
   const [showForm, setShowForm] = useState(false);
   const [storages, setStorages] = useState([]);
   const [name, setName] = useState('');
@@ -74,6 +77,19 @@ export default function Storages() {
       alert(err.response?.data?.message || 'Erro ao adicionar item.');
     } finally {
       setAddingItem(false);
+    }
+  };
+
+  const handleAddPermissions = async (storageId, permissionType) => {
+    try {
+      const res = permissionType === 'coOwner' ? '/permissions/beCoOwner' : '/permissions/beGuest';
+      await api.post(res, { storageId }, { withCredentials: true });
+      alert(`✅ Permissão de ${permissionType === 'coOwner' ? 'Co-Owner' : 'Guest'} adicionada com sucesso!`);
+      setShowPermissionModal(false);
+      setEmail("");
+      setPermissionType("guest");
+    } catch (err) {
+      alert(err.response?.data?.message || 'Erro ao adicionar permissão.');
     }
   };
 
@@ -177,6 +193,13 @@ export default function Storages() {
                   >
                     {itemsLoading && showItemsFor === s.id ? 'Carregando...' : 'Ver Itens'}
                   </button>
+                  <button 
+                    onClick={() => setShowPermissionModal(true)}
+                    className="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition">
+
+
+                    Configurações
+                  </button>
                   <button
                     onClick={() => setActiveStorageId(s.id)}
                     className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transition"
@@ -186,6 +209,54 @@ export default function Storages() {
                 </div>
               </div>
 
+      {showPermissionModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-gray-900 border border-gray-700 p-8 rounded-2xl w-full max-w-lg relative shadow-2xl animate-fadeIn">
+            <h2 className="text-xl font-bold mb-4">Permissões</h2>
+
+            {/* Input para o e-mail */}
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">E-mail</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Digite o e-mail"
+                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Dropdown para selecionar a permissão */}
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Permissão</label>
+              <select
+                value={permissionType}
+                onChange={(e) => setPermissionType(e.target.value)}
+                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="guest">Visitante</option>
+                <option value="coOwner">Coproprietário</option>
+              </select>
+            </div>
+
+            {/* Botões de ação */}
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowPermissionModal(false)}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleAddPermissions}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Adicionar
+              </button>
+              </div>
+          </div>
+        </div>
+      )}
               {showItemsFor === s.id && (
                 <ul className="mt-4 space-y-2">
                   {s.items.length === 0 ? (
