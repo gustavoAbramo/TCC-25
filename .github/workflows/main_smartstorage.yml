@@ -14,6 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL_2: ${{ secrets.DATABASE_URL_2 }}
+      EMAIL_USER: ${{ secrets.EMAIL_USER }}
+      GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+      GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+      GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MONGO_DB_NAME: ${{ secrets.MONGO_DB_NAME }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -42,12 +53,24 @@ jobs:
         with:
           name: node-app
           path: ./Code/backend/backend.zip
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL_2: ${{ secrets.DATABASE_URL_2 }}
+      EMAIL_USER: ${{ secrets.EMAIL_USER }}
+      GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+      GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+      GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MONGO_DB_NAME: ${{ secrets.MONGO_DB_NAME }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - name: Download artifact from build job
