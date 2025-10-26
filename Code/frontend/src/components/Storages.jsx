@@ -561,7 +561,7 @@ export default function Storages() {
                           />
                         </svg>
                         {itemsLoading && showItemsFor === s.id
-                          ? "Carregando..."
+                          ? "Carregando"
                           : "Ver Itens"}
                       </button>
 
@@ -795,6 +795,30 @@ export default function Storages() {
                         </button>
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {showItemsFor === s.id && (
+                  <div className="p-6 relative">
+                    <button
+                      onClick={() => setShowItemsFor(null)}
+                      className="absolute top-2 right-2 text-slate-400 hover:text-white"
+                    >
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                    {/* conteúdo do modal de itens */}
                   </div>
                 )}
 
