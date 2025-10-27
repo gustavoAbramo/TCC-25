@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DATABASE_URL_2: ${{ secrets.DATABASE_URL_2 }}
@@ -25,22 +25,40 @@ jobs:
       MONGO_DB_NAME: ${{ secrets.MONGO_DB_NAME }}
       NODE_ENV: ${{ secrets.NODE_ENV }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      DEBUG: "prisma:*" # <--- Log detalhado do Prisma
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 📦 Checkout do repositório
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      - name: 🧩 Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
 
-      - name: Prisma generate and migrate
+      # 💡 Testa conexão antes de tentar migrar o banco
+      - name: 🔍 Testar conexão com o banco MySQL
         run: |
+          echo "🔍 Testando conexão com o banco..."
+          for i in {1..5}; do
+            nc -z smart-storage-db.cehgs2k4wk6h.us-east-1.rds.amazonaws.com 3306 && echo "✅ Banco acessível!" && exit 0
+            echo "⏳ Tentativa $i: ainda sem resposta..."
+            sleep 5
+          done
+          echo "❌ Falha: não foi possível acessar o banco de dados."
+          echo "💡 Verifique se a instância RDS está pública e ativa no console da AWS."
+          exit 1
+
+      # Gera o Prisma Client e aplica as migrações
+      - name: 🧱 Prisma generate e migrate (logs detalhados)
+        run: |
+          echo "📜 Gerando Prisma Client e aplicando migrações..."
           npx prisma generate
-          npx prisma migrate deploy
+          npx prisma migrate deploy --schema=prisma/schema.prisma --print
+          echo "✅ Prisma atualizado com sucesso!"
         working-directory: ./Code/backend
-          
-      - name: npm install, build, and test
+
+      - name: 🧩 Instalar dependências, build e testes
         run: |
           npm install
           npm run build --if-present
@@ -48,7 +66,7 @@ jobs:
           zip -r backend.zip .
         working-directory: ./Code/backend
 
-      - name: Upload artifact for deployment job
+      - name: 📦 Upload artifact para o deploy
         uses: actions/upload-artifact@v4
         with:
           name: node-app
@@ -58,8 +76,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DATABASE_URL_2: ${{ secrets.DATABASE_URL_2 }}
@@ -73,20 +91,20 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
-      - name: Download artifact from build job
+      - name: 📥 Baixar artifact do job de build
         uses: actions/download-artifact@v4
         with:
           name: node-app
           path: ./Code/backend
       
-      - name: Login to Azure
+      - name: 🔐 Login na Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7048918B5F3E47F4B965664567439AF4 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A804F04995404C48938A6CB7CBFF3810 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_438721A167D94AE891BBF334902B35ED }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: 🚀 Deploy para o Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
