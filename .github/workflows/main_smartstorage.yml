@@ -43,7 +43,7 @@ jobs:
           echo "📜 Gerando Prisma Client e aplicando migrações..."
           npm install
           npx prisma generate
-          npx prisma migrate deploy --schema=prisma/schema.prisma --print
+          npx prisma migrate deploy --schema=prisma/schema.prisma
           echo "✅ Prisma atualizado com sucesso!"
         working-directory: ./Code/backend
 
