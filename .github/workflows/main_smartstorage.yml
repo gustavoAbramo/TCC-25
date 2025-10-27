@@ -36,23 +36,12 @@ jobs:
         with:
           node-version: '22.x'
 
-      # 💡 Testa conexão antes de tentar migrar o banco
-      - name: 🔍 Testar conexão com o banco MySQL
-        run: |
-          echo "🔍 Testando conexão com o banco..."
-          for i in {1..5}; do
-            nc -z smart-storage-db.cehgs2k4wk6h.us-east-1.rds.amazonaws.com 3306 && echo "✅ Banco acessível!" && exit 0
-            echo "⏳ Tentativa $i: ainda sem resposta..."
-            sleep 5
-          done
-          echo "❌ Falha: não foi possível acessar o banco de dados."
-          echo "💡 Verifique se a instância RDS está pública e ativa no console da AWS."
-          exit 1
 
       # Gera o Prisma Client e aplica as migrações
       - name: 🧱 Prisma generate e migrate (logs detalhados)
         run: |
           echo "📜 Gerando Prisma Client e aplicando migrações..."
+          npm install
           npx prisma generate
           npx prisma migrate deploy --schema=prisma/schema.prisma --print
           echo "✅ Prisma atualizado com sucesso!"
