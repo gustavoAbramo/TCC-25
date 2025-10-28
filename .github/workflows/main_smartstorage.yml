@@ -37,14 +37,6 @@ jobs:
           node-version: '22.x'
 
 
-      # Gera o Prisma Client e aplica as migrações
-      - name: 🧱 Prisma generate e migrate (logs detalhados)
-        run: |
-          npm install
-          npx prisma generate
-          echo "✅ Prisma atualizado com sucesso!"
-        working-directory: ./Code/backend
-
       - name: 🧩 Instalar dependências, build e testes
         run: |
           npm install
