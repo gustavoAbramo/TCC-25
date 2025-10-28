@@ -36,6 +36,11 @@ app.use('/users', userRoutes);
 app.use('/reset-password', userRoutes);
 app.use('/api/chat', chatRoutes);
 
+app.get('/', (req, res) => {
+    res.send('Smart Storage API is running');
+});
+
+
 startSchedulers();
 
 export default app;  // Exporta o app para o server.js usar
