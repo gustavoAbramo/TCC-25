@@ -36,16 +36,13 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: 'Apply database migrations'
+      - name: build e test backend
         working-directory: ./Code/backend
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npx prisma migrate deploy
-
-      - name: build e test backend
-        working-directory: ./Code/backend
         run: |
           npm install
+          npx prisma migrate deploy
           npm run build --if-present
           npm run test --if-present
           zip -r backend.zip .
