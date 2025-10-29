@@ -36,16 +36,6 @@ jobs:
         with:
           node-version: '22.x'
 
-
-
-      - name: 'Install Prisma CLI'
-        working-directory: ./Code/backend
-        run: npm install --save-dev prisma
-
-      - name: 'Generate Prisma Client'
-        working-directory: ./Code/backend
-        run: npx prisma generate
-
       - name: 'Apply database migrations'
         working-directory: ./Code/backend
         env:
@@ -56,6 +46,7 @@ jobs:
         working-directory: ./Code/backend
         run: |
           npm install
+          npx prisma generate
           npm run build --if-present
           npm run test --if-present
           zip -r backend.zip .
