@@ -75,6 +75,13 @@ jobs:
         with:
           name: node-app
           path: ./Code/backend
+
+      - name: 🛠️ Prisma generate & migrate
+        run: |
+          cd ./Code/backend
+          npx prisma generate
+          npx prisma migrate deploy
+          
       
       - name: 🔐 Login na Azure
         uses: azure/login@v2
