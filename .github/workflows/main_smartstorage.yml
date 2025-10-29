@@ -37,7 +37,7 @@ jobs:
           node-version: '22.x'
 
 
-      - name: 🧩 Instalar dependências, build e testes
+      - name: 🧩 Instalar dependências, build e testes e geraçao do migrate
         run: |
           npm install
           npm run build --if-present
@@ -75,13 +75,6 @@ jobs:
         with:
           name: node-app
           path: ./Code/backend
-
-      - name: 🛠️ Prisma generate & migrate
-        run: |
-          cd ./Code/backend
-          npx prisma generate
-          npx prisma migrate deploy
-          
       
       - name: 🔐 Login na Azure
         uses: azure/login@v2
