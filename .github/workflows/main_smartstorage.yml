@@ -37,32 +37,28 @@ jobs:
           node-version: '22.x'
 
 
-      - name: 🧩 Instalar dependências, build e testes e geraçao do migrate
-        run: |
-          npm install
-        working-directory: ./Code/backend
-
 
       - name: 'Install Prisma CLI'
-        run: npm install --save-dev prisma
         working-directory: ./Code/backend
+        run: npm install --save-dev prisma
 
       - name: 'Generate Prisma Client'
-        run: npx prisma generate
         working-directory: ./Code/backend
+        run: npx prisma generate
 
       - name: 'Apply database migrations'
+        working-directory: ./Code/backend
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma migrate deploy
-        working-directory: ./Code/backend
 
       - name: build e test backend
+        working-directory: ./Code/backend
         run: |
+          npm install
           npm run build --if-present
           npm run test --if-present
           zip -r backend.zip .
-          working-directory: ./Code/backend
 
       - name: 📦 Upload artifact para o deploy
         uses: actions/upload-artifact@v4
@@ -109,3 +105,4 @@ jobs:
           app-name: 'SmartStorage'
           slot-name: 'Production'
           package: ./Code/backend/backend.zip
+          
