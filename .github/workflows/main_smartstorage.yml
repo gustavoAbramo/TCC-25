@@ -46,7 +46,6 @@ jobs:
         working-directory: ./Code/backend
         run: |
           npm install
-          npx prisma generate
           npm run build --if-present
           npm run test --if-present
           zip -r backend.zip .
@@ -96,4 +95,5 @@ jobs:
           app-name: 'SmartStorage'
           slot-name: 'Production'
           package: ./Code/backend/backend.zip
+
           
