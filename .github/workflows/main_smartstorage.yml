@@ -78,7 +78,7 @@ jobs:
           name: node-app
           path: ./Code/backend
         
-        - name: Run Prisma migrations
+      - name: Run Prisma migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma migrate deploy
