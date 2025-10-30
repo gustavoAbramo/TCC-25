@@ -82,8 +82,7 @@ jobs:
         working-directory: ./Code/backend
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npx prisma migrate deploy --schema=prisma/schema.prisma
-
+        run: npx prisma migrate deploy --schema=Code/backend/prisma/schema.prisma
       - name: 🔐 Login na Azure
         uses: azure/login@v2
         with:
