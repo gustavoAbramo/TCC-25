@@ -41,6 +41,18 @@ app.get('/', (req, res) => {
 });
 
 
+// Caso nenhuma rota acima seja encontrada → retorna 404
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Rota não encontrada' });
+});
+
+// Middleware de tratamento de erros genéricos
+app.use((err, req, res, next) => {
+  console.error('Erro no servidor:', err.stack);
+  res.status(500).json({ message: 'Erro interno no servidor' });
+});
+
+
 startSchedulers();
 
 export default app;  // Exporta o app para o server.js usar

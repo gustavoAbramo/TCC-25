@@ -11,14 +11,18 @@ import DashboardPage from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import ResetPasswordPage from "./components/ResetPassword";
 import Settings from "./components/Settings";
+import NotFound from "./components/NotFound";
 
 export default function AppRoutes({userName, setUserName}) {
   const location = useLocation();
   const hideHeaderOn = ["/login", "/cadastro", "/telaInicial"];
   const hideFooterOn = ["/login", "/cadastro", "/telaInicial"];
+  const isNotFoundPage = location.pathname !== "/" &&
+        !["/login", "/cadastro", "/telaInicial", "/sobre", "/contato", "/settings", "/reset-password"]
+          .includes(location.pathname);
   return (
     <>
-      {!hideHeaderOn.includes(location.pathname) && <Header />}
+      {!hideHeaderOn.includes(location.pathname) && !isNotFoundPage && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sobre" element={<About />} />
@@ -33,8 +37,9 @@ export default function AppRoutes({userName, setUserName}) {
           </PrivateRoute>
 
         } />
-</Routes>
-      {!hideFooterOn.includes(location.pathname) && <Footer />}
+        <Route path="*" element={<NotFound />} /> {/* 👈 */}
+      </Routes>
+      {!hideFooterOn.includes(location.pathname) && !isNotFoundPage && <Footer />}
     </>
   );
 }

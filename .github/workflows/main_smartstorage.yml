@@ -93,4 +93,5 @@ jobs:
           app-name: 'SmartStorage'
           slot-name: 'Production'
           package: ./Code/backend/backend.zip
+
           
