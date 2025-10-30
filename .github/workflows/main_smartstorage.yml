@@ -43,7 +43,6 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           npm install
-          npx prisma migrate dev
           npm run build --if-present
           npm run test --if-present
           zip -r backend.zip .
@@ -78,7 +77,12 @@ jobs:
         with:
           name: node-app
           path: ./Code/backend
-      
+        
+        - name: Run Prisma migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx prisma migrate deploy
+
       - name: 🔐 Login na Azure
         uses: azure/login@v2
         with:
