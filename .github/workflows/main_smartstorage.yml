@@ -79,7 +79,7 @@ jobs:
           path: ./Code/backend
         
       - name: 🧩 Rodar migrações Prisma
-        working-directory: ./Code/backend/src/prisma
+        working-directory: ./Code/backend/prisma
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma migrate deploy --schema=schema.prisma
