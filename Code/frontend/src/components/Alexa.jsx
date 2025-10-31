@@ -1,7 +1,7 @@
 export default function Alexa() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-white p-6">
-            <div className="w-full max-w-lg bg-gray-900/70 border border-gray-700 rounded-2xl shadow-lg p-6 backdrop-blur-md">
+        <div className="w-full bg-background p-4 sm:p-6 lg:p-8 flex items-center justify-center">
+            <div className="w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 text-white text-center">
                 <div className="text-center mb-6">
                     <h1 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2">
                         ⚙️ Gerenciar Alexa

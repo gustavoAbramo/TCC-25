@@ -27,7 +27,7 @@ export default function History() {
   }, []);
 
   return (
-    <div className="p-8 min-h-screen bg-background">
+    <div className="w-full bg-background p-4 sm:p-6 lg:p-8">
       {/* Cabeçalho */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-blue-700">Histórico de Atividades</h1>

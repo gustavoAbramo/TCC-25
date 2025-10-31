@@ -125,7 +125,8 @@ export async function updateItemQuantity(req, res) {
 
 export async function searchItemToRecipeController(req, res) {
   const id_user  = req.user?.id_user;
-  const query  = req.body.query;
+  // GET request usa query params (mais semântico para busca)
+  const query  = req.query.query;
   
   if (!query || typeof query !== "string" || query.trim() === "") {
     return res.status(400).json({ message: "Query inválida" });

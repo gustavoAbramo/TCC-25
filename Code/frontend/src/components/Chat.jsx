@@ -404,98 +404,138 @@ export default function Chat() {
   };
 
   return (
-  <div className="flex flex-col md:flex-row gap-6 bg-gray-900 min-h-screen w-full overflow-hidden text-white relative">
-    {/* Toast (aparece no topo e some automaticamente) */}
-    {toast && (
-      <div
-        className={`absolute top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl text-sm text-center shadow-lg transition-all duration-300
-          ${
-            toast.type === "success"
-              ? "bg-green-600 text-white border border-green-700 shadow-green-800/30 animate-slideDownFade"
-              : toast.type === "warning"
-              ? "bg-yellow-500 text-gray-900 border border-yellow-600 shadow-yellow-800/30 animate-slideDownFade"
-              : "bg-red-600 text-white border border-red-700 shadow-red-900/30 animate-slideDownFade"
-          }`}
-      >
-        {toast.type === "success" ? (
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        ) : toast.type === "warning" ? (
-          <svg className="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.29 3.86l-7.5 13A1 1 0 003.75 18h16.5a1 1 0 00.86-1.5l-7.5-13a1 1 0 00-1.72 0z" />
-          </svg>
-        ) : (
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+    <div className="w-full bg-background p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        {/* Toast (aparece no topo e some automaticamente) */}
+        {toast && (
+          <div
+            className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl text-sm text-center shadow-lg transition-all duration-300
+              ${
+                toast.type === "success"
+                  ? "bg-green-600 text-white border border-green-700 shadow-green-800/30 animate-slideDownFade"
+                  : toast.type === "warning"
+                  ? "bg-yellow-500 text-gray-900 border border-yellow-600 shadow-yellow-800/30 animate-slideDownFade"
+                  : "bg-red-600 text-white border border-red-700 shadow-red-900/30 animate-slideDownFade"
+              }`}
+          >
+            {toast.type === "success" ? (
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            ) : toast.type === "warning" ? (
+              <svg className="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.29 3.86l-7.5 13A1 1 0 003.75 18h16.5a1 1 0 00.86-1.5l-7.5-13a1 1 0 00-1.72 0z" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            )}
+            <div className="text-sm font-medium">{toast.message}</div>
+            <button
+              onClick={() => setToast(null)}
+              className="ml-3 text-white/70 hover:text-white transition"
+            >
+              ✕
+            </button>
+          </div>
         )}
-        <div className="text-sm font-medium">{toast.message}</div>
-        <button
-          onClick={() => setToast(null)}
-          className="ml-3 text-white/70 hover:text-white transition"
-        >
-          ✕
-        </button>
-      </div>
-    )}
 
-    {/* Sidebar */}
-    <aside className="md:w-1/3 bg-gray-800 rounded-none md:rounded-r-2xl p-4 flex flex-col justify-between md:min-h-screen shadow-lg">
-      <div>
-        <h2 className="text-xl font-semibold mb-4 text-white">Dicas Rápidas</h2>
-        <div className="text-xs text-white mb-2">
-          {user ? `🔐 Logado como ${user.name}` : "🚫 Não logado"}
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              Chat de Nutrição
+            </h1>
+            <p className="text-slate-400 mt-1">
+              Converse com seu assistente de nutrição
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <span className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl text-sm">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Logado como {user.name}
+              </span>
+            ) : (
+              <span className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-xl text-sm">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                Não logado
+              </span>
+            )}
+            <button
+              onClick={clearChat}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 rounded-xl text-sm transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30 text-white font-medium"
+            >
+              <TrashIcon className="w-4 h-4" />
+              Limpar
+            </button>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-3">
+        {/* Área de Dicas Rápidas e Funções */}
+        <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {quickQuestions.map((q, i) => (
             <button
               key={i}
               onClick={() => setInputMessage(q.label)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-full text-sm transition shadow text-white"
+              className="flex items-center gap-2 px-4 py-3 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl text-sm transition-all duration-200 shadow-lg hover:shadow-xl text-white font-medium hover:scale-[1.02] active:scale-95"
             >
-              {q.icon} {q.label}
+              <span className="text-lg">{q.icon}</span> {q.label}
             </button>
           ))}
+        </div>
 
+        {/* Botão de Funções */}
+        <div className="mb-6">
           <button
             onClick={() => setShowFuncoes(!showFuncoes)}
-            className="flex items-center justify-between gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-full text-sm transition shadow text-white"
+            className="flex items-center justify-between gap-2 px-4 py-3 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl text-sm transition-all duration-200 shadow-lg hover:shadow-xl text-white font-medium w-full sm:w-auto"
           >
-            ⚙️ Funções <span>{showFuncoes ? "▲" : "▼"}</span>
+            <span className="flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Funções
+            </span>
+            <span className="transition-transform duration-200">{showFuncoes ? "▲" : "▼"}</span>
           </button>
 
           {showFuncoes && (
-            <div className="ml-4 mt-2 flex flex-col gap-2">
+            <div className="mt-3 p-4 bg-slate-900 border border-slate-800 rounded-xl flex flex-col gap-2">
               <button
                 onClick={() => sendMessage("funcoes")}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm text-white"
+                className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-left text-sm text-white transition-all border border-slate-700"
               >
                 📜 Mostrar funções
               </button>
 
               <button
                 onClick={() => setInputMessage('criar estoque chamado "MeuEstoque"')}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm text-white"
+                className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-left text-sm text-white transition-all border border-slate-700"
               >
                 📦 Criar estoque (preencher input)
               </button>
 
               <button
                 onClick={() => setShowAddItemForm((s) => !s)}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm text-white"
+                className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-left text-sm text-white transition-all border border-slate-700"
               >
                 ➕ Adicionar item ao estoque
               </button>
 
               {showAddItemForm && (
-                <div className="mt-2 p-3 bg-gray-700 rounded-lg flex flex-col gap-3">
+                <div className="mt-3 p-4 bg-slate-800/70 border border-slate-700 rounded-xl flex flex-col gap-3">
                   <input
                     value={formItemName}
                     onChange={(e) => setFormItemName(e.target.value)}
                     placeholder='Nome do item (ex: "Maçã")'
-                    className="p-2 rounded bg-gray-800 text-white text-sm"
+                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
 
                   <input
@@ -504,29 +544,27 @@ export default function Chat() {
                     type="number"
                     min={1}
                     placeholder="Quantidade"
-                    className="p-2 rounded bg-gray-800 text-white text-sm"
+                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
 
-                  {/* Categoria */}
                   <div className="flex gap-2 items-center">
-                    <label className="text-xs text-gray-300 w-20">Categoria:</label>
+                    <label className="text-xs text-slate-300 w-20">Categoria:</label>
                     <select
                       value={formItemCategory}
                       onChange={(e) => setFormItemCategory(e.target.value)}
-                      className="flex-1 p-2 rounded bg-gray-800 text-white text-sm"
+                      className="flex-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     >
                       <option value="comida">🍽️ Comida</option>
                       <option value="bebida">🥤 Bebida</option>
                     </select>
                   </div>
 
-                  {/* Unidade */}
                   <div className="flex gap-2 items-center">
-                    <label className="text-xs text-gray-300 w-20">Unidade:</label>
+                    <label className="text-xs text-slate-300 w-20">Unidade:</label>
                     <select
                       value={formItemUnit}
                       onChange={(e) => setFormItemUnit(e.target.value)}
-                      className="flex-1 p-2 rounded bg-gray-800 text-white text-sm"
+                      className="flex-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     >
                       <option value="unidades">Unidades</option>
                       <option value="gramas">Gramas</option>
@@ -536,13 +574,12 @@ export default function Chat() {
                     </select>
                   </div>
 
-                  {/* Estoque */}
                   <div className="flex gap-2 items-center">
-                    <label className="text-xs text-gray-300 w-20">Estoque:</label>
+                    <label className="text-xs text-slate-300 w-20">Estoque:</label>
                     <select
                       value={selectedStorageId || ""}
                       onChange={(e) => setSelectedStorageId(Number(e.target.value))}
-                      className="flex-1 p-2 rounded bg-gray-800 text-white text-sm"
+                      className="flex-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     >
                       {storages.length === 0 ? (
                         <option value="">(nenhum estoque)</option>
@@ -556,89 +593,83 @@ export default function Chat() {
                     </select>
                   </div>
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-2">
                     <button
                       onClick={handleAddItemSubmit}
-                      className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded text-sm text-white transition"
+                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl text-sm text-white transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 font-medium"
                     >
                       Adicionar
                     </button>
                     <button
                       onClick={() => setShowAddItemForm(false)}
-                      className="px-3 py-2 bg-gray-600 hover:bg-gray-500 rounded text-sm text-white transition"
+                      className="px-4 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm text-white transition-all border border-slate-600"
                     >
                       Cancelar
                     </button>
                   </div>
                 </div>
               )}
-
-              <button
-                onClick={clearChat}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm text-white"
-              >
-                🧹 Limpar chat
-              </button>
             </div>
           )}
+        </div>
 
-          <button
-            onClick={clearChat}
-            className="flex items-center gap-2 mt-4 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-full text-sm transition shadow text-white"
-          >
-            <TrashIcon className="w-4 h-4" />
-            Limpar
-          </button>
+        {/* Chat Area */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+          <div className="flex-1 overflow-y-auto space-y-4 mb-6 max-h-[600px] scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800 pr-2">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}
+              >
+                <div
+                  className={`p-4 rounded-2xl max-w-[80%] shadow-lg ${
+                    msg.role === "assistant"
+                      ? "bg-gradient-to-br from-blue-600 to-blue-700 text-white border border-blue-500/20"
+                      : "bg-slate-800 text-white border border-slate-700/50"
+                  }`}
+                >
+                  <div className="prose prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-white prose-ul:text-white prose-ol:text-white prose-li:text-white prose-code:text-white">
+                    <ReactMarkdown>
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 text-white animate-pulse shadow-lg border border-blue-500/20">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                    <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+                    <span className="ml-2">Digitando...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="flex items-center gap-2 border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50 shadow-lg">
+            <input
+              type="text"
+              placeholder="Digite sua pergunta..."
+              className="flex-1 p-4 bg-transparent text-white placeholder-slate-400 focus:outline-none"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <button
+              onClick={() => sendMessage()}
+              disabled={isLoading}
+              className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:from-blue-600/50 disabled:to-blue-700/50 disabled:cursor-not-allowed text-white transition-all flex items-center gap-1 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30"
+            >
+              <PaperAirplaneIcon className="w-5 h-5 rotate-45" />
+            </button>
+          </div>
         </div>
       </div>
-    </aside>
-
-    {/* Chat */}
-    <main className="md:w-2/3 flex flex-col bg-gray-800 rounded-none md:rounded-l-2xl p-4 shadow-lg">
-      <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pr-2">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}
-          >
-            <div
-              className={`p-4 rounded-2xl max-w-[80%] shadow ${
-                msg.role === "assistant"
-                  ? "bg-blue-700 text-white"
-                  : "bg-gray-700 text-white"
-              }`}
-            >
-              <ReactMarkdown>{msg.content}</ReactMarkdown>
-            </div>
-          </div>
-        ))}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="p-4 rounded-2xl bg-blue-700 text-white animate-pulse shadow">
-              Digitando...
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      <div className="flex items-center border border-gray-600 rounded-lg overflow-hidden">
-        <input
-          type="text"
-          placeholder="Digite sua pergunta..."
-          className="flex-1 p-3 bg-gray-800 text-white placeholder-gray-400 focus:outline-none"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={handleKeyPress}
-        />
-        <button
-          onClick={() => sendMessage()}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1"
-        >
-          <PaperAirplaneIcon className="w-5 h-5 rotate-45" />
-        </button>
-      </div>
-    </main>
-  </div>
-);
+    </div>
+  );
 }
