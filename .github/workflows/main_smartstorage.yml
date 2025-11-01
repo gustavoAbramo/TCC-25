@@ -44,7 +44,7 @@ jobs:
 
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -f -N \
             -L 3306:smart-storage-db.cehgs2k4wk6h.us-east-1.rds.amazonaws.com:3306 \
-            ec2-user@${{ secrets.EC2_PUBLIC_IP }}
+            ec2-user@${{ secrets.EC2_HOST }}
             
 
       - name: build e test backend
@@ -105,3 +105,4 @@ jobs:
           package: ./Code/backend/backend.zip
 
           
+
