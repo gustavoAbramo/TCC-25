@@ -36,6 +36,16 @@ jobs:
         with:
           node-version: '22.x'
 
+      - name: 🌐 Criar túnel SSH para o RDS
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -f -N \
+            -L 3306:smart-storage-db.cehgs2k4wk6h.us-east-1.rds.amazonaws.com:3306 \
+            ec2-user@${{ secrets.EC2_PUBLIC_IP }}
+            
 
       - name: build e test backend
         working-directory: ./Code/backend
@@ -43,6 +53,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           npm install
+          npx prisma generate
           npm run build --if-present
           npm run test --if-present
           zip -r backend.zip .
