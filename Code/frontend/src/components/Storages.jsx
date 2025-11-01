@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import api from "../services/api.service.js";
 
@@ -14,8 +12,7 @@ export default function Storages() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeStorageId, setActiveStorageId] = useState(null);
-  const [currentStorageForPermission, setCurrentStorageForPermission] =
-    useState(null);
+  const [currentStorageForPermission, setCurrentStorageForPermission] = useState(null);
   const [itemData, setItemData] = useState({
     name: "",
     description: "",
@@ -63,9 +60,7 @@ export default function Storages() {
         { withCredentials: true }
       );
       console.log("[v0] Storage created:", res.data); // Debug log
-
       await fetchStorages();
-
       setName("");
       setLocation("");
       setShowForm(false);
@@ -77,15 +72,9 @@ export default function Storages() {
   };
 
   const handleAddItem = async (storageId) => {
-    const { name, description, expiration, category, quantity, unit } =
-      itemData;
+    const { name, description, expiration, category, quantity, unit } = itemData;
     if (
-      !name ||
-      !description ||
-      !expiration ||
-      !category ||
-      !quantity ||
-      !unit
+      !name || !description || !expiration || !category || !quantity || !unit
     ) {
       alert("Por favor, preencha todos os campos.");
       return;
@@ -107,7 +96,6 @@ export default function Storages() {
       });
       console.log("[v0] Item added:", res.data); // Debug log
       const newItem = res.data.item;
-
       setStorages((prev) =>
         prev.map((s) => {
           if (s.id === storageId) {
@@ -117,7 +105,6 @@ export default function Storages() {
           return s;
         })
       );
-
       setItemData({
         name: "",
         description: "",
@@ -137,30 +124,52 @@ export default function Storages() {
   };
 
   const handleAddPermissions = async () => {
-    if (!currentStorageForPermission) return;
+    if (!currentStorageForPermission || !email) {
+      alert("Por favor, preencha o e-mail e selecione um estoque.");
+      return;
+    }
 
     try {
-      const res =
-        permissionType === "coOwner"
-          ? "/permissions/beCoOwner"
-          : "/permissions/beGuest";
-      await api.post(
-        res,
-        { storageId: currentStorageForPermission },
+      // Corrigir o endpoint e payload
+      const endpoint = permissionType === "coOwner" 
+        ? "/permission/beCoOwner" 
+        : "/permission/beGuest";
+      
+      const payload = {
+        email: email,
+        id_Storage: currentStorageForPermission
+      };
+
+      console.log("[v0] Adding permissions:", { endpoint, payload }); // Debug
+
+      const response = await api.post(
+        endpoint,
+        payload,
         { withCredentials: true }
       );
+
+      console.log("[v0] Permission added successfully:", response.data); // Debug
+
       alert(
         `✅ Permissão de ${
           permissionType === "coOwner" ? "Co-Owner" : "Guest"
-        } adicionada com sucesso!`
+        } adicionada com sucesso para ${email}!`
       );
+      
       setShowPermissionModal(false);
       setEmail("");
       setPermissionType("guest");
       setCurrentStorageForPermission(null);
+      
     } catch (err) {
-      console.error("[v0] Error adding permissions:", err); // Debug log
-      alert(err.response?.data?.message || "Erro ao adicionar permissão.");
+      console.error("[v0] Error adding permissions:", err);
+      console.error("[v0] Error response:", err.response); // Debug detalhado
+      
+      const errorMessage = err.response?.data?.error || 
+                          err.response?.data?.message || 
+                          "Erro ao adicionar permissão.";
+      
+      alert(`Erro: ${errorMessage}`);
     }
   };
 
@@ -171,9 +180,7 @@ export default function Storages() {
         withCredentials: true,
       });
       console.log("[v0] Items fetched:", res.data); // Debug log
-
       const items = Array.isArray(res.data.items) ? res.data.items : [];
-
       setStorages((prev) =>
         prev.map((s) => (s.id === storageId ? { ...s, items } : s))
       );
@@ -259,7 +266,6 @@ export default function Storages() {
                   </svg>
                 </button>
               </div>
-
               <form onSubmit={handleCreateStorage} className="p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -274,7 +280,6 @@ export default function Storages() {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
                     Localização
@@ -288,7 +293,6 @@ export default function Storages() {
                     required
                   />
                 </div>
-
                 <button
                   type="submit"
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-blue-500/25"
@@ -331,7 +335,6 @@ export default function Storages() {
                   </svg>
                 </button>
               </div>
-
               <div className="p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -343,9 +346,9 @@ export default function Storages() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="usuario@exemplo.com"
                     className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
                     Nível de Permissão
@@ -359,7 +362,6 @@ export default function Storages() {
                     <option value="coOwner">Coproprietário</option>
                   </select>
                 </div>
-
                 <div className="flex gap-3 pt-2">
                   <button
                     onClick={() => {
@@ -534,7 +536,6 @@ export default function Storages() {
                         {s.accessLevel}
                       </span>
                     </div>
-
                     <div className="flex flex-wrap gap-2">
                       <button
                         onClick={() => fetchItems(s.id)}
@@ -564,7 +565,6 @@ export default function Storages() {
                           ? "Carregando"
                           : "Ver Itens"}
                       </button>
-
                       <button
                         onClick={() => {
                           setShowPermissionModal(true);
@@ -593,7 +593,6 @@ export default function Storages() {
                         </svg>
                         Permissões
                       </button>
-
                       <button
                         onClick={() =>
                           setActiveStorageId(
@@ -615,9 +614,7 @@ export default function Storages() {
                             d="M12 4v16m8-8H4"
                           />
                         </svg>
-                        {activeStorageId === s.id
-                          ? "Cancelar"
-                          : "Adicionar Item"}
+                        {activeStorageId === s.id ? "Cancelar" : "Adicionar Item"}
                       </button>
                     </div>
                   </div>
@@ -642,7 +639,6 @@ export default function Storages() {
                       </svg>
                       Adicionar Novo Item
                     </h4>
-
                     <div className="space-y-4">
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
@@ -659,7 +655,6 @@ export default function Storages() {
                             className="w-full bg-slate-900 border border-slate-700 text-white placeholder-slate-500 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                           />
                         </div>
-
                         <div>
                           <label className="block text-sm font-medium text-slate-300 mb-2">
                             Descrição
@@ -678,7 +673,6 @@ export default function Storages() {
                           />
                         </div>
                       </div>
-
                       <div className="grid sm:grid-cols-3 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -696,7 +690,6 @@ export default function Storages() {
                             className="w-full bg-slate-900 border border-slate-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                           />
                         </div>
-
                         <div>
                           <label className="block text-sm font-medium text-slate-300 mb-2">
                             Categoria
@@ -716,7 +709,6 @@ export default function Storages() {
                             <option value="bebida">Bebida</option>
                           </select>
                         </div>
-
                         <div>
                           <label className="block text-sm font-medium text-slate-300 mb-2">
                             Quantidade
@@ -735,7 +727,6 @@ export default function Storages() {
                           />
                         </div>
                       </div>
-
                       <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2">
                           Unidade de Medida
@@ -755,7 +746,6 @@ export default function Storages() {
                           <option value="unidades">Unidade</option>
                         </select>
                       </div>
-
                       <div className="flex gap-3 pt-2">
                         <button
                           onClick={() => handleAddItem(s.id)}
@@ -786,7 +776,6 @@ export default function Storages() {
                             </>
                           )}
                         </button>
-
                         <button
                           onClick={() => setActiveStorageId(null)}
                           className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 rounded-xl transition-all"
@@ -847,7 +836,6 @@ export default function Storages() {
                           : "itens"}
                       </span>
                     </h4>
-
                     {!Array.isArray(s.items) || s.items.length === 0 ? (
                       <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 text-center">
                         <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -951,9 +939,7 @@ export default function Storages() {
                                       />
                                     </svg>
                                     Validade:{" "}
-                                    {new Date(
-                                      item.expiration
-                                    ).toLocaleDateString("pt-BR")}
+                                    {new Date(item.expiration).toLocaleDateString("pt-BR")}
                                   </span>
                                 </div>
                               </div>
