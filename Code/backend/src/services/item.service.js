@@ -158,8 +158,20 @@ export async function deleteItemService(id_Item, id_user, username) {
     error.statusCode = 400;
     throw error;
   }
-
+  
   await checkUserPermission(storageId, id_user);
+
+  const recipeLink = await prisma.recipe_Item.findFirst({
+    where: { id_Item },
+  });
+
+  if (recipeLink) {
+    const error = new Error(
+      "Não é possível deletar o item, pois ele está sendo usado em uma ou mais receitas."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
 
   await createHistory({
     id_user,

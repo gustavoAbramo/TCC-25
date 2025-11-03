@@ -85,7 +85,6 @@ export async function deleteItem(req, res) {
         .status(400)
         .json({ success: false, message: "ID do item inválido." });
     }
-
     const result = await deleteItemService(Number(id_Item), id_user);
 
     return res.status(200).json({ success: true, ...result });

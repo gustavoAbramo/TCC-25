@@ -3,6 +3,7 @@ import { validateEmailUser } from "../utils/user.util.js";
 import {
   toCoOwnerService,
   toGuestService,
+  getPermissionsService,
 } from "../services/permissions.service.js";
 
 // src/controllers/user.controller.js
@@ -60,6 +61,21 @@ export async function beGuest(req, res) {
       message: "Você adicionou um visualizador",
       user,
     });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+}
+
+export async function seePermissions(req, res) {
+  const id_Storage = parseInt(req.params.id_Storage, 10);
+
+  if (isNaN(id_Storage)) {
+    return res.status(400).json({ error: "ID do estoque inválido" });
+  }
+
+  try {
+    const permissions = await getPermissionsService({ id_Storage });
+    res.status(200).json({ permissions });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

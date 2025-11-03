@@ -186,8 +186,7 @@ export default function Storages() {
       );
       setShowItemsFor(storageId);
     } catch (err) {
-      console.error("[v0] Error fetching items:", err); // Debug log
-      alert("Erro ao buscar itens do estoque.");
+      alert(err.response?.data?.message || "Erro ao carregar itens.");
     } finally {
       setItemsLoading(false);
     }

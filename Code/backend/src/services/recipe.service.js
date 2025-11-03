@@ -152,3 +152,32 @@ export async function getRecipesByUserService(userId) {
   });
   return recipes;
 }
+export async function deleteRecipeService(userId, recipeId) {
+  const recipe = await prisma.recipe.findUnique({
+    where: { id_Recipe: recipeId },
+  });
+
+  if (!recipe) {
+    const error = new Error("Receita não encontrada.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (recipe.id_user !== userId) {
+    const error = new Error("Você não tem permissão para deletar esta receita.");
+    error.statusCode = 403;
+    throw error;
+  }
+
+  // Apaga os ingredientes vinculados
+  await prisma.recipe_Item.deleteMany({
+    where: { id_Recipe: recipeId },
+  });
+
+  // Agora sim, pode apagar a receita
+  await prisma.recipe.delete({
+    where: { id_Recipe: recipeId },
+  });
+
+  return { success: true };
+}

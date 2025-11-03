@@ -2,6 +2,7 @@ import {
   createRecipeService,
   prepareRecipeService,
   getRecipesByUserService,
+  deleteRecipeService,
 } from "../services/recipe.service.js";
 
 export async function createRecipe(req, res) {
@@ -49,3 +50,22 @@ export async function getRecipesByUser(req, res) {
     res.status(400).json({ success: false, error: err.message });
   }
 }
+
+export const deleteRecipe = async (req, res) => {
+  const id_user = req.user?.id_user;
+  const recipeId = parseInt(req.params.id_recipe, 10);
+
+  if (!recipeId) {
+    return res.status(400).json({ success: false, message: "ID da receita inválido" });
+  }
+
+  try {
+    await deleteRecipeService(id_user, recipeId);
+    res.json({ success: true, message: "Receita deletada com sucesso" });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

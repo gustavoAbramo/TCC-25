@@ -56,3 +56,13 @@ export async function toCoOwnerService({ email, id_Storage }) {
       email: user.email,
     };
   }
+
+export async function getPermissionsService({ id_Storage }) {
+    const permissions = await prisma.storage_Permission.findMany({
+      where: { id_Storage }
+    });
+    return permissions.map(({ id_user, Access_Level }) => ({
+      id_user,
+      Access_Level
+    }));
+}
