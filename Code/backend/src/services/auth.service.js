@@ -31,14 +31,60 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     throw error;
   }
 
+  // ⛔ Verifica se o usuário está bloqueado
+  if (user.lockUntil && new Date() < new Date(user.lockUntil)) {
+    const remaining = Math.ceil((new Date(user.lockUntil) - new Date()) / 60000);
+    const error = new Error(`Conta bloqueada. Tente novamente em ${remaining} minuto(s).`);
+    error.statusCode = 403;
+    throw error;
+  }
+
+  // ✅ Verifica senha
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
-    const error = new Error("Senha incorreta.");
+    // Incrementa tentativas falhas
+    const newAttempts = (user.failedAttempts || 0) + 1;
+    const maxAttempts = 5;
+    let lockUntil = null;
+
+    // Se exceder tentativas, bloqueia por 1 minuto
+    if (newAttempts >= maxAttempts) {
+      lockUntil = new Date(Date.now() + 1 * 60 * 1000); // 1 min
+      await prisma.user.update({
+        where: { email },
+        data: { failedAttempts: maxAttempts, lockUntil },
+      });
+
+      const error = new Error(
+        "Conta bloqueada por 1 minuto devido a várias tentativas incorretas."
+      );
+      error.statusCode = 403;
+      throw error;
+    }
+
+    // Atualiza tentativas sem bloquear ainda
+    await prisma.user.update({
+      where: { email },
+      data: { failedAttempts: newAttempts },
+    });
+
+    const attemptsLeft = maxAttempts - newAttempts;
+    const error = new Error(
+      `Senha incorreta. Você ainda tem ${attemptsLeft} tentativa${
+        attemptsLeft > 1 ? "s" : ""
+      } antes do bloqueio.`
+    );
     error.statusCode = 401;
     throw error;
   }
 
-  // Verificação do 2FA (se estiver ativado)
+  // 🔄 Se a senha estiver correta, zera tentativas
+  await prisma.user.update({
+    where: { email },
+    data: { failedAttempts: 0, lockUntil: null },
+  });
+
+  // 🔐 Verificação do 2FA (se ativado)
   if (user.is2FAEnabled) {
     if (!twoFACode) {
       const error = new Error("Código 2FA necessário.");
@@ -48,7 +94,7 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
 
     const verified = speakeasy.totp.verify({
       secret: user.twoFactorSecret,
-      encoding: 'base32',
+      encoding: "base32",
       token: twoFACode,
       window: 100,
     });
@@ -60,18 +106,12 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     }
   }
 
-
-  const expiresIn = rememberMe ? '7d' : '1h'; // Expires in 7 days if rememberMe is true, otherwise 1 hour
-  console.log("rememberMe:", rememberMe, "→ JWT expires in:", expiresIn);
-  // Geração do token JWT
+  // 🎟️ Geração do token JWT
+  const expiresIn = rememberMe ? "7d" : "1h";
   const token = jwt.sign(
-    {
-      id_user: user.id_user,
-      email: user.email,
-      name: user.name,
-    },
+    { id_user: user.id_user, email: user.email, name: user.name },
     process.env.JWT_SECRET,
-    { expiresIn}
+    { expiresIn }
   );
 
   return {
