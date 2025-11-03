@@ -71,6 +71,28 @@ export default function Storages() {
     }
   };
 
+  const handleDeleteStorage = async (storageId) => {
+    if (!window.confirm("Tem certeza que deseja deletar este estoque? Esta ação não pode ser desfeita.")) {
+      return;
+    }
+
+    try {
+      const res = await api.delete(`/storages/deleteStorage/${storageId}`, {
+        withCredentials: true
+      });
+      
+      console.log("[v0] Storage deleted:", res.data);
+      
+      // Remove o estoque da lista localmente
+      setStorages(prev => prev.filter(storage => storage.id !== storageId));
+      
+      alert("✅ Estoque deletado com sucesso!");
+    } catch (err) {
+      console.error("[v0] Error deleting storage:", err);
+      alert(err.response?.data?.message || "Erro ao deletar estoque.");
+    }
+  };
+
   const handleAddItem = async (storageId) => {
     const { name, description, expiration, category, quantity, unit } = itemData;
     if (
@@ -615,6 +637,28 @@ export default function Storages() {
                         </svg>
                         {activeStorageId === s.id ? "Cancelar" : "Adicionar Item"}
                       </button>
+                      {/* Botão de deletar - só aparece para o dono */}
+                      {s.accessLevel === "Owner" && (
+                        <button
+                          onClick={() => handleDeleteStorage(s.id)}
+                          className="inline-flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                          Deletar
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
