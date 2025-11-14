@@ -24,15 +24,13 @@ export default function Storages() {
   const [addingItem, setAddingItem] = useState(false);
   const [showItemsFor, setShowItemsFor] = useState(null);
   const [itemsLoading, setItemsLoading] = useState(false);
-
   const fetchStorages = async () => {
     try {
       setLoading(true);
-      setError(""); // Limpar erro anterior
+      setError("");
       const res = await api.get("/storages/seeStorage", {
         withCredentials: true,
       });
-      console.log("[v0] Storages fetched:", res.data); // Debug log
       const data = Array.isArray(res.data.storages) ? res.data.storages : [];
       const normalizedData = data.map((storage) => ({
         ...storage,
@@ -40,8 +38,8 @@ export default function Storages() {
       }));
       setStorages(normalizedData);
     } catch (err) {
-      console.error("[v0] Error fetching storages:", err); // Debug log
-      setError("Erro ao carregar os estoques.");
+      // Mensagem amigável de falha ao carregar (erro real de rede/servidor)
+      setError("Não foi possível carregar os estoques. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }
