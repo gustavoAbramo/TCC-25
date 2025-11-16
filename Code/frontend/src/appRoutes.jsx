@@ -1,7 +1,7 @@
 //aqui vai conter as rotas de cada pagina do nosso sistema e dps nos so importamos elas no main.jsx
 import { Routes, Route, useLocation, BrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
+import Home from "./pages/home";
+import About from "./pages/about";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import Header from "./components/Header";
