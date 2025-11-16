@@ -1,21 +1,18 @@
 import { getUserHistoryService } from "../services/history.service.js";
 
 export async function getUserHistory(req, res) {
-  const id_user = req.user.id_user;
+  if (!req.user || !req.user.id_user) {
+    return res.status(401).json({ error: "Usuário não autenticado" });
+  }
+
+  const id_user = Number(req.user.id_user); // garante que seja número
 
   try {
-    const history = await getUserHistoryService(Number(id_user));
+    const history = await getUserHistoryService(id_user);
 
-    if (!history) {
-      return res.status(404).json({ error: "Histórico não encontrado" });
-    }
-
-    if (history.length === 0) {
-      return res.status(200).json({ message: "Nenhum histórico disponível" });
-    }
-    
-    res.status(200).json(history);
+    // sempre retorna array, mesmo vazio
+    return res.status(200).json(history || []);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 }

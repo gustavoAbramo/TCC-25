@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { LogOut, Settings, Database, Book, Clock, Mic, MessageSquare } from "lucide-react";
+import {
+  LogOut,
+  Settings,
+  Database,
+  Book,
+  Clock,
+  Mic,
+  MessageSquare,
+} from "lucide-react";
 import api from "../services/api.service";
+import { Navigate } from "react-router-dom";
 
 export default function Sidebar({ setActivePage }) {
   const [userName, setUserName] = useState("");
+  const [loggedOut, setLoggedOut] = useState(false); // <-- novo estado
 
   useEffect(() => {
     async function fetchUser() {
@@ -23,23 +33,29 @@ export default function Sidebar({ setActivePage }) {
     { label: "Histórico", page: "Histórico", icon: <Clock size={18} /> },
     { label: "Alexa", page: "Alexa", icon: <Mic size={18} /> },
     { label: "Chat", page: "Chat", icon: <MessageSquare size={18} /> },
-    { label: "Configurações", page: "Configurações", icon: <Settings size={18} /> },
+    {
+      label: "Configurações",
+      page: "Configurações",
+      icon: <Settings size={18} />,
+    },
   ];
 
   async function handleLogout() {
     try {
-      await fetch("http://localhost:3000/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      window.location.href = "/login";
+      await api.post("/auth/logout", {}, { withCredentials: true });
+      setLoggedOut(true); // <-- atualiza o estado
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
   }
 
+  // Se o usuário deslogou, redireciona
+  if (loggedOut) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
-    <aside className="w-64 bg-gradient-to-b from-bg-background  text-white flex flex-col min-h-screen shadow-xl">
+    <aside className="w-64 bg-gradient-to-b from-bg-background text-white flex flex-col min-h-screen shadow-xl">
       {/* Header */}
       <header className="p-6 border-b border-blue-800 text-center">
         <h1 className="text-2xl font-bold tracking-wide">Smart Storage</h1>
@@ -53,7 +69,9 @@ export default function Sidebar({ setActivePage }) {
             onClick={() => setActivePage(page)}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left hover:bg-blue-800/40 hover:translate-x-1 transition-all duration-200 group"
           >
-            <span className="text-blue-300 group-hover:text-blue-100">{icon}</span>
+            <span className="text-blue-300 group-hover:text-blue-100">
+              {icon}
+            </span>
             <span className="font-medium tracking-wide">{label}</span>
           </button>
         ))}
@@ -66,7 +84,9 @@ export default function Sidebar({ setActivePage }) {
             {userName ? userName[0].toUpperCase() : "?"}
           </div>
           <div className="flex-1 min-w-0">
-            <span className="block font-medium truncate">{userName || "Carregando..."}</span>
+            <span className="block font-medium truncate">
+              {userName || "Carregando..."}
+            </span>
             <span className="text-sm text-blue-300">Usuário</span>
           </div>
         </div>

@@ -1,4 +1,5 @@
 // src/components/PrivateRoute.jsx
+import api from "../services/api.service";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
@@ -9,12 +10,8 @@ export default function PrivateRoute({ children }) {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const res = await fetch("http://localhost:3000/auth/me", {
-          method: "GET",
-          credentials: "include", // envia os cookies
-        });
-
-        if (res.ok) {
+        const res = await api.get("/auth/me", { withCredentials: true });
+        if (res.data.user) {
           setAuthenticated(true);
         } else {
           setAuthenticated(false);

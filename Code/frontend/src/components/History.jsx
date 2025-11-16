@@ -12,19 +12,23 @@ export default function History() {
     UPDATE_ITEM: { label: "atualizou", color: "text-yellow-600 bg-yellow-100" },
   };
 
-  useEffect(() => {
-    async function fetchHistory() {
-      try {
-        const res = await api.get("/history/myHistory", { withCredentials: true });
-        setHistory(res.data);
-      } catch (err) {
-        console.error("Erro ao buscar histórico:", err);
-      } finally {
-        setLoading(false);
-      }
+useEffect(() => {
+  async function fetchHistory() {
+    try {
+      const res = await api.get("/history/myHistory",  { withCredentials: true });
+
+      // Se res.data não for array, transforma em array vazio
+      setHistory(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Erro ao buscar histórico:", err);
+      setHistory([]); // fallback
+    } finally {
+      setLoading(false);
     }
-    fetchHistory();
-  }, []);
+  }
+  fetchHistory();
+}, []);
+
 
   return (
     <div className="w-full bg-background p-4 sm:p-6 lg:p-8">
