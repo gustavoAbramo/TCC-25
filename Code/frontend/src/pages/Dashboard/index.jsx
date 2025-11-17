@@ -6,9 +6,11 @@ import Alexa from "../../components/Alexa";
 import Chat from "../../components/Chat";
 import Recipes from "../../components/Recipes";
 import Settings from "../../components/Settings";
+import { Menu } from 'lucide-react';
 
 export default function DashboardPage({ userName }) {
   const [activePage, setActivePage] = useState("storages");
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const renderPage = () => {
     switch (activePage) {
@@ -30,11 +32,21 @@ export default function DashboardPage({ userName }) {
   };
 
   return (
-    // h-screen garante que a tela inteira seja ocupada e evita que o body role
     <div className="h-screen bg-background text-white flex">
-      <Sidebar setActivePage={setActivePage} userName={ userName } />
-      {/* main é o único que rola */}
-      <main className="flex-1 p-6 overflow-auto">
+      <Sidebar 
+        setActivePage={setActivePage} 
+        userName={userName}
+        isMobileOpen={isMobileOpen}
+        setIsMobileOpen={setIsMobileOpen}
+      />
+
+      <main className="flex-1 p-6 overflow-auto flex flex-col">
+        <button
+          onClick={() => setIsMobileOpen(true)}
+          className="md:hidden mb-4 p-2 rounded-lg hover:bg-blue-800/40 transition-colors w-fit"
+        >
+          <Menu size={24} className="text-white" />
+        </button>
         {renderPage()}
       </main>
     </div>
