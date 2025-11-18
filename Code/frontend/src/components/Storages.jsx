@@ -193,6 +193,38 @@ export default function Storages() {
     }
   };
 
+  const handleRemoveItem = async (storageId, itemId) => {
+    if (!window.confirm("Tem certeza que deseja remover este item?")) {
+      return;
+    }
+
+    try {
+      const res = await api.delete(`/storages/deleteItems/${itemId}`, {
+        withCredentials: true
+      });
+      
+      console.log("[v0] Item removed:", res.data);
+      
+      // Remove o item da lista localmente
+      setStorages(prev => 
+        prev.map(storage => {
+          if (storage.id === storageId) {
+            const updatedItems = Array.isArray(storage.items) 
+              ? storage.items.filter(item => item.id !== itemId)
+              : [];
+            return { ...storage, items: updatedItems };
+          }
+          return storage;
+        })
+      );
+      
+      alert("✅ Item removido com sucesso!");
+    } catch (err) {
+      console.error("[v0] Error removing item:", err);
+      alert(err.response?.data?.message || "Erro ao remover item.");
+    }
+  };
+
   const fetchItems = async (storageId) => {
     try {
       setItemsLoading(true);
@@ -952,6 +984,18 @@ export default function Storages() {
                                   </span>
                                 </div>
                               </div>
+                              {s.accessLevel === "Owner" && (
+                                      <button
+                                        onClick={() => handleRemoveItem(s.id, item.id)}
+                                        className="inline-flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
+                                        title="Remover item"
+                                      >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        Remover
+                                      </button>
+                                    )}
                             </div>
                           </div>
                         ))}
