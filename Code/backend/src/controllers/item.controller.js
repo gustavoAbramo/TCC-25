@@ -4,6 +4,7 @@ import {
   deleteItemService,
   updateItemQuantityService,
   searchItemToRecipeService,
+  updateItemService,
 } from "../services/item.service.js";
 import { createItemSchema } from "../utils/item.util.js";
 
@@ -119,6 +120,55 @@ export async function updateItemQuantity(req, res) {
     res
       .status(500)
       .json({ success: false, message: "Erro interno no servidor" });
+  }
+}
+
+export async function updateItem(req, res) {
+  try {
+    const { id_Item } = req.params;
+    const { description, expiration, quantity } = req.body;
+    const id_user = req.user?.id_user;
+    const username = req.user?.name;
+
+    if (!id_user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Usuário não autenticado." });
+    }
+
+    if (!id_Item || isNaN(Number(id_Item))) {
+      return res
+        .status(400)
+        .json({ success: false, message: "ID do item inválido." });
+    }
+
+    // Valida se pelo menos um campo foi enviado para atualizar
+    if (!description && !expiration && !quantity) {
+      return res
+        .status(400)
+        .json({ 
+          success: false, 
+          message: "Pelo menos um campo deve ser enviado para atualização (description, expiration ou quantity)." 
+        });
+    }
+
+    const result = await updateItemService(
+      Number(id_Item),
+      id_user,
+      { description, expiration, quantity },
+      username
+    );
+
+    return res.status(200).json({ 
+      success: true, 
+      message: result.message,
+      item: result.item 
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Erro interno ao atualizar item.",
+    });
   }
 }
 

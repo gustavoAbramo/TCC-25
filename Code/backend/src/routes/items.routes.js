@@ -1,5 +1,5 @@
 import express from 'express';
-import { addItemToStock, getItemsByStorage, deleteItem, updateItemQuantity, searchItemToRecipeController} from '../controllers/item.controller.js';
+import { addItemToStock, getItemsByStorage, deleteItem, updateItemQuantity, searchItemToRecipeController, updateItem} from '../controllers/item.controller.js';
 import authMiddleware from '../middleware/auth.middleware.js';
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.post('/items', authMiddleware, addItemToStock);
 router.get('/items/:id', authMiddleware, getItemsByStorage);
 
 router.delete('/deleteItems/:id_Item', authMiddleware, deleteItem);
+
+router.put('/items/:id_Item', authMiddleware, updateItem);
 
 router.put('/changeQuantity/:id_Item', authMiddleware, updateItemQuantity)
 

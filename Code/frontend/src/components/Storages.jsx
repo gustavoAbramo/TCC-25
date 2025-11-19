@@ -21,6 +21,12 @@ export default function Storages() {
     quantity: "",
     unit: "",
   });
+  const [editingItem, setEditingItem] = useState(null);
+  const [editItemData, setEditItemData] = useState({
+    description: "",
+    expiration: "",
+    quantity: "",
+  });
   const [addingItem, setAddingItem] = useState(false);
   const [showItemsFor, setShowItemsFor] = useState(null);
   const [itemsLoading, setItemsLoading] = useState(false);
@@ -222,6 +228,58 @@ export default function Storages() {
     } catch (err) {
       console.error("[v0] Error removing item:", err);
       alert(err.response?.data?.message || "Erro ao remover item.");
+    }
+  };
+
+    const handleEditItem = async (storageId, itemId) => {
+    const { description, expiration, quantity } = editItemData;
+    
+    if (!description || !expiration || !quantity) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    try {
+      const payload = {
+        description,
+        expiration,
+        quantity: Number(quantity),
+      };
+
+      const res = await api.put(`/storages/items/${itemId}`, payload, {
+        withCredentials: true,
+      });
+
+      console.log("[v0] Item updated:", res.data);
+      
+      // Atualiza o item na lista localmente
+      setStorages(prev =>
+        prev.map(storage => {
+          if (storage.id === storageId) {
+            const updatedItems = Array.isArray(storage.items)
+              ? storage.items.map(item =>
+                  item.id === itemId
+                    ? { ...item, ...payload }
+                    : item
+                )
+              : [];
+            return { ...storage, items: updatedItems };
+          }
+          return storage;
+        })
+      );
+
+      setEditingItem(null);
+      setEditItemData({
+        description: "",
+        expiration: "",
+        quantity: "",
+      });
+      
+      alert("✅ Item atualizado com sucesso!");
+    } catch (err) {
+      console.error("[v0] Error updating item:", err);
+      alert(err.response?.data?.message || "Erro ao atualizar item.");
     }
   };
 
@@ -924,79 +982,146 @@ export default function Storages() {
                             key={item.id}
                             className="bg-slate-800/50 border border-slate-700 hover:border-slate-600 rounded-xl p-4 transition-all hover:shadow-lg"
                           >
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                              <div className="flex-1">
-                                <h5 className="font-semibold text-white text-lg mb-1">
-                                  {item.name}
-                                </h5>
-                                <p className="text-slate-400 text-sm mb-2">
-                                  {item.description}
-                                </p>
-                                <div className="flex flex-wrap gap-2">
-                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-medium">
-                                    <svg
-                                      className="w-3.5 h-3.5"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                                      />
-                                    </svg>
-                                    {item.category}
-                                  </span>
-                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs font-medium">
-                                    <svg
-                                      className="w-3.5 h-3.5"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M20 7l-8-4-8 4m16 0l-8 4m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                      />
-                                    </svg>
-                                    {item.quantity} {item.unit}
-                                  </span>
-                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-lg text-xs font-medium">
-                                    <svg
-                                      className="w-3.5 h-3.5"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                      />
-                                    </svg>
-                                    Validade:{" "}
-                                    {new Date(item.expiration).toLocaleDateString("pt-BR")}
-                                  </span>
+                            {/* Formulário de Edição (aparece quando editingItem === item.id) */}
+                            {editingItem === item.id ? (
+                              <div className="space-y-4">
+                                <h6 className="text-white font-semibold mb-2">Editando: {item.name}</h6>
+                                <div className="grid sm:grid-cols-3 gap-3">
+                                  <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-1">
+                                      Descrição
+                                    </label>
+                                    <input
+                                      type="text"
+                                      value={editItemData.description}
+                                      onChange={(e) =>
+                                        setEditItemData({ ...editItemData, description: e.target.value })
+                                      }
+                                      className="w-full bg-slate-900 border border-slate-700 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                      placeholder="Nova descrição"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-1">
+                                      Quantidade
+                                    </label>
+                                    <input
+                                      type="number"
+                                      value={editItemData.quantity}
+                                      onChange={(e) =>
+                                        setEditItemData({ ...editItemData, quantity: e.target.value })
+                                      }
+                                      className="w-full bg-slate-900 border border-slate-700 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                      placeholder="Nova quantidade"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-1">
+                                      Validade
+                                    </label>
+                                    <input
+                                      type="date"
+                                      value={editItemData.expiration}
+                                      onChange={(e) =>
+                                        setEditItemData({ ...editItemData, expiration: e.target.value })
+                                      }
+                                      className="w-full bg-slate-900 border border-slate-700 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex gap-2 pt-2">
+                                  <button
+                                    onClick={() => handleEditItem(s.id, item.id)}
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-all"
+                                  >
+                                    Salvar
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setEditingItem(null);
+                                      setEditItemData({
+                                        description: "",
+                                        expiration: "",
+                                        quantity: "",
+                                      });
+                                    }}
+                                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-medium py-2 rounded-lg transition-all"
+                                  >
+                                    Cancelar
+                                  </button>
                                 </div>
                               </div>
-                              {s.accessLevel === "Owner" && (
-                                      <button
-                                        onClick={() => handleRemoveItem(s.id, item.id)}
-                                        className="inline-flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
-                                        title="Remover item"
-                                      >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        Remover
-                                      </button>
-                                    )}
-                            </div>
+                            ) : (
+                              /* Visualização normal do item */
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div className="flex-1">
+                                  <h5 className="font-semibold text-white text-lg mb-1">
+                                    {item.name}
+                                  </h5>
+                                  <p className="text-slate-400 text-sm mb-2">
+                                    {item.description}
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-medium">
+                                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                      </svg>
+                                      {item.category}
+                                    </span>
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs font-medium">
+                                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                      </svg>
+                                      {item.quantity} {item.unit}
+                                    </span>
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-lg text-xs font-medium">
+                                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                      </svg>
+                                      Validade: {new Date(item.expiration).toLocaleDateString("pt-BR")}
+                                    </span>
+                                  </div>
+                                </div>
+                                
+                                {/* Botões de ação */}
+                                <div className="flex gap-2">
+                                  {/* Botão Editar - para Owner e Co-Owner */}
+                                  {String(s.accessLevel || "").toLowerCase() !== "guest" && (
+                                    <button
+                                      onClick={() => {
+                                        setEditingItem(item.id);
+                                        setEditItemData({
+                                          description: item.description,
+                                          expiration: item.expiration.split('T')[0], // Formata a data para o input
+                                          quantity: item.quantity.toString(),
+                                        });
+                                      }}
+                                      className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30"
+                                      title="Editar item"
+                                    >
+                                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                      </svg>
+                                      Editar
+                                    </button>
+                                  )}
+                                  
+                                  {/* Botão Remover - só para Owner */}
+                                  {s.accessLevel === "Owner" && (
+                                    <button
+                                      onClick={() => handleRemoveItem(s.id, item.id)}
+                                      className="inline-flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
+                                      title="Remover item"
+                                    >
+                                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                      </svg>
+                                      Remover
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>

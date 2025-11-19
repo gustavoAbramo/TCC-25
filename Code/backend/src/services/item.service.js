@@ -139,6 +139,7 @@ export async function getItemsByStorageService(id_Storage) {
     expiration: item.expiration.toISOString().split("T")[0],
   }));
 }
+
 export async function deleteItemService(id_Item, id_user, username) {
   const item = await prisma.item.findUnique({
     where: { id_Item: Number(id_Item) },
@@ -193,6 +194,91 @@ export async function deleteItemService(id_Item, id_user, username) {
 
   return { message: "Item deletado com sucesso." };
 }
+
+export async function updateItemService(id_Item, id_user, updateData, username) {
+  const { description, expiration, quantity } = updateData;
+
+  // Encontra o item e verifica permissões
+  const item = await prisma.item.findUnique({
+    where: { id_Item: Number(id_Item) },
+    include: { 
+      Storage_belongs: {
+        include: {
+          Storage: true
+        }
+      } 
+    },
+  });
+
+  if (!item) {
+    const error = new Error("Item não encontrado.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const storageId = item.Storage_belongs[0]?.id_Storage;
+
+  if (!storageId) {
+    const error = new Error("Item não está associado a nenhum estoque.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Verifica permissão do usuário
+  await checkUserPermission(storageId, id_user);
+
+  // Validações
+  if (quantity !== undefined && quantity < 0) {
+    throw new Error("Quantidade não pode ser negativa");
+  }
+
+  if (expiration && new Date(expiration) < new Date()) {
+    throw new Error("Data de validade não pode ser no passado");
+  }
+
+  // Prepara os dados para atualização
+  const updateFields = {};
+  if (description !== undefined) updateFields.description = description;
+  if (quantity !== undefined) updateFields.quantity = Number(quantity);
+  // CORREÇÃO DO FUSO HORÁRIO para expiration
+  if (expiration !== undefined) {
+    // Cria a data no final do dia para evitar problemas de fuso horário
+    const expirationDate = new Date(expiration);
+    expirationDate.setHours(23, 59, 59, 999); // Define para o final do dia
+    updateFields.expiration = expirationDate;
+  }
+
+  // Atualiza o item
+  const updatedItem = await prisma.item.update({
+    where: { id_Item: Number(id_Item) },
+    data: updateFields,
+  });
+
+  // Cria histórico
+  await createHistory({
+    id_user,
+    id_item: item.id_Item,
+    action: "UPDATE_ITEM",
+    quantity: quantity || item.quantity,
+    username,
+    unit: item.unit,
+    itemName: item.name,
+  });
+
+  return {
+    message: "Item atualizado com sucesso",
+    item: {
+      id: updatedItem.id_Item,
+      name: updatedItem.name,
+      description: updatedItem.description,
+      category: updatedItem.category,
+      quantity: updatedItem.quantity,
+      unit: updatedItem.unit,
+      expiration: updatedItem.expiration.toISOString().split("T")[0],
+    }
+  };
+}
+
 
 export async function updateItemQuantityService(
   id_Item,
