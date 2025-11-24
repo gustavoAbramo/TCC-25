@@ -63,14 +63,14 @@ export default function Storages() {
         { name, location },
         { withCredentials: true }
       );
-      console.log("[v0] Storage created:", res.data); // Debug log
+      console.log(" Storage created:", res.data); // Debug log
       await fetchStorages();
       setName("");
       setLocation("");
       setShowForm(false);
       alert("✅ Estoque criado com sucesso!");
     } catch (err) {
-      console.error("[v0] Error creating storage:", err); // Debug log
+      console.error(" Error creating storage:", err); // Debug log
       alert(err.response?.data?.message || "Erro ao criar estoque.");
     }
   };
@@ -85,14 +85,14 @@ export default function Storages() {
         withCredentials: true
       });
       
-      console.log("[v0] Storage deleted:", res.data);
+      console.log(" Storage deleted:", res.data);
       
       // Remove o estoque da lista localmente
       setStorages(prev => prev.filter(storage => storage.id !== storageId));
       
       alert("✅ Estoque deletado com sucesso!");
     } catch (err) {
-      console.error("[v0] Error deleting storage:", err);
+      console.error(" Error deleting storage:", err);
       alert(err.response?.data?.message || "Erro ao deletar estoque.");
     }
   };
@@ -120,7 +120,7 @@ export default function Storages() {
       const res = await api.post("/storages/Items", payload, {
         withCredentials: true,
       });
-      console.log("[v0] Item added:", res.data); // Debug log
+      console.log(" Item added:", res.data); // Debug log
       const newItem = res.data.item;
       setStorages((prev) =>
         prev.map((s) => {
@@ -142,7 +142,7 @@ export default function Storages() {
       setActiveStorageId(null);
       alert("✅ Item adicionado com sucesso!");
     } catch (err) {
-      console.error("[v0] Error adding item:", err); // Debug log
+      console.error(" Error adding item:", err); // Debug log
       alert(err.response?.data?.message || "Erro ao adicionar item.");
     } finally {
       setAddingItem(false);
@@ -166,7 +166,7 @@ export default function Storages() {
         id_Storage: currentStorageForPermission
       };
 
-      console.log("[v0] Adding permissions:", { endpoint, payload }); // Debug
+      console.log(" Adding permissions:", { endpoint, payload }); // Debug
 
       const response = await api.post(
         endpoint,
@@ -174,7 +174,7 @@ export default function Storages() {
         { withCredentials: true }
       );
 
-      console.log("[v0] Permission added successfully:", response.data); // Debug
+      console.log(" Permission added successfully:", response.data); // Debug
 
       alert(
         `✅ Permissão de ${
@@ -188,8 +188,8 @@ export default function Storages() {
       setCurrentStorageForPermission(null);
       
     } catch (err) {
-      console.error("[v0] Error adding permissions:", err);
-      console.error("[v0] Error response:", err.response); // Debug detalhado
+      console.error(" Error adding permissions:", err);
+      console.error(" Error response:", err.response); // Debug detalhado
       
       const errorMessage = err.response?.data?.error || 
                           err.response?.data?.message || 
@@ -209,7 +209,7 @@ export default function Storages() {
         withCredentials: true
       });
       
-      console.log("[v0] Item removed:", res.data);
+      console.log(" Item removed:", res.data);
       
       // Remove o item da lista localmente
       setStorages(prev => 
@@ -226,7 +226,7 @@ export default function Storages() {
       
       alert("✅ Item removido com sucesso!");
     } catch (err) {
-      console.error("[v0] Error removing item:", err);
+      console.error(" Error removing item:", err);
       alert(err.response?.data?.message || "Erro ao remover item.");
     }
   };
@@ -250,7 +250,7 @@ export default function Storages() {
         withCredentials: true,
       });
 
-      console.log("[v0] Item updated:", res.data);
+      console.log(" Item updated:", res.data);
       
       // Atualiza o item na lista localmente
       setStorages(prev =>
@@ -278,7 +278,7 @@ export default function Storages() {
       
       alert("✅ Item atualizado com sucesso!");
     } catch (err) {
-      console.error("[v0] Error updating item:", err);
+      console.error(" Error updating item:", err);
       alert(err.response?.data?.message || "Erro ao atualizar item.");
     }
   };
@@ -289,7 +289,7 @@ export default function Storages() {
       const res = await api.get(`/storages/items/${storageId}`, {
         withCredentials: true,
       });
-      console.log("[v0] Items fetched:", res.data); // Debug log
+      console.log(" Items fetched:", res.data); // Debug log
       const items = Array.isArray(res.data.items) ? res.data.items : [];
       setStorages((prev) =>
         prev.map((s) => (s.id === storageId ? { ...s, items } : s))
