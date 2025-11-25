@@ -12,6 +12,7 @@ import chatRoutes from "./routes/chat.routes.js";
 import cors from 'cors';
 import historyRoutes from './routes/history.routes.js';
 import { startSchedulers } from './utils/scheduler.js';
+import alexaRoutes from './routes/alexa.routes.js';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/history', historyRoutes);
 app.use('/users', userRoutes);
 app.use('/reset-password', userRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/alexa', alexaRoutes);
 
 app.get('/', (req, res) => {
     res.send('Smart Storage API is running');

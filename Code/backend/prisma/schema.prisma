@@ -26,6 +26,7 @@ model User {
   twoFactorSecret  String?  // opcional
   failedAttempts   Int      @default(0)     // Contador de tentativas erradas
   lockUntil        DateTime?                // Data e hora até quando o usuário está bloqueado
+  alexaLinkCodes AlexaLinkCode[]
 }
 
 model PasswordReset {
@@ -144,3 +145,18 @@ enum unit_of_measurement {
   mililitros
   litros
 }
+model AlexaLinkCode {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  code         String?   @unique
+  expiresAt    DateTime?
+  used         Boolean   @default(false)
+
+  // Guarda a relação permanente com a Alexa
+  alexaUserId  String?   @unique  
+
+  createdAt    DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id_user])
+}
+
