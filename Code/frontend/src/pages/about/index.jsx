@@ -28,8 +28,8 @@ export default function About() {
               de desperdícios e otimização de recursos através de tecnologia avançada.
             </p>
             <p className="text-gray-300 text-lg leading-relaxed">
-              Acreditamos que cada empresa merece ter controle total sobre seu inventário, com insights precisos e
-              automação inteligente que impulsiona o crescimento sustentável.
+              Acreditamos que cada empresa merece ter controle total sobre seu inventário, com desing precisos e
+              de facil gestão.
             </p>
           </div>
         </div>
