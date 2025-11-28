@@ -336,51 +336,51 @@ export default function Chat() {
   };
 
   return (
-    <div className="w-full bg-background p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="w-full bg-background p-3 sm:p-4 lg:p-6">
+       <div className="max-w-7xl mx-auto p-2 sm:p-4 lg:p-6">
         {/* TOAST */}
         {toast && (
-          <div
-            className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-xl text-sm shadow-lg transition-all duration-300
-    ${
-      toast.type === "success"
-        ? "bg-green-600 text-white"
-        : toast.type === "warning"
-        ? "bg-yellow-500 text-gray-900"
-        : "bg-red-600 text-white"
-    }
-  `}
-          >
-            <div>{toast.message}</div>
-            <button onClick={() => setToast(null)}>✕</button>
-          </div>
-        )}
+            <div
+              className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm shadow-lg transition-all duration-300 max-w-[90vw] ${
+                toast.type === "success"
+                  ? "bg-green-600 text-white"
+                  : toast.type === "warning"
+                  ? "bg-yellow-500 text-gray-900"
+                  : "bg-red-600 text-white"
+              }`}
+            >
+              <div className="truncate">{toast.message}</div>
+              <button onClick={() => setToast(null)} className="flex-shrink-0">
+                ✕
+              </button>
+            </div>
+          )}
 
         {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-              Chat de Nutrição
-            </h1>
-            <p className="text-slate-400 mt-1">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+          <div className="text-center sm:text-left">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">
+                Chat de Nutrição
+              </h1>
+            <p className="text-slate-400 mt-1 text-sm sm:text-base">
               Converse com seu assistente de nutrição
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 sm:mt-0">
             {user ? (
-              <span className="px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl text-sm">
+              <span className="px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs sm:text-sm">
                 Logado como {user.name}
               </span>
             ) : (
-              <span className="px-4 py-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-xl text-sm">
+              <span className="px-3 py-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-lg text-xs sm:text-sm">
                 Não logado
               </span>
             )}
 
             <button
               onClick={clearChat}
-              className="px-4 py-2 bg-red-600 rounded-xl text-white text-sm"
+              className="p-2 bg-red-600 rounded-lg text-white"
             >
               <TrashIcon className="w-4 h-4" />
             </button>
@@ -388,14 +388,15 @@ export default function Chat() {
         </div>
 
         {/* QUICK QUESTIONS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 gap-2 mb-4">
           {quickQuestions.map((q, i) => (
             <button
               key={i}
               onClick={() => setInputMessage(q.label)}
-              className="px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl text-white text-sm"
+               className="px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-white text-xs sm:text-sm flex items-center gap-1 justify-center"
             >
-              {q.icon} {q.label}
+              <span className="text-xs">{q.icon}</span>
+              <span className="truncate">{q.label}</span>
             </button>
           ))}
         </div>
@@ -435,68 +436,106 @@ export default function Chat() {
               </button>
 
               {showAddItemForm && (
-                <div className="p-4 bg-slate-800/70 border border-slate-700 rounded-xl flex flex-col gap-3">
-                  <input
-                    value={formItemName}
-                    onChange={(e) => setFormItemName(e.target.value)}
-                    placeholder="Nome do item"
-                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
-                  />
+                <div className="p-4 bg-slate-800/70 border border-slate-700 rounded-xl flex flex-col gap-4">
+                  <h3 className="text-white font-semibold text-lg">+ Adicionar Novo Item</h3>
+                  
+                  <div>
+                    <label className="block text-slate-300 text-sm mb-2">Nome do Item</label>
+                    <input
+                      value={formItemName}
+                      onChange={(e) => setFormItemName(e.target.value)}
+                      placeholder="Ex: Arroz Integral"
+                      className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                    />
+                  </div>
 
-                  <input
-                    value={formItemQuantity}
-                    onChange={(e) =>
-                      setFormItemQuantity(Number(e.target.value))
-                    }
-                    type="number"
-                    min={1}
-                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
-                  />
+                  <div>
+                    <label className="block text-slate-300 text-sm mb-2">Descrição</label>
+                    <input
+                      placeholder="Ex: Pacote de 1kg"
+                      className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                    />
+                  </div>
 
-                  <select
-                    value={formItemCategory}
-                    onChange={(e) => setFormItemCategory(e.target.value)}
-                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
-                  >
-                    <option value="comida">Comida</option>
-                    <option value="bebida">Bebida</option>
-                  </select>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-slate-300 text-sm mb-2">Data de Validade</label>
+                      <input
+                        type="date"
+                        className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                      />
+                    </div>
 
-                  <select
-                    value={formItemUnit}
-                    onChange={(e) => setFormItemUnit(e.target.value)}
-                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
-                  >
-                    <option value="unidades">Unidades</option>
-                    <option value="gramas">Gramas</option>
-                    <option value="litros">Litros</option>
-                  </select>
+                    <div>
+                      <label className="block text-slate-300 text-sm mb-2">Categoria</label>
+                      <select
+                        value={formItemCategory}
+                        onChange={(e) => setFormItemCategory(e.target.value)}
+                        className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                      >
+                        <option value="">Selecione...</option>
+                        <option value="comida">Comida</option>
+                        <option value="bebida">Bebida</option>
+                      </select>
+                    </div>
 
-                  <select
-                    value={selectedStorageId || ""}
-                    onChange={(e) =>
-                      setSelectedStorageId(Number(e.target.value))
-                    }
-                    className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
-                  >
-                    <option value="">Selecione um estoque...</option>
-                    {storages.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.name}
-                      </option>
-                    ))}
-                  </select>
+                    <div>
+                      <label className="block text-slate-300 text-sm mb-2">Quantidade</label>
+                      <input
+                        value={formItemQuantity}
+                        onChange={(e) => setFormItemQuantity(Number(e.target.value))}
+                        type="number"
+                        min={1}
+                        placeholder="1"
+                        className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                      />
+                    </div>
+                  </div>
 
-                  <div className="flex gap-2 mt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-slate-300 text-sm mb-2">Unidade de Medida</label>
+                      <select
+                        value={formItemUnit}
+                        onChange={(e) => setFormItemUnit(e.target.value)}
+                        className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                      >
+                        <option value="">Selecione a unidade...</option>
+                          <option value="gramas">Gramas (g)</option>
+                          <option value="quilogramas">Quilogramas (kg)</option>
+                          <option value="mililitros">Mililitros (ml)</option>
+                          <option value="litros">Litros (L)</option>
+                          <option value="unidades">Unidade</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-300 text-sm mb-2">Estoque</label>
+                      <select
+                        value={selectedStorageId || ""}
+                        onChange={(e) => setSelectedStorageId(Number(e.target.value))}
+                        className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                      >
+                        <option value="">Selecione um estoque...</option>
+                        {storages.map((s) => (
+                          <option key={s.id} value={s.id}>
+                            {s.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 mt-2">
                     <button
                       onClick={handleAddItemSubmit}
-                      className="flex-1 px-4 py-2.5 bg-blue-600 rounded-xl text-white"
+                      className="flex-1 px-4 py-3 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-colors"
                     >
-                      Adicionar
+                      Adicionar Item
                     </button>
                     <button
                       onClick={() => setShowAddItemForm(false)}
-                      className="px-4 py-2.5 bg-slate-700 rounded-xl text-white"
+                      className="px-6 py-3 bg-slate-700 rounded-xl text-white font-medium hover:bg-slate-600 transition-colors"
                     >
                       Cancelar
                     </button>
@@ -508,8 +547,8 @@ export default function Chat() {
         </div>
 
         {/* CHAT */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-          <div className="flex-1 overflow-y-auto space-y-4 mb-6 max-h-[600px] pr-2">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 lg:p-6 shadow-xl"> 
+           <div className="flex-1 overflow-y-auto space-y-3 mb-4 max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] pr-2">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -518,7 +557,7 @@ export default function Chat() {
                 }`}
               >
                 <div
-                  className={`p-4 rounded-2xl max-w-[80%] ${
+                  className={`p-3 rounded-xl max-w-[90%] sm:max-w-[80%] text-sm sm:text-base ${
                     msg.role === "assistant"
                       ? "bg-blue-600 text-white"
                       : "bg-slate-800 text-white"
@@ -530,7 +569,7 @@ export default function Chat() {
             ))}
 
             {isLoading && (
-              <div className="p-4 rounded-xl bg-blue-600 text-white animate-pulse w-fit">
+              <div className="p-3 rounded-xl bg-blue-600 text-white animate-pulse w-fit text-sm">
                 Digitando...
               </div>
             )}
@@ -538,20 +577,20 @@ export default function Chat() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="flex items-center gap-2 border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+          <div className="flex items-stretch gap-1 border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
             <input
               type="text"
               placeholder="Digite sua pergunta..."
-              className="flex-1 p-4 bg-transparent text-white"
+              className="flex-1 p-3 bg-transparent text-white text-sm sm:text-base min-w-0"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyDown={handleKeyPress}
             />
             <button
               onClick={() => sendMessage()}
-              className="px-6 py-4 bg-blue-600 text-white"
+              className="px-4 sm:px-6 py-3 bg-blue-600 text-white flex items-center justify-center min-w-[50px]" 
             >
-              <PaperAirplaneIcon className="w-5 h-5 rotate-45" />
+              <PaperAirplaneIcon className="w-4 h-4 sm:w-5 sm:h-5 rotate-45" />
             </button>
           </div>
         </div>
