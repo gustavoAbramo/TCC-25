@@ -32,7 +32,7 @@ export default function DashboardPage({ userName }) {
   };
 
   return (
-    <div className="h-screen bg-background text-white flex">
+    <div className="w-full min-h-screen bg-background text-white flex overflow-hidden">
       <Sidebar 
         setActivePage={setActivePage} 
         userName={userName}
@@ -40,7 +40,7 @@ export default function DashboardPage({ userName }) {
         setIsMobileOpen={setIsMobileOpen}
       />
 
-      <main className="flex-1 p-6 overflow-auto flex flex-col">
+      <main className="flex-1 h-full overflow-auto flex flex-col">
         <button
           onClick={() => setIsMobileOpen(true)}
           className="md:hidden mb-4 p-2 rounded-lg hover:bg-blue-800/40 transition-colors w-fit"
