@@ -68,11 +68,9 @@ export async function seeStoragesServices(id_user) {
     },
   });
 
-  if (!storages || storages.length === 0) {
-    const error = new Error("Nenhum estoque encontrado");
-    error.statusCode = 404;
-    throw error;
-  }
+if (!storages || storages.length === 0) {
+  return { storages: [] };
+}
 
   // Retorna só os estoques com informações importantes
   return storages.map((sp) => ({

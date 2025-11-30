@@ -65,7 +65,7 @@ export default function Sidebar({ setActivePage, isMobileOpen, setIsMobileOpen }
         }`}
       >
         {/* Header */}
-        <header className="p-6 border-b border-blue-800 text-center flex items-center justify-center relative">
+        <header className="p-6 border-b border-blue-900 text-center flex items-center justify-center relative">
           <h1 className="text-2xl font-bold tracking-wide">Smart Storage</h1>
         </header>
 
@@ -84,7 +84,7 @@ export default function Sidebar({ setActivePage, isMobileOpen, setIsMobileOpen }
           ))}
         </nav>
 
-        <footer className="p-5 border-t border-blue-800 mt-auto">
+        <footer className="p-5 border-t border-blue-900 mt-auto">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-12 h-12 rounded-full bg-blue-800 flex items-center justify-center font-semibold text-lg">
               {userName ? userName[0].toUpperCase() : "?"}
