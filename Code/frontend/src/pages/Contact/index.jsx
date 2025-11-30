@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../../services/api.service";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -15,27 +16,29 @@ export default function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-    const response = await fetch("http://localhost:3000/notifications/email/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+  try {
+    const response = await api.post(
+      "/notifications/email/contact",
+      form,
+      { withCredentials: true }
+    );
 
-    if (!response.ok) throw new Error("Erro ao enviar");
+    if (!response || response.status !== 200) {
+      throw new Error("Erro ao enviar");
+    }
 
     setShowModal(true);
     setForm({ nome: "", email: "", empresa: "", assunto: "", mensagem: "" });
   } catch (err) {
     alert("Erro ao enviar. Tente novamente.");
   }
+
   setLoading(false);
 };
-
   return (
     <div className="min-h-screen bg-background text-white">
       {/* Hero Section */}
