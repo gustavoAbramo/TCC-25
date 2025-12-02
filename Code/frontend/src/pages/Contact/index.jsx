@@ -167,7 +167,6 @@ const handleSubmit = async (e) => {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Email</h3>
                     <p className="text-gray-300 mb-2">smartstorage21@gmail.com</p>
-                    <p className="text-sm text-gray-400">Respondemos em até 24 horas</p>
                   </div>
                 </div>
               </div>
@@ -188,7 +187,6 @@ const handleSubmit = async (e) => {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Telefone</h3>
                     <p className="text-gray-300 mb-2">(11) 9999-8888</p>
-                    <p className="text-sm text-gray-400">Segunda a sexta, 9h às 18h</p>
                   </div>
                 </div>
               </div>
@@ -214,11 +212,11 @@ const handleSubmit = async (e) => {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Endereço</h3>
                     <p className="text-gray-300 mb-2">
-                      Av. Paulista, 1000
+                      Araras
                       <br />
-                      São Paulo, SP - 01310-100
+                      São Paulo
                     </p>
-                    <p className="text-sm text-gray-400">Sede principal</p>
+                    
                   </div>
                 </div>
               </div>

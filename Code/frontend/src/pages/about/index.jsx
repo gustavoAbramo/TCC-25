@@ -24,11 +24,10 @@ export default function About() {
           <div>
             <h2 className="text-4xl font-light mb-6">Nossa Missão</h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-6">
-              Transformar a forma como empresas alimentícias gerenciam seus estoques, proporcionando eficiência, redução
-              de desperdícios e otimização de recursos através de tecnologia avançada.
+            Reinventar a forma de gerenciar estoques de cozinha, garantindo mais praticidade, redução de desperdícios e uso inteligente de recursos com o apoio da tecnologia.
             </p>
             <p className="text-gray-300 text-lg leading-relaxed">
-              Acreditamos que cada empresa merece ter controle total sobre seu inventário, com desing precisos e
+              Acreditamos que cada pessoa merece ter controle total sobre seu inventário, com desing precisos e
               de facil gestão.
             </p>
           </div>
@@ -87,7 +86,7 @@ export default function About() {
             </div>
             <h3 className="text-2xl font-semibold mb-4">Confiabilidade</h3>
             <p className="text-gray-300 leading-relaxed">
-              Oferecemos sistemas robustos e seguros que você pode confiar para gerenciar seu negócio.
+              Oferecemos diversas formas de segurança para garantir com que você possa gerir seus estoques tranquilamente.
             </p>
           </div>
         </div>
