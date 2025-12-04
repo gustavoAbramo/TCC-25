@@ -104,7 +104,7 @@ export default function About() {
             <h3 className="text-xl font-semibold mb-2">Gustavo</h3>
             <p className="text-blue-400 mb-4">Desenvolvedor</p>
             <p className="text-gray-300 text-sm">
-              texto descrevendo aqui
+              Membro da equipe
             </p>
           </div>
 
@@ -115,7 +115,7 @@ export default function About() {
             <h3 className="text-xl font-semibold mb-2">Bruno</h3>
             <p className="text-blue-400 mb-4">Desenvolvedor</p>
             <p className="text-gray-300 text-sm">
-              texto descrevendo aqui
+              Membro da equipe
             </p>
           </div>
 
@@ -126,7 +126,7 @@ export default function About() {
             <h3 className="text-xl font-semibold mb-2">Guilherme</h3>
             <p className="text-blue-400 mb-4">Desenvolvedor</p>
             <p className="text-gray-300 text-sm">
-              texto descrevendo aqui
+              Membro da equipe
             </p>
           </div>
         </div>
