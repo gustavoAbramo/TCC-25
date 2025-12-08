@@ -241,12 +241,7 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
             </div>
-            {/* FAQ Link */}
-            <div className="bg-gradient-to-r from-blue-600/20 to-blue-800/20 border border-blue-500/30 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold mb-3">Dúvidas frequentes?</h3>
-              <p className="text-gray-300 mb-4">Confira nossa seção de perguntas frequentes para respostas rápidas.</p>
-              <button className="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-lg transition-colors">Ver FAQ</button>
-            </div>
+            
           </div>
         </div>
       </div>

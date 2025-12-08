@@ -1,8 +1,6 @@
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-white">
-    
-
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-800/30 via-gray-800/50 to-gray-900/80">
@@ -32,7 +30,7 @@ export default function Home() {
       {/* About Section */}
       <div className="py-20 px-6 max-w-4xl mx-auto text-center">
         <h2 className="text-4xl font-light mb-6">
-          Somos Storage. Desenvolvemos soluções personalizadas de gestão de estoque para empresas inovadoras.
+          Somos Storage. Um site para você nunca mais ter dificuldades organizando sua cozinha.
         </h2>
         <div className="w-16 h-0.5 bg-blue-500 mx-auto"></div>
       </div>
@@ -40,7 +38,7 @@ export default function Home() {
       {/* Features Section */}
       <div className="py-20 px-6 max-w-7xl mx-auto">
         <h2 className="text-5xl font-light mb-16 text-center">
-          O que nós <span className="text-blue-400">fazemos</span>
+          O que nós <span className="text-blue-400">oferecemos</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -59,15 +57,9 @@ export default function Home() {
               </div>
               <h3 className="text-2xl font-semibold mb-3">Controle de Estoque</h3>
               <p className="text-gray-300 leading-relaxed">
-                Desenvolvemos sistemas inteligentes que monitoram automaticamente seus níveis de estoque. Receba alertas
-                em tempo real sobre produtos em baixa quantidade e otimize suas compras.
+                Mantenha seu estoque sempre atualizado com nossa plataforma intuitiva. Adicione, remova e categorize
+                produtos facilmente, garantindo que você saiba exatamente o que tem em mãos a qualquer momento.
               </p>
-            </div>
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">Status do sistema</span>
-                <span className="text-blue-400">● Online</span>
-              </div>
             </div>
           </div>
 
@@ -84,18 +76,12 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-3">Relatórios Inteligentes</h3>
+              <h3 className="text-2xl font-semibold mb-3">Histórico completo</h3>
               <p className="text-gray-300 leading-relaxed">
-                Nossa solução gera relatórios detalhados e insights valiosos sobre seu estoque. Identifique tendências,
-                produtos mais vendidos e otimize sua operação com dados precisos.
+                Acesse o histórico completo das suas interações com o estoque. Veja quais itens foram adicionados, removidos ou modificados, ajudando você a tomar decisões informadas sobre suas compras e uso de produtos.
               </p>
             </div>
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">Relatórios gerados</span>
-                <span className="text-blue-400">1.2k este mês</span>
-              </div>
-            </div>
+
           </div>
 
           {/* Feature 3 */}
@@ -117,12 +103,7 @@ export default function Home() {
                 e reduza o desperdício com nossa gestão inteligente de prazos.
               </p>
             </div>
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">Produtos monitorados</span>
-                <span className="text-yellow-400">847 itens</span>
-              </div>
-            </div>
+
           </div>
 
           {/* Feature 4 */}
@@ -135,15 +116,10 @@ export default function Home() {
               </div>
               <h3 className="text-2xl font-semibold mb-3">Automação Inteligente</h3>
               <p className="text-gray-300 leading-relaxed">
-                Automatize pedidos de reposição, categorização de produtos e atualizações de estoque. Nossa IA aprende
-                com seus padrões e otimiza continuamente seus processos.
+                Integre nossa plataforma com assistentes virtuais como Alexa para facilitar o gerenciamento do seu
+                estoque por comandos de voz. Adicione itens, verifique quantidades e muito mais, tudo sem tocar no
+                dispositivo.
               </p>
-            </div>
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">Automações ativas</span>
-                <span className="text-blue-400">12 processos</span>
-              </div>
             </div>
           </div>
         </div>

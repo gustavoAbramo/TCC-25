@@ -68,7 +68,7 @@ export default function Storages() {
       setName("");
       setLocation("");
       setShowForm(false);
-      alert("✅ Estoque criado com sucesso!");
+      alert("Estoque criado com sucesso!");
     } catch (err) {
       console.error(" Error creating storage:", err); // Debug log
       alert(err.response?.data?.message || "Erro ao criar estoque.");
@@ -90,7 +90,7 @@ export default function Storages() {
       // Remove o estoque da lista localmente
       setStorages(prev => prev.filter(storage => storage.id !== storageId));
       
-      alert("✅ Estoque deletado com sucesso!");
+      alert("Estoque deletado com sucesso!");
     } catch (err) {
       console.error(" Error deleting storage:", err);
       alert(err.response?.data?.message || "Erro ao deletar estoque.");
@@ -140,7 +140,7 @@ export default function Storages() {
         unit: "",
       });
       setActiveStorageId(null);
-      alert("✅ Item adicionado com sucesso!");
+      alert("Item adicionado com sucesso!");
     } catch (err) {
       console.error(" Error adding item:", err); // Debug log
       alert(err.response?.data?.message || "Erro ao adicionar item.");
@@ -177,7 +177,7 @@ export default function Storages() {
       console.log(" Permission added successfully:", response.data); // Debug
 
       alert(
-        `✅ Permissão de ${
+        `Permissão de ${
           permissionType === "coOwner" ? "Co-Owner" : "Guest"
         } adicionada com sucesso para ${email}!`
       );
@@ -224,7 +224,7 @@ export default function Storages() {
         })
       );
       
-      alert("✅ Item removido com sucesso!");
+      alert("Item removido com sucesso!");
     } catch (err) {
       console.error(" Error removing item:", err);
       alert(err.response?.data?.message || "Erro ao remover item.");
@@ -276,7 +276,7 @@ export default function Storages() {
         quantity: "",
       });
       
-      alert("✅ Item atualizado com sucesso!");
+      alert("Item atualizado com sucesso!");
     } catch (err) {
       console.error(" Error updating item:", err);
       alert(err.response?.data?.message || "Erro ao atualizar item.");
@@ -645,11 +645,11 @@ export default function Storages() {
                         {s.accessLevel}
                       </span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3 lg:justify-end">
                       <button
                         onClick={() => fetchItems(s.id)}
                         disabled={itemsLoading && showItemsFor === s.id}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30"
                       >
                         <svg
                           className="w-4 h-4"
@@ -725,7 +725,7 @@ export default function Storages() {
                       {s.accessLevel === "Owner" && (
                         <button
                           onClick={() => handleDeleteStorage(s.id)}
-                          className="inline-flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
+                          className="inline-flex items-center gap-2 px-7 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
                         >
                           <svg
                             className="w-4 h-4"
