@@ -37,7 +37,7 @@ export default function AppRoutes({userName, setUserName}) {
           </PrivateRoute>
 
         } />
-        <Route path="*" element={<NotFound />} /> {/* 👈 */}
+        <Route path="*" element={<NotFound />} /> {/* rotas que nao existem */}
       </Routes>
       {!hideFooterOn.includes(location.pathname) && !isNotFoundPage && <Footer />}
     </>

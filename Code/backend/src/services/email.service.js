@@ -34,7 +34,7 @@ const sendEmail = async (options) => {
         accessToken: accessToken,
       },
       tls: {
-        rejectUnauthorized: false, // 👈 aceita certificado autoassinado
+        rejectUnauthorized: false, //  aceita certificado autoassinado
       },
     });
 

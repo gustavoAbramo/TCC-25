@@ -26,7 +26,7 @@ export default function Alexa() {
         try {
             const res = await api.get("/alexa/profile");
 
-            alert("Usuário já está vinculado à Alexa!");
+            alert("Aguardando vinculação");
             setSyncStatus("vinculado");
 
         } catch (e) {
