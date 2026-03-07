@@ -4,8 +4,7 @@
 
 ![GitHub](https://img.shields.io/badge/React-18.2.0-blue?logo=react)
 ![GitHub](https://img.shields.io/badge/Node.js-20.0+-green?logo=node.js)
-![GitHub](https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript)
-![GitHub](https://img.shields.io/badge/License-MIT-yellow)
+![GitHub](https://img.shields.io/badge/Javascript-5.0+-blue?logo=javascript)
 
 **Solução inovadora para redução do desperdício de alimentos em instituições educacionais**
 
@@ -42,7 +41,7 @@ O **SmartStorage** é uma plataforma web desenvolvida como Trabalho de Conclusã
 
 ### Frontend
 - **React 18** - Biblioteca para interfaces modernas
-- **TypeScript** - Tipagem estática para maior confiabilidade
+- **Javascript** - Tipagem estática para maior confiabilidade
 - **Tailwind CSS** - Framework CSS utilitário
 
 ### Backend
