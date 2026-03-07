@@ -79,24 +79,3 @@ npx prisma migrate dev
 npm run dev
 
 ```
-
-## Configuração do MongoDB:
-
-Antes de começar lembre-se de instalar o Compass e o MongoDB para rodar o projeto
-
-<h2>1. Abra o MongoDB Compass, depois, clique neste botão:<h2>
-
-<img src="Code/frontend/src/assets/passo-1.png">
-
-
-<h2>2. Digite no campo name:  `history-stock ` e depois clique no botão verde<h2>
-
-<img src="Code/frontend/src/assets/passo-2.png">
-
-<h2>3. Clique no history-stock e clique no '+' e digite no campo database name: `history-smart-storage ` e no collection name: `historico-estoque`, depois salve<h2>
-
-<img src="Code/frontend/src/assets/passo3.png">
-
-<h2>Pronto, o MongoDB está pronto<h2>
-
-
