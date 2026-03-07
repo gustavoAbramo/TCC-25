@@ -72,7 +72,7 @@ cd smartstorage/backend
 # Instale as dependências
 npm install
 
-# Configure o banco de dados
+# Configure o banco de dados e as variaveis de ambiente
 npx prisma generate
 npx prisma migrate dev
 
