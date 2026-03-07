@@ -5,6 +5,7 @@
 ![GitHub](https://img.shields.io/badge/React-18.2.0-blue?logo=react)
 ![GitHub](https://img.shields.io/badge/Node.js-20.0+-green?logo=node.js)
 ![GitHub](https://img.shields.io/badge/Javascript-5.0+-blue?logo=javascript)
+![GitHub](https://img.shields.io/badge/express-5.0+-blue?logo=express)
 
 **Solução inovadora para redução do desperdício de alimentos em instituições educacionais**
 
