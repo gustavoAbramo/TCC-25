@@ -12,8 +12,7 @@
 </div>
 
 ## 📋 Sobre o Projeto
-
-O **SmartStorage** é uma plataforma web desenvolvida como Trabalho de Conclusão de Curso (TCC) para otimizar o gerenciamento de estoques alimentares em instituições educacionais. A solução combina tecnologias modernas com inteligência artificial para reduzir o desperdício de alimentos e melhorar a eficiência operacional.
+Declarado como o melhor TCC do curso de Desenvolvimento de sistemas da ETEC Prefeito Albeto Feres, o **SmartStorage** é uma plataforma web desenvolvida como Trabalho de Conclusão de Curso (TCC) para otimizar o gerenciamento de estoques alimentares em instituições educacionais. A solução combina tecnologias modernas com inteligência artificial para reduzir o desperdício de alimentos e melhorar a eficiência operacional.
 
 ## ✨ Funcionalidades
 
