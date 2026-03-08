@@ -240,15 +240,12 @@ export async function updateItemService(id_Item, id_user, updateData, username) 
   const updateFields = {};
   if (description !== undefined) updateFields.description = description;
   if (quantity !== undefined) updateFields.quantity = Number(quantity);
-  // CORREÇÃO DO FUSO HORÁRIO para expiration
   if (expiration !== undefined) {
-    // Cria a data no final do dia para evitar problemas de fuso horário
     const expirationDate = new Date(expiration);
     expirationDate.setHours(23, 59, 59, 999); // Define para o final do dia
     updateFields.expiration = expirationDate;
   }
 
-  // Atualiza o item
   const updatedItem = await prisma.item.update({
     where: { id_Item: Number(id_Item) },
     data: updateFields,

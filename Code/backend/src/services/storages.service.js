@@ -134,7 +134,7 @@ export async function deleteStorageService(id_user, id_Storage) {
 }
 
 export async function searchStoragesAndItemsService(id_user, query) {
-  // 🔍 Buscar estoques do usuário cujo nome começa com o termo
+  //  Buscar estoques do usuário cujo nome começa com o termo
   const storages = await prisma.storage_Permission.findMany({
     where: {
       id_user,
@@ -150,7 +150,7 @@ export async function searchStoragesAndItemsService(id_user, query) {
     take: 15, // Limitar a 15 resultados
   });
 
-  // 🔍 Buscar itens (Item, não Storage_Item!)
+  //  Buscar itens (Item, não Storage_Item!)
   const items = await prisma.item.findMany({
     where: {
       name: {

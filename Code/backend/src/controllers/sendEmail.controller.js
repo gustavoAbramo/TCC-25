@@ -49,7 +49,7 @@ export async function processExpirationNotifications() {
       await notificationService.sendEmail({
         from: `"SmartStorage" <smartstorage21@gmail.com>`,
         to: item.ownerEmail,
-        subject: `⚠️ Item "${item.name}" próximo da expiração`,
+        subject: ` Item "${item.name}" próximo da expiração`,
         html: `
           <p>Olá,</p>
           <p>O item <strong>${item.name}</strong> expira em ${new Date(item.expiration).toLocaleDateString()}.</p>
@@ -57,10 +57,10 @@ export async function processExpirationNotifications() {
       });
     }
 
-    console.log(`✅ ${items.length} notificações enviadas.`);
+    console.log(` ${items.length} notificações enviadas.`);
     return { message: `${items.length} notificações enviadas.` };
   } catch (error) {
-    console.error("❌ Erro ao enviar notificações:", error);
+    console.error(" Erro ao enviar notificações:", error);
     throw error;
   }
 }

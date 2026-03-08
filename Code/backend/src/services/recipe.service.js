@@ -174,7 +174,7 @@ export async function deleteRecipeService(userId, recipeId) {
     where: { id_Recipe: recipeId },
   });
 
-  // Agora sim, pode apagar a receita
+  // so depois apaga a receita
   await prisma.recipe.delete({
     where: { id_Recipe: recipeId },
   });

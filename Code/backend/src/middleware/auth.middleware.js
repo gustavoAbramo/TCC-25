@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 export default function authMiddleware(req, res, next) {
-  const token = req.cookies.token; // cookie HTTPS only
+  const token = req.cookies.token; 
   if (!token) return res.status(401).json({ message: "Não autorizado" });
 
   try {

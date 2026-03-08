@@ -117,7 +117,7 @@ export default function Chat() {
     if (!user) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Você precisa estar logado!" },
+        { role: "assistant", content: "ALERTA: Você precisa estar logado!" },
       ]);
       return;
     }

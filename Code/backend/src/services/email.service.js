@@ -47,10 +47,10 @@ const sendEmail = async (options) => {
       html: options.html,
     });
 
-    console.log("✅ Email enviado:", result.messageId);
+    console.log(" Email enviado:", result.messageId);
     return result;
   } catch (error) {
-    console.error("❌ Erro ao enviar email com OAuth2:", error);
+    console.error(" Erro ao enviar email com OAuth2:", error);
     throw error;
   }
 };

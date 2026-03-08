@@ -31,7 +31,7 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     throw error;
   }
 
-  // ⛔ Verifica se o usuário está bloqueado
+  //  Verifica se o usuário está bloqueado
   if (user.lockUntil && new Date() < new Date(user.lockUntil)) {
     const remaining = Math.ceil((new Date(user.lockUntil) - new Date()) / 60000);
     const error = new Error(`Conta bloqueada. Tente novamente em ${remaining} minuto(s).`);
@@ -39,7 +39,7 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     throw error;
   }
 
-  // ✅ Verifica senha
+  // Verifica senha
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
     // Incrementa tentativas falhas
@@ -47,7 +47,6 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     const maxAttempts = 5;
     let lockUntil = null;
 
-    // Se exceder tentativas, bloqueia por 1 minuto
     if (newAttempts >= maxAttempts) {
       lockUntil = new Date(Date.now() + 1 * 60 * 1000); // 1 min
       await prisma.user.update({
@@ -78,13 +77,13 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     throw error;
   }
 
-  // 🔄 Se a senha estiver correta, zera tentativas
+  // Se a senha estiver correta, zera tentativas
   await prisma.user.update({
     where: { email },
     data: { failedAttempts: 0, lockUntil: null },
   });
 
-  // 🔐 Verificação do 2FA (se ativado)
+  // Verificação do 2FA (se ativado)
   if (user.is2FAEnabled) {
     if (!twoFACode) {
       const error = new Error("Código 2FA necessário.");
@@ -106,7 +105,7 @@ export async function loginUserService({ email, password, twoFACode, rememberMe 
     }
   }
 
-  // 🎟️ Geração do token JWT
+  // Geração do token JWT
   const expiresIn = rememberMe ? "7d" : "1h";
   const token = jwt.sign(
     { id_user: user.id_user, email: user.email, name: user.name },
@@ -130,7 +129,7 @@ export async function generate2FASecretService(id_user) {
     where: { id_user: id_user },
   });
 
-  // 🔒 Se já ativou o 2FA, não precisa gerar/mostrar secret de novo
+  // se já ativou o 2FA, não precisa gerar/mostrar secret de novo
   if (user.is2FAEnabled) {
     return {
       alreadyEnabled: true,
@@ -138,7 +137,7 @@ export async function generate2FASecretService(id_user) {
     };
   }
 
-  // Se o segredo já existe, apenas retorna o otpauth_url novamente
+  // se o segredo já existe, apenas retorna o otpauth_url novamente
   if (user.twoFactorSecret) {
     return {
       base32: user.twoFactorSecret,
